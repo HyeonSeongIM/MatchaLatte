@@ -8,3 +8,4 @@ pluginManagement {
 }
 
 include 'core-api'
+include 'core-enum'
