@@ -7,8 +7,10 @@ pluginManagement {
     }
 }
 
-include 'core-api'
-include 'core-enum'
+include 'core:core-api'
+include 'core:core-enum'
+include 'core:core-domain'
 include 'storage:db-core'
 include 'support:logging'
 include 'support:monitoring'
+include 'tests:api-docs'
