@@ -1,4 +1,4 @@
-package project.matchalatte.config;
+package project.matchalatte.storage.db.core.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
