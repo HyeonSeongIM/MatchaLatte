@@ -10,3 +10,5 @@ pluginManagement {
 include 'core-api'
 include 'core-enum'
 include 'storage:db-core'
+include 'support:logging'
+include 'support:monitoring'
