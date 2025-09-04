@@ -1,4 +1,6 @@
 package project.matchalatte.core.api.controller.v1.response;
 
-public record ExampleResponse() {
+public record UserWriterResponse(
+        Long data
+) {
 }
