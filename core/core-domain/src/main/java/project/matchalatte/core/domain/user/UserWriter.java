@@ -10,7 +10,7 @@ public class UserWriter {
         this.userRepository = userRepository;
     }
 
-    public Long add(String username){
+    public User add(String username){
         return userRepository.add(username);
     }
 }

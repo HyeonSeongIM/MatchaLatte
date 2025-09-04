@@ -12,7 +12,7 @@ public class UserService {
         this.userWriter = userWriter;
     }
 
-    public Long add(String username) {
+    public User add(String username) {
         return userWriter.add(username);
     }
 
