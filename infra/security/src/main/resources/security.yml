@@ -1,0 +1,3 @@
+spring:
+  jwt:
+    secret: dhaskdhjakshdkjashdjkk1j23k12j3k21j4kksa9daskdjaskld
