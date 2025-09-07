@@ -14,6 +14,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import project.matchalatte.core.api.filter.JwtAuthenticationFilter;
+import project.matchalatte.core.api.handler.CustomAccessDeniedHandler;
+import project.matchalatte.core.api.handler.CustomAuthenticationEntryPoint;
 import project.matchalatte.infra.security.JwtTokenProvider;
 
 @Configuration
@@ -45,6 +47,11 @@ public class SecurityConfig {
                                 .requestMatchers("/api/v1/user/").permitAll()
                                 .requestMatchers("/admin").hasRole("ADMIN")
                                 .anyRequest().authenticated()
+                )
+
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                        .accessDeniedHandler(new CustomAccessDeniedHandler())
                 )
 
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
