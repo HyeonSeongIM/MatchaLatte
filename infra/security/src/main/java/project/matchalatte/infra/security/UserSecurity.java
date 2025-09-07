@@ -1,36 +1,44 @@
 package project.matchalatte.infra.security;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import project.matchalatte.storage.db.core.UserSecurityEntity;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class UserSecurity implements UserDetails {
-    private String email;
 
-    private String password;
+    private final Long userId;
+    private final String username;
+    private final String password;
 
-    private List<String> roles = new ArrayList<>();
+    private UserSecurity(Long userId, String username, String password) {
+        this.userId = userId;
+        this.username = username;
+        this.password = password;
+    }
+
+    public static UserSecurity from(UserSecurityEntity user) {
+        return new UserSecurity(
+                user.getId(),
+                user.username(),
+                user.password()
+        );
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.roles.stream()
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+        return List.of();
     }
 
     @Override
     public String getUsername() {
-        return this.email;
+        return username;
     }
 
     @Override
     public String getPassword() {
-        return this.password;
+        return password;
     }
-
 }

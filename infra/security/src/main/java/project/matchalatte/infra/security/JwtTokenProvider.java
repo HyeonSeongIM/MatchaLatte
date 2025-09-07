@@ -1,38 +1,81 @@
 package project.matchalatte.infra.security;
 
+import io.jsonwebtoken.Jwts;
+import jakarta.annotation.PostConstruct;
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
+
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
+import java.util.Date;
 
 @Component
 public class JwtTokenProvider {
 
     private final Logger log = LoggerFactory.getLogger(JwtTokenProvider.class);
-    private final JwtService jwtService;
+    private final UserDetailsService userDetailsService;
 
-    public JwtTokenProvider(JwtService jwtService) {
-        this.jwtService = jwtService;
+    public JwtTokenProvider(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
     }
 
-    public String createToken() {
-        return jwtService.test();
+    @Value("${security.jwt.secret}")
+    private String secret;
+
+    @Value("${security.jwt.accessTime}")
+    private long accessTtlMinutes;
+
+    private SecretKey secretKey;
+
+    @PostConstruct
+    protected void init() {
+        secretKey = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), Jwts.SIG.HS256.key().build().getAlgorithm());
+    }
+
+    public String createToken(String username, String nickname) {
+        return Jwts.builder()
+                .claim("username", username)
+                .claim("nickname", nickname)
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + accessTtlMinutes))
+                .signWith(secretKey)
+                .compact();
     }
 
     public Authentication getAuthentication(String token) {
-        throw new IllegalArgumentException("미생성");
+        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUsername(token));
+
+        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
     public String getUsername(String token) {
-        throw new IllegalArgumentException("미생성");
+        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("username", String.class);
     }
 
-    public String resolveToken(String token) {
-        throw new IllegalArgumentException("미생성");
+    public String resolveToken(HttpServletRequest request) {
+        String bearerToken = request.getHeader("access");
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7);
+        }
+        return null;
     }
 
     public boolean validateToken(String token) {
-        throw new IllegalArgumentException("미생성");
+        return Jwts.parser()
+                .verifyWith(secretKey)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .getExpiration()
+                .before(new Date());
     }
 
 }
