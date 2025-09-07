@@ -16,18 +16,18 @@ public class UserEntityRepository implements UserRepository {
     }
 
     @Override
-    public User add(String username) {
-        UserEntity userEntity = new UserEntity(username);
+    public User add(String nickname) {
+        UserEntity userEntity = new UserEntity(nickname);
 
         UserEntity savedEntity = userJpaRepository.save(userEntity);
 
-        return new User(savedEntity.getId(), username);
+        return new User(savedEntity.getId(), nickname);
     }
 
     @Override
     public Optional<User> read(Long id) {
         Optional<UserEntity> userEntity = userJpaRepository.findById(id);
 
-        return userEntity.map(entity -> new User(entity.getId(), entity.getUsername()));
+        return userEntity.map(entity -> new User(entity.getId(), entity.getNickname()));
     }
 }

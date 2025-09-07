@@ -9,16 +9,16 @@ import jakarta.persistence.Table;
 public class UserEntity extends BaseEntity {
 
     @Column(nullable = false)
-    private String username;
+    private String nickname;
 
     public UserEntity() {
     }
 
-    public UserEntity(String username) {
-        this.username = username;
+    public UserEntity(String nickname) {
+        this.nickname = nickname;
     }
 
-    public String getUsername() {
-        return username;
+    public String getNickname() {
+        return nickname;
     }
 }
