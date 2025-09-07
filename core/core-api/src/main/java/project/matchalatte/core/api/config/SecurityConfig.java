@@ -3,6 +3,7 @@ package project.matchalatte.core.api.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,7 +14,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import project.matchalatte.core.api.filter.JwtAuthenticationFilter;
-import project.matchalatte.core.api.handler.CustomAccessDeniedHandler;
 import project.matchalatte.infra.security.JwtTokenProvider;
 
 @Configuration
@@ -54,7 +54,10 @@ public class SecurityConfig {
 
     @Bean
     public RoleHierarchy roleHierarchy() {
-        throw new IllegalArgumentException("구성중");
+        return RoleHierarchyImpl.fromHierarchy(
+                """
+                        ADMIN > CLIENT"""
+        );
     }
 
     @Bean
