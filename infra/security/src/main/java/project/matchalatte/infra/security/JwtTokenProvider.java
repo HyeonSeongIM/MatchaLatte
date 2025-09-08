@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -21,9 +20,9 @@ import java.util.Date;
 public class JwtTokenProvider {
 
     private final Logger log = LoggerFactory.getLogger(JwtTokenProvider.class);
-    private final UserDetailsService userDetailsService;
+    private final CustomUserDetailsService userDetailsService;
 
-    public JwtTokenProvider(UserDetailsService userDetailsService) {
+    public JwtTokenProvider(CustomUserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
@@ -40,10 +39,9 @@ public class JwtTokenProvider {
         secretKey = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), Jwts.SIG.HS256.key().build().getAlgorithm());
     }
 
-    public String createToken(String username, String nickname) {
+    public String createToken(String username) {
         return Jwts.builder()
                 .claim("username", username)
-                .claim("nickname", nickname)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + accessTtlMinutes))
                 .signWith(secretKey)
