@@ -10,7 +10,7 @@ public class UserWriter {
         this.userRepository = userRepository;
     }
 
-    public User add(String username){
-        return userRepository.add(username);
+    public User add(String username, String password, String nickname){
+        return userRepository.add(username, password, nickname);
     }
 }

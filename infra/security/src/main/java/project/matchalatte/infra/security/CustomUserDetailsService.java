@@ -9,16 +9,17 @@ import project.matchalatte.storage.db.core.UserSecurityRepository;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final UserSecurityRepository userSecurityRepository;
+    private final UserSecurityRepository userRepository;
 
-    public CustomUserDetailsService(UserSecurityRepository userSecurityRepository) {
-        this.userSecurityRepository = userSecurityRepository;
+    public CustomUserDetailsService(UserSecurityRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userSecurityRepository.findByUsername(username)
-                .map(UserSecurity::from)
+    public CustomUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        var user =  userRepository.findByUsernameEntity(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username));
+
+        return new CustomUserDetails(user);
     }
 }
