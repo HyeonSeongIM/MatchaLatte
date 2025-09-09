@@ -1,5 +1,7 @@
 package project.matchalatte.core.api.controller.v1;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import project.matchalatte.core.api.controller.v1.request.UserWriterRequest;
 import project.matchalatte.core.api.controller.v1.response.UserReadResponse;
@@ -13,15 +15,16 @@ import project.matchalatte.core.support.response.ApiResponse;
 public class UserController {
 
     private final UserService userService;
+    private final Logger log = LoggerFactory.getLogger(UserController.class);
 
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
-    // RequestBody 로 받으면 그냥 DTO 안에서 처리 가능
     @PostMapping
     public ApiResponse<UserWriterResponse> addUser(@RequestBody UserWriterRequest userWriterRequest) {
         User result = userService.add(userWriterRequest.username());
+        log.info("[UserAPI] [addUser] ");
         return ApiResponse.success(new UserWriterResponse(result.id()));
     }
 

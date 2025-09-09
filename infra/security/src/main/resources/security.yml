@@ -1,0 +1,4 @@
+security:
+  jwt:
+    secret: dhaskdhjakshdkjashdjkk1j23k12j3k21j4kksa9daskdjaskld
+    accessTime: 3600000
