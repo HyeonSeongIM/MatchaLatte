@@ -3,36 +3,39 @@ package project.matchalatte.core.api.controller.v1;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
-import project.matchalatte.core.api.controller.v1.request.UserWriterRequest;
+import project.matchalatte.core.api.controller.v1.request.SignUpRequest;
+import project.matchalatte.core.api.controller.v1.response.SignUpResponse;
 import project.matchalatte.core.api.controller.v1.response.UserReadResponse;
-import project.matchalatte.core.api.controller.v1.response.UserWriterResponse;
 import project.matchalatte.core.domain.user.User;
 import project.matchalatte.core.domain.user.UserService;
 import project.matchalatte.core.support.response.ApiResponse;
+import project.matchalatte.infra.security.UserSecurity;
+import project.matchalatte.infra.security.UserSecurityService;
 
 @RestController
 @RequestMapping("/api/v1/user")
 public class UserController {
 
-    private final UserService userService;
     private final Logger log = LoggerFactory.getLogger(UserController.class);
+    private final UserService userService;
+    private final UserSecurityService userSecurityService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UserSecurityService userSecurityService) {
         this.userService = userService;
+        this.userSecurityService = userSecurityService;
     }
 
-    @PostMapping
-    public ApiResponse<UserWriterResponse> addUser(@RequestBody UserWriterRequest userWriterRequest) {
-        User result = userService.add(userWriterRequest.username());
-        log.info("[UserAPI] [addUser] ");
-        return ApiResponse.success(new UserWriterResponse(result.id()));
+    @PostMapping("/signUp")
+    public ApiResponse<SignUpResponse> signUp(@RequestBody SignUpRequest signUpRequest) {
+        UserSecurity result = userSecurityService.signUp(signUpRequest.username(), signUpRequest.password(), signUpRequest.nickname());
+        log.info("[UserAPI] [addUser] : 회원가입 요청");
+        return ApiResponse.success(new SignUpResponse(result.nickname()));
     }
 
     // 파라미터에 값이 존재하면 따로 가공해주기
     @GetMapping("/{id}")
     public ApiResponse<UserReadResponse> getUser(@PathVariable("id") Long id) {
         User result = userService.read(id);
-        return ApiResponse.success(new UserReadResponse(result.id(), result.username()))
-                ;
+        return ApiResponse.success(new UserReadResponse(result.id(), result.username()));
     }
 }
