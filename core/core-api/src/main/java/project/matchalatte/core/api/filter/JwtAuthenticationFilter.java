@@ -27,10 +27,24 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // resolve Token
         String token = jwtTokenProvider.resolveToken(request);
 
+        // 토큰이 없으면 다음 필터로 진행
+        if (token == null) {
+            log.info("Request: {} {}, User-Agent: {}",
+                    request.getMethod(),
+                    request.getRequestURI(),
+                    request.getHeader("User-Agent"));
+
+            filterChain.doFilter(request, response);
+
+            return;
+        }
+
         // validate Token
-        if (token != null && jwtTokenProvider.validateToken(token)) {
+        if (jwtTokenProvider.validateToken(token)) {
+            log.info("[validateToken] : 요청 시작");
             Authentication authentication = jwtTokenProvider.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
+            log.info("[validateToken] Token validation successful. User authenticated: {}", authentication.getName());
         }
 
         filterChain.doFilter(request, response);
