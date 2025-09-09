@@ -12,8 +12,8 @@ public class UserService {
         this.userWriter = userWriter;
     }
 
-    public User add(String username) {
-        return userWriter.add(username);
+    public User add(String username, String password, String nickname) {
+        return userWriter.add(username, password, nickname);
     }
 
     public User read(Long id){
