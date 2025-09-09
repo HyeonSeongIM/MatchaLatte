@@ -1,4 +1,4 @@
-package project.matchalatte.core.support.common;
+package project.matchalatte.core.support.log;
 
 // util/TraceContext.java
 import java.util.UUID;

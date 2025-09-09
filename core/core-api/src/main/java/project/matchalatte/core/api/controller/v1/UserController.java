@@ -1,6 +1,7 @@
 package project.matchalatte.core.api.controller.v1;
 
-import org.hibernate.sql.exec.ExecutionException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,14 +13,13 @@ import project.matchalatte.core.api.controller.v1.response.SignUpResponse;
 import project.matchalatte.core.api.controller.v1.response.UserReadResponse;
 import project.matchalatte.core.domain.user.User;
 import project.matchalatte.core.domain.user.UserService;
-import project.matchalatte.core.support.common.TraceContext;
+import project.matchalatte.core.support.log.TraceContext;
 import project.matchalatte.core.support.error.UserException;
 import project.matchalatte.core.support.response.ApiResponse;
 import project.matchalatte.infra.security.CustomUserDetails;
 import project.matchalatte.infra.security.UserSecurity;
 import project.matchalatte.infra.security.UserSecurityService;
 
-import java.util.Objects;
 import java.util.UUID;
 
 @RestController
@@ -29,10 +29,12 @@ public class UserController {
     private final Logger log = LoggerFactory.getLogger(UserController.class);
     private final UserService userService;
     private final UserSecurityService userSecurityService;
+    private final ObjectMapper objectMapper;
 
-    public UserController(UserService userService, UserSecurityService userSecurityService) {
+    public UserController(UserService userService, UserSecurityService userSecurityService, ObjectMapper objectMapper) {
         this.userService = userService;
         this.userSecurityService = userSecurityService;
+        this.objectMapper = objectMapper;
     }
 
     @PostMapping("/signUp")
@@ -54,7 +56,7 @@ public class UserController {
     public ApiResponse<UserReadResponse> getUser(@PathVariable("id") Long id) {
         String traceId = TraceContext.traceId();
         Long userId = getCurrentUserId();
-        log.info("{} | API api/v1/user/{} > userId {} 요청처리 시작", traceId, id, userId);
+        log.info("{}", toJson(new LogEntry(traceId, userId, "/api/v1/user/" + id, "요청시작")));
         User result;
         try {
             result = userService.read(id);
@@ -77,5 +79,15 @@ public class UserController {
 
     public static String traceId() {
         return UUID.randomUUID().toString().replace("-", "");
+    }
+
+    public record LogEntry(String traceId, Long userId, String api, String message) {}
+
+    public String toJson(LogEntry logEntry) {
+        try {
+            return objectMapper.writeValueAsString(logEntry);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

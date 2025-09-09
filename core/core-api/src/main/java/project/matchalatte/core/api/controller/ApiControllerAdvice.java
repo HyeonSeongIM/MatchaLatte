@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import project.matchalatte.core.support.common.TraceContext;
+import project.matchalatte.core.support.log.TraceContext;
 import project.matchalatte.core.support.error.CoreException;
 import project.matchalatte.core.support.error.ErrorType;
 import project.matchalatte.core.support.error.UserException;
