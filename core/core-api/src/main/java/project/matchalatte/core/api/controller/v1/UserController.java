@@ -12,6 +12,7 @@ import project.matchalatte.core.api.controller.v1.response.SignUpResponse;
 import project.matchalatte.core.api.controller.v1.response.UserReadResponse;
 import project.matchalatte.core.domain.user.User;
 import project.matchalatte.core.domain.user.UserService;
+import project.matchalatte.core.support.error.UserException;
 import project.matchalatte.core.support.response.ApiResponse;
 import project.matchalatte.infra.security.CustomUserDetails;
 import project.matchalatte.infra.security.UserSecurity;
@@ -56,7 +57,7 @@ public class UserController {
         User result;
         try {
             result = userService.read(id);
-        } catch (Exception e) {
+        } catch (UserException e) {
             log.error("{} | 에러 발생", traceId, e);
             throw e;
         }
