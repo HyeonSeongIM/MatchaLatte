@@ -2,6 +2,7 @@ package project.matchalatte.core.api.controller.v1;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import project.matchalatte.core.api.controller.v1.request.SignInRequest;
 import project.matchalatte.core.api.controller.v1.request.SignUpRequest;
@@ -11,8 +12,11 @@ import project.matchalatte.core.api.controller.v1.response.UserReadResponse;
 import project.matchalatte.core.domain.user.User;
 import project.matchalatte.core.domain.user.UserService;
 import project.matchalatte.core.support.response.ApiResponse;
+import project.matchalatte.infra.security.CustomUserDetails;
 import project.matchalatte.infra.security.UserSecurity;
 import project.matchalatte.infra.security.UserSecurityService;
+
+import javax.swing.*;
 
 @RestController
 @RequestMapping("/api/v1/user")
@@ -44,7 +48,18 @@ public class UserController {
     // 파라미터에 값이 존재하면 따로 가공해주기
     @GetMapping("/{id}")
     public ApiResponse<UserReadResponse> getUser(@PathVariable("id") Long id) {
+        log.info("API api/v1/user/{} > userId {} 요청처리 시작", id, getCurrentUserId());
         User result = userService.read(id);
+        log.info("API api/v1/user/{} 요청처리 완료 > userId {}", id, getCurrentUserId());
         return ApiResponse.success(new UserReadResponse(result.id(), result.username()));
+    }
+
+    public static Long getCurrentUserId() {
+        var auth = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = auth.getPrincipal();
+        if (principal instanceof CustomUserDetails user) {
+            return user.getId();
+        }
+        return null;
     }
 }
