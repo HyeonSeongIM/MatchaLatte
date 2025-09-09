@@ -43,15 +43,15 @@ public class JwtTokenProvider {
         return Jwts.builder()
                 .claim("username", username)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + accessTtlMinutes))
+                .expiration(new Date(System.currentTimeMillis() + 1000L * 60 * 60 * 60))
                 .signWith(secretKey)
                 .compact();
     }
 
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUsername(token));
-
-        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+        String username = getUsername(token);
+        CustomUserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
     }
 
     public String getUsername(String token) {
@@ -59,7 +59,7 @@ public class JwtTokenProvider {
     }
 
     public String resolveToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader("access");
+        String bearerToken = request.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);
         }
@@ -73,7 +73,7 @@ public class JwtTokenProvider {
                 .parseSignedClaims(token)
                 .getPayload()
                 .getExpiration()
-                .before(new Date());
+                .after(new Date());
     }
 
 }
