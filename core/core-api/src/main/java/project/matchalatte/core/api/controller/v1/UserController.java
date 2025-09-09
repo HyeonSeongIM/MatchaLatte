@@ -1,5 +1,6 @@
 package project.matchalatte.core.api.controller.v1;
 
+import org.hibernate.sql.exec.ExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,7 +17,7 @@ import project.matchalatte.infra.security.CustomUserDetails;
 import project.matchalatte.infra.security.UserSecurity;
 import project.matchalatte.infra.security.UserSecurityService;
 
-import javax.swing.*;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/v1/user")
@@ -61,5 +62,9 @@ public class UserController {
             return user.getId();
         }
         return null;
+    }
+
+    public boolean example(Long id){
+        return id.equals(getCurrentUserId());
     }
 }
