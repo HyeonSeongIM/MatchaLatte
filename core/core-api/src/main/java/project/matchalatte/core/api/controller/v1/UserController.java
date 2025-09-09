@@ -12,6 +12,7 @@ import project.matchalatte.core.api.controller.v1.response.SignUpResponse;
 import project.matchalatte.core.api.controller.v1.response.UserReadResponse;
 import project.matchalatte.core.domain.user.User;
 import project.matchalatte.core.domain.user.UserService;
+import project.matchalatte.core.support.common.TraceContext;
 import project.matchalatte.core.support.error.UserException;
 import project.matchalatte.core.support.response.ApiResponse;
 import project.matchalatte.infra.security.CustomUserDetails;
@@ -51,7 +52,7 @@ public class UserController {
     // 파라미터에 값이 존재하면 따로 가공해주기
     @GetMapping("/{id}")
     public ApiResponse<UserReadResponse> getUser(@PathVariable("id") Long id) {
-        String traceId = traceId();
+        String traceId = TraceContext.traceId();
         Long userId = getCurrentUserId();
         log.info("{} | API api/v1/user/{} > userId {} 요청처리 시작", traceId, id, userId);
         User result;
