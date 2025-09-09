@@ -18,6 +18,7 @@ import project.matchalatte.infra.security.UserSecurity;
 import project.matchalatte.infra.security.UserSecurityService;
 
 import java.util.Objects;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/user")
@@ -49,9 +50,17 @@ public class UserController {
     // 파라미터에 값이 존재하면 따로 가공해주기
     @GetMapping("/{id}")
     public ApiResponse<UserReadResponse> getUser(@PathVariable("id") Long id) {
-        log.info("API api/v1/user/{} > userId {} 요청처리 시작", id, getCurrentUserId());
-        User result = userService.read(id);
-        log.info("API api/v1/user/{} 요청처리 완료 > userId {}", id, getCurrentUserId());
+        String traceId = traceId();
+        Long userId = getCurrentUserId();
+        log.info("{} | API api/v1/user/{} > userId {} 요청처리 시작", traceId, id, userId);
+        User result;
+        try {
+            result = userService.read(id);
+        } catch (Exception e) {
+            log.error("{} | 에러 발생", traceId, e);
+            throw e;
+        }
+        log.info("{} | API api/v1/user/{} 요청처리 완료 > userId {}", traceId, id, userId);
         return ApiResponse.success(new UserReadResponse(result.id(), result.username()));
     }
 
@@ -64,7 +73,7 @@ public class UserController {
         return null;
     }
 
-    public boolean example(Long id){
-        return id.equals(getCurrentUserId());
+    public static String traceId() {
+        return UUID.randomUUID().toString().replace("-", "");
     }
 }

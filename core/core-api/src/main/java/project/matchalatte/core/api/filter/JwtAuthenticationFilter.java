@@ -41,10 +41,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         // validate Token
         if (jwtTokenProvider.validateToken(token)) {
-            log.info("[validateToken] : 요청 시작");
             Authentication authentication = jwtTokenProvider.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            log.info("[validateToken] Token validation successful. User authenticated: {}", authentication.getName());
         }
 
         filterChain.doFilter(request, response);
