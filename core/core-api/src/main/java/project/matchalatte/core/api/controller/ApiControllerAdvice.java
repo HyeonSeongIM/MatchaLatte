@@ -5,11 +5,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import project.matchalatte.core.support.log.TraceContext;
 import project.matchalatte.core.support.error.CoreException;
 import project.matchalatte.core.support.error.ErrorType;
 import project.matchalatte.core.support.error.UserException;
 import project.matchalatte.core.support.response.ApiResponse;
+import project.matchalatte.support.logging.TraceIdContext;
 
 import java.util.NoSuchElementException;
 
@@ -32,7 +32,7 @@ public class ApiControllerAdvice {
 
     @ExceptionHandler(UserException.class)
     public ResponseEntity<ApiResponse<?>> handleUserException(UserException e) {
-        String traceId = TraceContext.traceId();
+        String traceId = TraceIdContext.traceId();
         switch (e.getErrorType().getLogLevel()) {
             case ERROR -> log.error("{} | UserException : {}", traceId, e.getMessage(), e);
             case WARN -> log.warn("{} | UserException : {}", traceId, e.getMessage(), e);
@@ -56,7 +56,7 @@ public class ApiControllerAdvice {
     }
 
     private RuntimeException wrapWithTraceId(Throwable cause, String title) {
-        String tid = TraceContext.traceId(); // ThreadLocal로 관리 중인 traceId
+        String tid = TraceIdContext.traceId();
         String msg = (cause.getMessage() == null) ? title : (title + cause.getMessage());
         return new RuntimeException(tid + " | " + msg, cause);
     }
