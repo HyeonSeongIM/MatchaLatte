@@ -1,4 +1,4 @@
-package project.matchalatte.infra.security;
+package project.matchalatte.core.domain.user;
 
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ public class UserSecurityService {
         this.userSignUp = userSignUp;
     }
 
-    public UserSecurity signUp(String username, String password, String nickname) {
+    public User signUp(String username, String password, String nickname) {
         return userSignUp.signUp(username, password, nickname);
     }
 

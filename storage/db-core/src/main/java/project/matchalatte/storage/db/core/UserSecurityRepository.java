@@ -1,11 +1,11 @@
 package project.matchalatte.storage.db.core;
 
 import org.springframework.stereotype.Repository;
-
-import java.util.Optional;
+import project.matchalatte.infra.security.CustomUserDetails;
+import project.matchalatte.infra.security.UserDetailsRepository;
 
 @Repository
-public class UserSecurityRepository {
+public class UserSecurityRepository implements UserDetailsRepository {
 
     private final UserJpaRepository userJpaRepository;
 
@@ -13,15 +13,10 @@ public class UserSecurityRepository {
         this.userJpaRepository = userJpaRepository;
     }
 
-    public Optional<UserEntity> findByUsernameEntity(String username) {
-        return userJpaRepository.findByUsername(username);
-    }
+    @Override
+    public CustomUserDetails findByUsernameEntity(String username) {
+        UserEntity user = userJpaRepository.findByUsername(username).get();
 
-    public UserEntity save(String username, String password, String nickname) {
-        UserEntity userEntity = new UserEntity(username, password, nickname);
-
-        userJpaRepository.save(userEntity);
-
-        return new UserEntity(username, password, nickname);
+        return new CustomUserDetails(user.getId(), user.getUsername(), user.getPassword());
     }
 }

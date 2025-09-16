@@ -9,11 +9,10 @@ import project.matchalatte.core.api.controller.v1.response.SignInResponse;
 import project.matchalatte.core.api.controller.v1.response.SignUpResponse;
 import project.matchalatte.core.api.controller.v1.response.UserReadResponse;
 import project.matchalatte.core.domain.user.User;
+import project.matchalatte.core.domain.user.UserSecurityService;
 import project.matchalatte.core.domain.user.UserService;
 import project.matchalatte.core.support.error.UserException;
 import project.matchalatte.core.support.response.ApiResponse;
-import project.matchalatte.infra.security.UserSecurity;
-import project.matchalatte.infra.security.UserSecurityService;
 import project.matchalatte.support.logging.LogData;
 import project.matchalatte.support.logging.TraceIdContext;
 import project.matchalatte.support.logging.UserIdContext;
@@ -36,7 +35,7 @@ public class UserController {
         String traceId = TraceIdContext.traceId();
         Long userId = UserIdContext.getCurrentUserId();
         log.info("{}", LogData.of(traceId, userId, "회원가입", "회원가입API 처리시작"));
-        UserSecurity result = userSecurityService.signUp(signUpRequest.username(), signUpRequest.password(), signUpRequest.nickname());
+        User result = userSecurityService.signUp(signUpRequest.username(), signUpRequest.password(), signUpRequest.nickname());
         log.info("{}", LogData.of(traceId, userId, "회원가입", "회원가입API 처리완료"));
         return ApiResponse.success(new SignUpResponse(result.nickname()));
     }
