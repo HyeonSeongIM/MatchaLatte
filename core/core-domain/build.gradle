@@ -1,3 +1,7 @@
 dependencies {
+    implementation project(":support:logging")
+    implementation project(":infra:security")
+
     compileOnly("org.springframework:spring-context")
+    implementation 'org.slf4j:slf4j-api:2.0.12'
 }

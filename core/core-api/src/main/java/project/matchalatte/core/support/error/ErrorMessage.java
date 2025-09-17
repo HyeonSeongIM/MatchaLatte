@@ -8,16 +8,20 @@ public class ErrorMessage {
 
     private final Object data;
 
-    public ErrorMessage(ErrorType errorType) {
+    private final String traceId;
+
+    public ErrorMessage(ErrorType errorType, String traceId) {
         this.code = errorType.getCode().name();
         this.message = errorType.getMessage();
+        this.traceId = traceId;
         this.data = null;
     }
 
-    public ErrorMessage(ErrorType errorType, Object data) {
+    public ErrorMessage(ErrorType errorType, Object data, String traceId) {
         this.code = errorType.getCode().name();
         this.message = errorType.getMessage();
         this.data = data;
+        this.traceId = traceId;
     }
 
     public String getCode() {
@@ -31,5 +35,7 @@ public class ErrorMessage {
     public Object getData() {
         return data;
     }
+
+    public String getTraceId() { return traceId; }
 
 }

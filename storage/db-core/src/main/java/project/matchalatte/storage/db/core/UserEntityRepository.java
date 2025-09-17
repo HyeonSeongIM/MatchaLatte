@@ -35,4 +35,24 @@ public class UserEntityRepository implements UserRepository {
                 entity.getNickname())
         );
     }
+
+    @Override
+    public Optional<User> findByUsernameEntity(String username) {
+        UserEntity userEntity = userJpaRepository.findByUsername(username).get();
+
+        return Optional.of(UserEntity.from(userEntity));
+    }
+
+    @Override
+    public User save(String username, String password, String nickname) {
+        UserEntity userEntity = new UserEntity(username, password, nickname);
+
+        userJpaRepository.save(userEntity);
+
+        return new User(
+                userEntity.getId(),
+                username,
+                password,
+                nickname);
+    }
 }

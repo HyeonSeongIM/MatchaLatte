@@ -1,4 +1,5 @@
 dependencies {
+    implementation project(":infra:security")
     implementation project(":core:core-domain")
     implementation project (':core:core-enum')
 

@@ -26,11 +26,11 @@ public class ApiResponse<S> {
     }
 
     public static ApiResponse<?> error(ErrorType error) {
-        return new ApiResponse<>(ResultType.ERROR, null, new ErrorMessage(error));
+        return new ApiResponse<>(ResultType.ERROR, null, new ErrorMessage(error, null));
     }
 
     public static ApiResponse<?> error(ErrorType error, Object errorData) {
-        return new ApiResponse<>(ResultType.ERROR, null, new ErrorMessage(error, errorData));
+        return new ApiResponse<>(ResultType.ERROR, null, new ErrorMessage(error, errorData, null));
     }
 
     public ResultType getResult() {
