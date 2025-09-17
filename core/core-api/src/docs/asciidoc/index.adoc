@@ -1,4 +1,17 @@
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+
 = MatchaLatte API 문서
 :toc: left
 :toclevels: 2
 :sectnums:
+
+== User API
+
+=== 회원가입
+
+operation::user-signUp[snippets='http-request,request-fields,http-response,response-fields']
