@@ -16,6 +16,7 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final Logger log = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
+
     private final JwtTokenProvider jwtTokenProvider;
 
     public JwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider) {
@@ -23,15 +24,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
         // resolve Token
         String token = jwtTokenProvider.resolveToken(request);
 
         // 토큰이 없으면 다음 필터로 진행
         if (token == null) {
-            log.info("Request: {} {}, User-Agent: {}",
-                    request.getMethod(),
-                    request.getRequestURI(),
+            log.info("Request: {} {}, User-Agent: {}", request.getMethod(), request.getRequestURI(),
                     request.getHeader("User-Agent"));
 
             filterChain.doFilter(request, response);
@@ -47,4 +47,5 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
+
 }

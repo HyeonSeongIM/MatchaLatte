@@ -16,7 +16,8 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     private final Logger log = LoggerFactory.getLogger(CustomAuthenticationEntryPoint.class);
 
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+    public void commence(HttpServletRequest request, HttpServletResponse response,
+            AuthenticationException authException) throws IOException, ServletException {
         ObjectMapper objectMapper = new ObjectMapper();
         log.info("[CustomAuthenticationEntryPoint] [commence] : 인증 실패");
 
@@ -26,4 +27,5 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         response.getWriter().write(objectMapper.writeValueAsString("인증 실패"));
 
     }
+
 }

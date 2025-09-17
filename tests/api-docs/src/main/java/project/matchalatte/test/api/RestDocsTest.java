@@ -40,15 +40,15 @@ public abstract class RestDocsTest {
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter(objectMapper());
 
         return MockMvcBuilders.standaloneSetup(controller)
-                .apply(MockMvcRestDocumentation.documentationConfiguration(restDocumentation))
-                .setMessageConverters(converter)
-                .build();
+            .apply(MockMvcRestDocumentation.documentationConfiguration(restDocumentation))
+            .setMessageConverters(converter)
+            .build();
     }
 
     private ObjectMapper objectMapper() {
         return new ObjectMapper().findAndRegisterModules()
-                .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-                .disable(SerializationFeature.WRITE_DURATIONS_AS_TIMESTAMPS);
+            .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+            .disable(SerializationFeature.WRITE_DURATIONS_AS_TIMESTAMPS);
     }
 
 }

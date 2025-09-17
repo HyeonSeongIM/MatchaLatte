@@ -1,6 +1,5 @@
 package project.matchalatte.core.domain.user;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -10,8 +9,11 @@ import project.matchalatte.support.logging.UserIdContext;
 
 @Service
 public class UserService {
+
     private final Logger log = LoggerFactory.getLogger(UserService.class);
+
     private final UserReader userReader;
+
     private final UserWriter userWriter;
 
     public UserService(UserReader userReader, UserWriter userWriter) {
@@ -28,7 +30,8 @@ public class UserService {
         return result;
     }
 
-    public User read(Long id){
+    public User read(Long id) {
         return userReader.read(id);
     }
+
 }

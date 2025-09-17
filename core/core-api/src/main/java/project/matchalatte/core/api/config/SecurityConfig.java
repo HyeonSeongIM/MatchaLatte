@@ -29,48 +29,45 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http
-                .csrf(AbstractHttpConfigurer::disable)
+        http.csrf(AbstractHttpConfigurer::disable)
 
-                .sessionManagement(httpSecuritySessionManagementConfigurer ->
-                        httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-                .authorizeHttpRequests(auth ->
-                        auth
-                                .requestMatchers("/api/v1/user/signUp").permitAll()
-                                .requestMatchers("/api/v1/user/signIn").permitAll()
-                                .requestMatchers("/admin").hasRole("ADMIN")
-                                .anyRequest().authenticated()
-                )
+            .authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/user/signUp")
+                .permitAll()
+                .requestMatchers("/api/v1/user/signIn")
+                .permitAll()
+                .requestMatchers("/admin")
+                .hasRole("ADMIN")
+                .anyRequest()
+                .authenticated())
 
-                .exceptionHandling(ex -> ex
-                        .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
-                        .accessDeniedHandler(new CustomAccessDeniedHandler())
-                )
+            .exceptionHandling(ex -> ex.authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                .accessDeniedHandler(new CustomAccessDeniedHandler()))
 
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+            .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
 
     @Bean
     public RoleHierarchy roleHierarchy() {
-        return RoleHierarchyImpl.fromHierarchy(
-                """
-                        ADMIN > CLIENT"""
-        );
+        return RoleHierarchyImpl.fromHierarchy("""
+                ADMIN > CLIENT""");
     }
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return web -> web.ignoring()
-                .requestMatchers("/error", "/favicon.io");
+        return web -> web.ignoring().requestMatchers("/error", "/favicon.io");
     }
+
 }

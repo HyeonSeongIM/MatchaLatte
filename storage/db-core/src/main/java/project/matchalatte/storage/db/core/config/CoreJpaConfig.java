@@ -10,4 +10,5 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EntityScan(basePackages = "project.matchalatte.storage.db.core")
 @EnableJpaRepositories(basePackages = "project.matchalatte.storage.db.core")
 public class CoreJpaConfig {
+
 }

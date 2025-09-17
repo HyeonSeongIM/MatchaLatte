@@ -6,7 +6,6 @@ public class UserException extends RuntimeException {
 
     private final Object data;
 
-
     public UserException(ErrorType errorType) {
         super(errorType.getMessage());
         this.errorType = errorType;

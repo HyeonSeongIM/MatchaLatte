@@ -9,6 +9,7 @@ import java.util.Optional;
 public class UserSignIn {
 
     private final UserRepository userRepository;
+
     private final JwtTokenProvider jwtTokenProvider;
 
     public UserSignIn(UserRepository userRepository, JwtTokenProvider jwtTokenProvider) {
@@ -21,8 +22,10 @@ public class UserSignIn {
 
         if (password.equals(user.get().password())) {
             return jwtTokenProvider.createToken(username);
-        } else {
+        }
+        else {
             throw new IllegalArgumentException("Wrong username or password");
         }
     }
+
 }

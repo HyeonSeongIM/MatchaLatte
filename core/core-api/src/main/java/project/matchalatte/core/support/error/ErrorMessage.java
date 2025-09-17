@@ -36,6 +36,8 @@ public class ErrorMessage {
         return data;
     }
 
-    public String getTraceId() { return traceId; }
+    public String getTraceId() {
+        return traceId;
+    }
 
 }

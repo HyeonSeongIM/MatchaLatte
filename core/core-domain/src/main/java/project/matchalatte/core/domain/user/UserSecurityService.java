@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 public class UserSecurityService {
 
     private final UserSignIn userSignIn;
+
     private final UserSignUp userSignUp;
 
     public UserSecurityService(UserSignIn userSignIn, UserSignUp userSignUp) {
@@ -20,4 +21,5 @@ public class UserSecurityService {
     public String signIn(String username, String password) {
         return userSignIn.singIn(username, password);
     }
+
 }

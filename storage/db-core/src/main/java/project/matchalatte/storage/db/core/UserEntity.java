@@ -51,12 +51,8 @@ public class UserEntity extends BaseEntity implements UserDetails {
         return List.of();
     }
 
-    public static User from (UserEntity entity) {
-        return new User(
-                entity.getId(),
-                entity.getUsername(),
-                entity.getPassword(),
-                entity.getNickname()
-        );
+    public static User from(UserEntity entity) {
+        return new User(entity.getId(), entity.getUsername(), entity.getPassword(), entity.getNickname());
     }
+
 }

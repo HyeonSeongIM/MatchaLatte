@@ -28,12 +28,8 @@ public class UserEntityRepository implements UserRepository {
     public Optional<User> read(Long id) {
         Optional<UserEntity> userEntity = userJpaRepository.findById(id);
 
-        return userEntity.map(entity -> new User(
-                entity.getId(),
-                entity.getUsername(),
-                entity.getPassword(),
-                entity.getNickname())
-        );
+        return userEntity
+            .map(entity -> new User(entity.getId(), entity.getUsername(), entity.getPassword(), entity.getNickname()));
     }
 
     @Override
@@ -49,10 +45,7 @@ public class UserEntityRepository implements UserRepository {
 
         userJpaRepository.save(userEntity);
 
-        return new User(
-                userEntity.getId(),
-                username,
-                password,
-                nickname);
+        return new User(userEntity.getId(), username, password, nickname);
     }
+
 }

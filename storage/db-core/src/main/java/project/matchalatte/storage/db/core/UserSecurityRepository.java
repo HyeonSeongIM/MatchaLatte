@@ -19,4 +19,5 @@ public class UserSecurityRepository implements UserDetailsRepository {
 
         return new CustomUserDetails(user.getId(), user.getUsername(), user.getPassword());
     }
+
 }
