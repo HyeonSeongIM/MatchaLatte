@@ -52,6 +52,8 @@ subprojects {
         }
     }
 
+    var snippetsDir = file("src/docs/asciidoc")
+
     tasks.register('unitTest', Test) {
         group = 'verification'
         useJUnitPlatform {
@@ -71,6 +73,7 @@ subprojects {
         useJUnitPlatform {
             includeTags('restdocs')
         }
+        outputs.dir snippetsDir
     }
 
     tasks.register('developTest', Test) {
@@ -81,6 +84,7 @@ subprojects {
     }
 
     tasks.named('asciidoctor') {
+        inputs.dir snippetsDir
         dependsOn restDocsTest
     }
 
