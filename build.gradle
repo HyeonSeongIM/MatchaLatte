@@ -52,7 +52,7 @@ subprojects {
         }
     }
 
-    var snippetsDir = file("src/docs/asciidoc")
+    var snippetsDir = file("build/generated-snippets")
 
     tasks.register('unitTest', Test) {
         group = 'verification'
