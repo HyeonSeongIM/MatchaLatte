@@ -39,6 +39,8 @@ subprojects {
 
     dependencies {
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+        testImplementation 'org.springframework.security:spring-security-test'
     }
 
     bootJar.enabled = false
@@ -49,6 +51,8 @@ subprojects {
             excludeTags('develop', 'restdocs')
         }
     }
+
+    var snippetsDir = file("build/generated-snippets")
 
     tasks.register('unitTest', Test) {
         group = 'verification'
@@ -69,6 +73,7 @@ subprojects {
         useJUnitPlatform {
             includeTags('restdocs')
         }
+        outputs.dir snippetsDir
     }
 
     tasks.register('developTest', Test) {
@@ -79,6 +84,7 @@ subprojects {
     }
 
     tasks.named('asciidoctor') {
+        inputs.dir snippetsDir
         dependsOn restDocsTest
     }
 

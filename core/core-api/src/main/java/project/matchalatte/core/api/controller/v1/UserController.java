@@ -22,7 +22,9 @@ import project.matchalatte.support.logging.UserIdContext;
 public class UserController {
 
     private final Logger log = LoggerFactory.getLogger(UserController.class);
+
     private final UserService userService;
+
     private final UserSecurityService userSecurityService;
 
     public UserController(UserService userService, UserSecurityService userSecurityService) {
@@ -35,7 +37,8 @@ public class UserController {
         String traceId = TraceIdContext.traceId();
         Long userId = UserIdContext.getCurrentUserId();
         log.info("{}", LogData.of(traceId, userId, "회원가입", "회원가입API 처리시작"));
-        User result = userSecurityService.signUp(signUpRequest.username(), signUpRequest.password(), signUpRequest.nickname());
+        User result = userSecurityService.signUp(signUpRequest.username(), signUpRequest.password(),
+                signUpRequest.nickname());
         log.info("{}", LogData.of(traceId, userId, "회원가입", "회원가입API 처리완료"));
         return ApiResponse.success(new SignUpResponse(result.nickname()));
     }
@@ -59,11 +62,13 @@ public class UserController {
         User result;
         try {
             result = userService.read(id);
-        } catch (UserException e) {
+        }
+        catch (UserException e) {
             log.error("{} | 에러 발생", traceId, e);
             throw e;
         }
         log.info("{}", LogData.of(traceId, userId, "유저정보 가져오기", "처리완료"));
         return ApiResponse.success(new UserReadResponse(result.id(), result.username()));
     }
+
 }

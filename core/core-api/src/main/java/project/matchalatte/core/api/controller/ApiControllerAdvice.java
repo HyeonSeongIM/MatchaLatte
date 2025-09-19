@@ -46,7 +46,8 @@ public class ApiControllerAdvice {
         RuntimeException wrapped = wrapWithTraceId(e, "NoSuchElementException : ");
         log.warn(wrapped.getMessage(), wrapped);
 
-        return new ResponseEntity<>(ApiResponse.error(ErrorType.DEFAULT_ERROR, "리소스를 찾을 수 없습니다."), ErrorType.DEFAULT_ERROR.getStatus());
+        return new ResponseEntity<>(ApiResponse.error(ErrorType.DEFAULT_ERROR, "리소스를 찾을 수 없습니다."),
+                ErrorType.DEFAULT_ERROR.getStatus());
     }
 
     @ExceptionHandler(Exception.class)

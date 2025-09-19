@@ -3,6 +3,7 @@ package project.matchalatte.support.logging;
 import java.util.UUID;
 
 public final class TraceIdContext {
+
     private static final ThreadLocal<String> threadLocal = new ThreadLocal<>();
 
     public static String traceId() {
@@ -17,4 +18,5 @@ public final class TraceIdContext {
     public static void clear() {
         threadLocal.remove();
     }
+
 }

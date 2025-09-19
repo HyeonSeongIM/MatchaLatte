@@ -12,17 +12,9 @@ public class UserSignUp {
     }
 
     public User signUp(String username, String password, String nickname) {
-        User user = new User(
-                null,
-                username,
-                password,
-                nickname
-        );
+        User user = new User(null, username, password, nickname);
 
-        return userRepository.save(
-                user.username(),
-                user.password(),
-                user.nickname()
-        );
+        return userRepository.save(user.username(), user.password(), user.nickname());
     }
+
 }

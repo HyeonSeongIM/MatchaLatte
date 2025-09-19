@@ -4,6 +4,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import project.matchalatte.infra.security.CustomUserDetails;
 
 public final class UserIdContext {
+
     public static Long getCurrentUserId() {
         var auth = SecurityContextHolder.getContext().getAuthentication();
         Object principal = auth.getPrincipal();
@@ -12,4 +13,5 @@ public final class UserIdContext {
         }
         return null;
     }
+
 }

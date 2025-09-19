@@ -19,6 +19,7 @@ import java.util.Date;
 public class JwtTokenProvider {
 
     private final Logger log = LoggerFactory.getLogger(JwtTokenProvider.class);
+
     private final CustomUserDetailsService userDetailsService;
 
     public JwtTokenProvider(CustomUserDetailsService userDetailsService) {
@@ -35,16 +36,17 @@ public class JwtTokenProvider {
 
     @PostConstruct
     protected void init() {
-        secretKey = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), Jwts.SIG.HS256.key().build().getAlgorithm());
+        secretKey = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8),
+                Jwts.SIG.HS256.key().build().getAlgorithm());
     }
 
     public String createToken(String username) {
         return Jwts.builder()
-                .claim("username", username)
-                .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 1000L * 60 * 60 * 60))
-                .signWith(secretKey)
-                .compact();
+            .claim("username", username)
+            .issuedAt(new Date(System.currentTimeMillis()))
+            .expiration(new Date(System.currentTimeMillis() + 1000L * 60 * 60 * 60))
+            .signWith(secretKey)
+            .compact();
     }
 
     public Authentication getAuthentication(String token) {
@@ -54,7 +56,12 @@ public class JwtTokenProvider {
     }
 
     public String getUsername(String token) {
-        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("username", String.class);
+        return Jwts.parser()
+            .verifyWith(secretKey)
+            .build()
+            .parseSignedClaims(token)
+            .getPayload()
+            .get("username", String.class);
     }
 
     public String resolveToken(HttpServletRequest request) {
@@ -67,12 +74,12 @@ public class JwtTokenProvider {
 
     public boolean validateToken(String token) {
         return Jwts.parser()
-                .verifyWith(secretKey)
-                .build()
-                .parseSignedClaims(token)
-                .getPayload()
-                .getExpiration()
-                .after(new Date());
+            .verifyWith(secretKey)
+            .build()
+            .parseSignedClaims(token)
+            .getPayload()
+            .getExpiration()
+            .after(new Date());
     }
 
 }
