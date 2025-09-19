@@ -12,6 +12,17 @@
 
 == User API
 
+[#_회원가입]
 === 회원가입
 
 operation::user-signUp[snippets='http-request,request-fields,http-response,response-fields']
+
+[#_로그인]
+=== 로그인
+
+operation::user-signIn[snippets='http-request,request-fields,http-response,response-fields']
+
+[#_토큰확인]
+=== 토큰 확인
+
+operation::user-auth-check[snippets='http-request,request-fields,http-response,response-fields']
