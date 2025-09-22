@@ -46,12 +46,6 @@ subprojects {
     bootJar.enabled = false
     jar.enabled = true
 
-    test {
-        useJUnitPlatform{
-            excludeTags('develop', 'restdocs')
-        }
-    }
-
     var snippetsDir = file("build/generated-snippets")
 
     test {
