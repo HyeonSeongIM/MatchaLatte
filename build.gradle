@@ -54,38 +54,15 @@ subprojects {
 
     var snippetsDir = file("build/generated-snippets")
 
-    tasks.register('unitTest', Test) {
+    test {
         group = 'verification'
-        useJUnitPlatform {
-            excludeTags('develop', 'context', 'restdocs')
-        }
-    }
-
-    tasks.register('contextTest', Test) {
-        group = 'verification'
-        useJUnitPlatform {
-            includeTags('context')
-        }
-    }
-
-    tasks.register('restDocsTest', Test) {
-        group = 'verification'
-        useJUnitPlatform {
-            includeTags('restdocs')
-        }
+        useJUnitPlatform()
         outputs.dir snippetsDir
-    }
-
-    tasks.register('developTest', Test) {
-        group = 'verification'
-        useJUnitPlatform {
-            includeTags('develop')
-        }
     }
 
     tasks.named('asciidoctor') {
         inputs.dir snippetsDir
-        dependsOn restDocsTest
+        dependsOn test
     }
 
 }
