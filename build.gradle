@@ -46,46 +46,39 @@ subprojects {
     bootJar.enabled = false
     jar.enabled = true
 
+    var snippetsDir = file("build/generated-snippets")
+
     test {
         useJUnitPlatform{
-            excludeTags('develop', 'restdocs')
+            excludeTags('restDocs')
         }
     }
 
-    var snippetsDir = file("build/generated-snippets")
-
-    tasks.register('unitTest', Test) {
+    tasks.register('unitTest', Test){
         group = 'verification'
-        useJUnitPlatform {
-            excludeTags('develop', 'context', 'restdocs')
+        useJUnitPlatform{
+            excludeTags('context', 'restdocs')
         }
     }
 
     tasks.register('contextTest', Test) {
         group = 'verification'
-        useJUnitPlatform {
+        useJUnitPlatform{
             includeTags('context')
         }
     }
 
-    tasks.register('restDocsTest', Test) {
+    tasks.register('restDocs', Test) {
         group = 'verification'
-        useJUnitPlatform {
+        useJUnitPlatform{
             includeTags('restdocs')
         }
         outputs.dir snippetsDir
     }
 
-    tasks.register('developTest', Test) {
-        group = 'verification'
-        useJUnitPlatform {
-            includeTags('develop')
-        }
-    }
-
     tasks.named('asciidoctor') {
         inputs.dir snippetsDir
-        dependsOn restDocsTest
+        dependsOn test
     }
 
 }
