@@ -49,7 +49,9 @@ subprojects {
     var snippetsDir = file("build/generated-snippets")
 
     test {
-        useJUnitPlatform()
+        useJUnitPlatform{
+            excludeTags('restDocs')
+        }
     }
 
     tasks.register('unitTest', Test){
