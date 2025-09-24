@@ -1,19 +1,21 @@
 package project.matchalatte.core.domain.user;
 
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MockMvc;
 
+@WebMvcTest(UserService.class)
 @ExtendWith(MockitoExtension.class)
-class UserServiceTest {
+class UserServiceIntegrationTest {
 
-    @InjectMocks
-    private UserService userService;
+    private MockMvc mockMvc;
 
-    @Mock
+    @MockBean
     private UserRepository userRepository;
 
     @Test
@@ -23,20 +25,8 @@ class UserServiceTest {
     }
 
     @Test
-    @DisplayName("사용자 읽기 확인")
-    void check_read_user() {
-
-    }
-
-    @Test
     @DisplayName("사용자 저장 실패 시")
     void check_save_not_user() {
-
-    }
-
-    @Test
-    @DisplayName("사용자 읽기 시 존재하지 않을 경우")
-    void check_read_not_user() {
 
     }
 
