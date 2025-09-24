@@ -54,7 +54,22 @@ subprojects {
         outputs.dir snippetsDir
     }
 
-    tasks.named('asciidoctor') {
+    tasks.named('unitTest', Test){
+        group = 'verification'
+        useJUnitPlatform()
+    }
+
+    tasks.named('contextTest', Test) {
+        group = 'verification'
+        useJUnitPlatform()
+    }
+
+    tasks.named('restDocs', Test) {
+        group = 'verification'
+        useJUnitPlatform()
+    }
+
+    tasks.named('asciidoctor', Test) {
         inputs.dir snippetsDir
         dependsOn test
     }
