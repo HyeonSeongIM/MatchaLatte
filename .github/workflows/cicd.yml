@@ -33,11 +33,13 @@ jobs:
           arguments: test
 
       - name: Build JAR file
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
         with:
           arguments: bootJar
 
       - name: Upload artifact
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         uses: actions/upload-artifact@v4
         with:
           name: my-app-jar
@@ -46,6 +48,7 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v4
