@@ -55,11 +55,14 @@ jobs:
 
       - name: Restart application on EC2
         uses: appleboy/ssh-action@master
-        timeout-minutes: 10
         with:
           host: ${{ secrets.AWS_EC2_HOST }}
           username: ${{ secrets.AWS_EC2_USERNAME }}
           key: ${{ secrets.AWS_SSH_PRIVATE_KEY }}
           script: |
-            pkill -f '.jar' || true
-            nohup java -jar /home/ubuntu/*.jar &
+            cd /home/ubuntu
+            if [ -f ./app.pid ]; then
+              kill -9 $(cat ./app.pid)
+              rm ./app.pid
+            fi
+            nohup java -jar ./*.jar & echo $! > ./app.pid
