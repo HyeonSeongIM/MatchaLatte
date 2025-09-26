@@ -65,4 +65,4 @@ jobs:
               kill -9 $(cat ./app.pid)
               rm ./app.pid
             fi
-            nohup java -jar ./*.jar & echo $! > ./app.pid
+            nohup java -jar /home/ubuntu/build/libs/*.jar & echo $! > ./app.pid
