@@ -59,7 +59,7 @@ jobs:
           host: ${{ secrets.AWS_EC2_HOST }}
           username: ${{ secrets.AWS_EC2_USERNAME }}
           key: ${{ secrets.AWS_SSH_PRIVATE_KEY }}
-          source: ./deploy.sh
+          source: deploy.sh
           target: "/home/ubuntu/"
 
       - name: Restart application on EC2
