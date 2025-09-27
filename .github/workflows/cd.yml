@@ -50,6 +50,11 @@ jobs:
           name: build
           path: build/libs
 
+      - name: Download a deploy shell File
+        uses: actions/download-artifact@v4
+        with:
+          name: deploy shell
+
       - name: Transfer JAR to EC2
         uses: appleboy/scp-action@master
         with:
