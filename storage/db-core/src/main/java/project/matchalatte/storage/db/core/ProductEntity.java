@@ -40,4 +40,5 @@ public class ProductEntity extends BaseEntity {
     public String getImageUrl() {
         return imageUrl;
     }
+
 }
