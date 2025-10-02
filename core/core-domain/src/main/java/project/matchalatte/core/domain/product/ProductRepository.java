@@ -6,7 +6,7 @@ public interface ProductRepository {
 
     Product findById(Long id);
 
-    Product update(Long id, Product product);
+    Product update(Long id, Product newProduct);
 
     void deleteById(Long id);
 
