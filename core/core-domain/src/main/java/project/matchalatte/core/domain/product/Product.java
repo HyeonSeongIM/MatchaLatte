@@ -1,8 +1,4 @@
 package project.matchalatte.core.domain.product;
 
-public record Product(
-        String name,
-        String description,
-        Long price
-) {
+public record Product(String name, String description, Long price) {
 }
