@@ -25,4 +25,8 @@ public class ProductService {
         return productCreater.createProduct(name, description, price);
     }
 
+    public Product readProductById(Long id) {
+        return productReader.readProductById(id);
+    }
+
 }
