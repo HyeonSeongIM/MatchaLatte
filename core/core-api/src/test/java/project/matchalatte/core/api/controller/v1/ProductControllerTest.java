@@ -19,6 +19,7 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -50,19 +51,42 @@ class ProductControllerTest {
         given(productService.createProduct(any(), any(), any())).willReturn(serviceResult);
 
         // when & then
-        mockMvc.perform(post("/api/v1/product")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(createRequest))
-                        .with(csrf())
-                )
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.result").value("SUCCESS"))
-                .andExpect(jsonPath("$.data.name").value("곰돌이 인형"))
-                .andExpect(jsonPath("$.data.description").value("애기가 가지고 놀던 곰돌이에요"))
-                .andExpect(jsonPath("$.data.price").value(35000L))
-                .andExpect(jsonPath("$.error").value(is(nullValue())));
+        mockMvc
+            .perform(post("/api/v1/product").contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(createRequest))
+                .with(csrf()))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.result").value("SUCCESS"))
+            .andExpect(jsonPath("$.data.name").value("곰돌이 인형"))
+            .andExpect(jsonPath("$.data.description").value("애기가 가지고 놀던 곰돌이에요"))
+            .andExpect(jsonPath("$.data.price").value(35000L))
+            .andExpect(jsonPath("$.error").value(is(nullValue())));
 
+    }
+
+    @Test
+    @DisplayName("상품 단건 읽기 API 정상 테스트")
+    void productRead_API() throws Exception {
+        // given
+        Long productId = 1L;
+
+        Product savedProduct = new Product("아이돌 굿즈", "BTS 정국 굿즈에요", 50000L);
+
+        given(productService.readProductById(productId)).willReturn(savedProduct);
+
+        // when & then
+        mockMvc
+            .perform(get("/api/v1/product/" + productId).contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(savedProduct))
+                .with(csrf()))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.result").value("SUCCESS"))
+            .andExpect(jsonPath("$.data.name").value("아이돌 굿즈"))
+            .andExpect(jsonPath("$.data.description").value("BTS 정국 굿즈에요"))
+            .andExpect(jsonPath("$.data.price").value(50000L))
+            .andExpect(jsonPath("$.error").value(nullValue()));
     }
 
 }

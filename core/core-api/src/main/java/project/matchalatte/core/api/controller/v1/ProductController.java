@@ -1,11 +1,9 @@
 package project.matchalatte.core.api.controller.v1;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import project.matchalatte.core.api.controller.v1.request.ProductCreateRequest;
 import project.matchalatte.core.api.controller.v1.response.ProductCreateResponse;
+import project.matchalatte.core.api.controller.v1.response.ProductReadResponse;
 import project.matchalatte.core.domain.product.Product;
 import project.matchalatte.core.domain.product.ProductService;
 import project.matchalatte.core.support.response.ApiResponse;
@@ -24,6 +22,12 @@ public class ProductController {
     public ApiResponse<ProductCreateResponse> createProduct(@RequestBody ProductCreateRequest request) {
         Product result = productService.createProduct(request.name(), request.description(), request.price());
         return ApiResponse.success(new ProductCreateResponse(result.name(), result.description(), result.price()));
+    }
+
+    @GetMapping("/{id}")
+    public ApiResponse<ProductReadResponse> readProductById(@PathVariable("id") Long id) {
+        Product result = productService.readProductById(id);
+        return ApiResponse.success(new ProductReadResponse(result.name(), result.description(), result.price()));
     }
 
 }
