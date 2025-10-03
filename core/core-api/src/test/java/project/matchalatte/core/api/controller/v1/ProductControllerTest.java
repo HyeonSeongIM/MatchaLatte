@@ -19,6 +19,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willDoNothing;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -116,4 +117,23 @@ class ProductControllerTest {
             .andExpect(jsonPath("$.error").value(nullValue()));
     }
 
+    @Test
+    @DisplayName("상품 삭제 API 정상 반환")
+    void productDelete_API() throws Exception {
+        // given
+        Long productId = 1L;
+
+        willDoNothing().given(productService).deleteProductById(productId);
+
+        // when & then
+        mockMvc.perform(delete("/api/v1/product/" + productId).contentType(MediaType.APPLICATION_JSON)
+                .with(csrf()))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.result").value("SUCCESS"))
+                .andExpect(jsonPath("$.data").value(nullValue()))
+                .andExpect(jsonPath("$.error").value(nullValue()));
+
+
+    }
 }
