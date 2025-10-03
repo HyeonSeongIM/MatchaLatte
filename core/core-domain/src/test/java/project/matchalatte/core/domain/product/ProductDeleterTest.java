@@ -11,7 +11,6 @@ import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-
 @ExtendWith(MockitoExtension.class)
 class ProductDeleterTest {
 
@@ -36,7 +35,6 @@ class ProductDeleterTest {
 
         // then
         verify(productRepository, times(1)).deleteById(productId);
-
 
     }
 

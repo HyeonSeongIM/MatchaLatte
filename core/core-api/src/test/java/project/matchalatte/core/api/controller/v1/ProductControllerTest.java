@@ -126,14 +126,13 @@ class ProductControllerTest {
         willDoNothing().given(productService).deleteProductById(productId);
 
         // when & then
-        mockMvc.perform(delete("/api/v1/product/" + productId).contentType(MediaType.APPLICATION_JSON)
-                .with(csrf()))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.result").value("SUCCESS"))
-                .andExpect(jsonPath("$.data").value(nullValue()))
-                .andExpect(jsonPath("$.error").value(nullValue()));
-
+        mockMvc.perform(delete("/api/v1/product/" + productId).contentType(MediaType.APPLICATION_JSON).with(csrf()))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.result").value("SUCCESS"))
+            .andExpect(jsonPath("$.data").value(nullValue()))
+            .andExpect(jsonPath("$.error").value(nullValue()));
 
     }
+
 }
