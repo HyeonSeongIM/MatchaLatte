@@ -33,4 +33,8 @@ public class ProductService {
         return productUpdater.updateProduct(id, name, description, price);
     }
 
+    public void deleteProductById(Long id) {
+        productDeleter.deleteById(id);
+    }
+
 }
