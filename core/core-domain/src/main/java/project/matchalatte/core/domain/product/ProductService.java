@@ -29,4 +29,8 @@ public class ProductService {
         return productReader.readProductById(id);
     }
 
+    public Product updateProduct(Long id, String name, String description, Long price) {
+        return productUpdater.updateProduct(id, name, description, price);
+    }
+
 }
