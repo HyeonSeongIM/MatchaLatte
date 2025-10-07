@@ -12,9 +12,10 @@ public record LogData(LocalDateTime timestamp, String traceId, Long userId, Stri
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper().registerModule(new JavaTimeModule())
         .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
-    public static String of(String traceId, Long userId, String api, String message) {
+    public static String of(String api, String message) {
         try {
-            return OBJECT_MAPPER.writeValueAsString(new LogData(LocalDateTime.now(), traceId, userId, api, message));
+            return OBJECT_MAPPER.writeValueAsString(new LogData(LocalDateTime.now(), TraceIdContext.traceId(),
+                    UserIdContext.getCurrentUserId(), api, message));
         }
         catch (JsonProcessingException e) {
             throw new RuntimeException(e);
