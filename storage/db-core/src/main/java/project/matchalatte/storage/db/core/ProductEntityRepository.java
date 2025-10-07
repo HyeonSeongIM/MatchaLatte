@@ -17,9 +17,10 @@ public class ProductEntityRepository implements ProductRepository {
     @Override
     public Product save(Product product) {
         ProductEntity productEntity = jpaRepository
-            .save(new ProductEntity(product.name(), product.description(), product.price()));
+            .save(new ProductEntity(product.name(), product.description(), product.price(), product.userId()));
 
-        return new Product(productEntity.getName(), productEntity.getDescription(), productEntity.getPrice());
+        return new Product(productEntity.getName(), productEntity.getDescription(), productEntity.getPrice(),
+                productEntity.getUserId());
     }
 
     @Override
@@ -27,7 +28,8 @@ public class ProductEntityRepository implements ProductRepository {
         ProductEntity productEntity = jpaRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Product not found"));
 
-        return new Product(productEntity.getName(), productEntity.getDescription(), productEntity.getPrice());
+        return new Product(productEntity.getName(), productEntity.getDescription(), productEntity.getPrice(),
+                productEntity.getUserId());
     }
 
     @Transactional
@@ -40,7 +42,8 @@ public class ProductEntityRepository implements ProductRepository {
         productEntity.setDescription(newProduct.description());
         productEntity.setPrice(newProduct.price());
 
-        return new Product(productEntity.getName(), productEntity.getDescription(), productEntity.getPrice());
+        return new Product(productEntity.getName(), productEntity.getDescription(), productEntity.getPrice(),
+                productEntity.getUserId());
     }
 
     @Override

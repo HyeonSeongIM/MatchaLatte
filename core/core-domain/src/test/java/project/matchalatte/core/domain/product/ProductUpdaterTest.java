@@ -30,19 +30,21 @@ class ProductUpdaterTest {
         String newName = "파란색 선풍기";
         String newDescription = "살짝 생활 기스가 있어요.";
         Long newPrice = 29000L;
+        Long userId = 1L;
 
-        Product newProduct = new Product(newName, newDescription, newPrice);
+        Product newProduct = new Product(newName, newDescription, newPrice, userId);
 
         given(productRepository.update(productId, newProduct)).willReturn(newProduct);
 
         // when
-        Product actualProduct = productUpdater.updateProduct(productId, newName, newDescription, newPrice);
+        Product actualProduct = productUpdater.updateProduct(productId, newName, newDescription, newPrice, userId);
 
         // then
         assertThat(actualProduct).isNotNull();
         assertThat(actualProduct.name()).isEqualTo(newName);
         assertThat(actualProduct.description()).isEqualTo(newDescription);
         assertThat(actualProduct.price()).isEqualTo(newPrice);
+        assertThat(actualProduct.userId()).isEqualTo(userId);
 
         verify(productRepository, times(1)).update(productId, newProduct);
     }

@@ -13,13 +13,16 @@ public class ProductEntity extends BaseEntity {
 
     private Long price;
 
+    private Long userId;
+
     public ProductEntity() {
     }
 
-    public ProductEntity(String name, String description, Long price) {
+    public ProductEntity(String name, String description, Long price, Long userId) {
         this.name = name;
         this.description = description;
         this.price = price;
+        this.userId = userId;
     }
 
     public String getName() {
@@ -34,6 +37,10 @@ public class ProductEntity extends BaseEntity {
         return price;
     }
 
+    public Long getUserId() {
+        return userId;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -44,6 +51,10 @@ public class ProductEntity extends BaseEntity {
 
     public void setPrice(Long price) {
         this.price = price;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
 }

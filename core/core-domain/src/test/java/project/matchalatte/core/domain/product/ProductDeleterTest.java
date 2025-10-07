@@ -26,8 +26,6 @@ class ProductDeleterTest {
         // given
         Long productId = 1L;
 
-        Product product = new Product("립밤", "새거", 5000L);
-
         willDoNothing().given(productRepository).deleteById(productId);
 
         // when

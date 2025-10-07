@@ -11,10 +11,10 @@ public class ProductUpdater {
         this.productRepository = productRepository;
     }
 
-    public Product updateProduct(Long id, String newName, String newDescription, Long price) {
-        Product newProduct = new Product(newName, newDescription, price);
+    public Product updateProduct(Long productId, String newName, String newDescription, Long price, Long userId) {
+        Product newProduct = new Product(newName, newDescription, price, userId);
 
-        return productRepository.update(id, newProduct);
+        return productRepository.update(productId, newProduct);
     }
 
 }
