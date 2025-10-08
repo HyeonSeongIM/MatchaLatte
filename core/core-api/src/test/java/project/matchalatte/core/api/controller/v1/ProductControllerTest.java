@@ -130,8 +130,9 @@ class ProductControllerTest {
     void productDelete_API() throws Exception {
         // given
         Long productId = 1L;
+        Long userId = 2L;
 
-        willDoNothing().given(productService).deleteProductById(productId);
+        willDoNothing().given(productService).deleteProductById(productId, userId);
 
         // when & then
         mockMvc.perform(delete("/api/v1/product/" + productId).contentType(MediaType.APPLICATION_JSON).with(csrf()))
