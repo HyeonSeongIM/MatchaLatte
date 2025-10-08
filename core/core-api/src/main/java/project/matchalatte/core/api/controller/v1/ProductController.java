@@ -48,14 +48,17 @@ public class ProductController {
         log.info("{}", LogData.of("상품 수정", "상품 수정 API 처리시작"));
         Product result = productService.updateProduct(id, request.name(), request.description(), request.price(),
                 UserIdContext.getCurrentUserId());
-        log.info("{}", LogData.of("상품 수정", "상품 수정 API 처리시작"));
+        log.info("{}", LogData.of("상품 수정", "상품 수정 API 처리완료"));
         return ApiResponse
             .success(new ProductUpdateResponse(result.name(), result.description(), result.price(), result.userId()));
     }
 
     @DeleteMapping("/{id}")
-    public ApiResponse<?> deleteProduct(@PathVariable("id") Long id) {
-        productService.deleteProductById(id);
+    public ApiResponse<?> deleteProduct(@PathVariable("id") Long productId) {
+        Long userId = UserIdContext.getCurrentUserId();
+        log.info("{}", LogData.of("상품 삭제", "상품 삭제 API 처리시작"));
+        productService.deleteProductById(productId, userId);
+        log.info("{}", LogData.of("상품 삭제", "상품 삭제 API 처리완료"));
         return ApiResponse.success(null);
     }
 
