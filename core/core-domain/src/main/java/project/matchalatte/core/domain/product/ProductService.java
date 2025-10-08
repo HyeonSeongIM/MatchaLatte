@@ -13,12 +13,15 @@ public class ProductService {
 
     private final ProductDeleter productDeleter;
 
+    private final ProductValidator productValidator;
+
     public ProductService(ProductCreater productCreater, ProductReader productReader, ProductUpdater productUpdater,
-            ProductDeleter productDeleter) {
+            ProductDeleter productDeleter, ProductValidator productValidator) {
         this.productCreater = productCreater;
         this.productReader = productReader;
         this.productUpdater = productUpdater;
         this.productDeleter = productDeleter;
+        this.productValidator = productValidator;
     }
 
     public Product createProduct(String name, String description, Long price, Long userId) {
@@ -30,11 +33,21 @@ public class ProductService {
     }
 
     public Product updateProduct(Long productId, String name, String description, Long price, Long userId) {
-        return productUpdater.updateProduct(productId, name, description, price, userId);
+        if (productValidator.matchUserById(productId, userId)) {
+            return productUpdater.updateProduct(productId, name, description, price, userId);
+        }
+        else {
+            throw new IllegalArgumentException("Product with id " + productId + " does not exist");
+        }
     }
 
-    public void deleteProductById(Long id) {
-        productDeleter.deleteById(id);
+    public void deleteProductById(Long productId, Long userId) {
+        if (productValidator.matchUserById(productId, userId)) {
+            productDeleter.deleteById(productId);
+        }
+        else {
+            throw new IllegalArgumentException("Product with id " + productId + " does not exist");
+        }
     }
 
 }
