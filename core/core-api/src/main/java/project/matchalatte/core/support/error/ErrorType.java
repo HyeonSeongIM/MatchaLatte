@@ -6,7 +6,12 @@ import org.springframework.http.HttpStatus;
 public enum ErrorType {
 
     DEFAULT_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, ErrorCode.E500, "An unexpected error has occurred.",
-            LogLevel.ERROR);
+            LogLevel.ERROR),
+
+    PRODUCT_NOT_FOUND(HttpStatus.NOT_FOUND, ErrorCode.E404, "Product not found.", LogLevel.WARN),
+
+    MATCH_NOT_USER(HttpStatus.FORBIDDEN, ErrorCode.E403, "User does not have permission for this product.",
+            LogLevel.WARN);
 
     private final HttpStatus status;
 
