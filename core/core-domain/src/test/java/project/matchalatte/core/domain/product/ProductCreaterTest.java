@@ -31,19 +31,22 @@ class ProductCreaterTest {
         String name = "곰 인형";
         String description = "거의 새 상품이에요! 네고 안됩니다.";
         Long price = 10000L;
+        Long userId = 1L;
 
-        Product product = new Product(name, description, price);
+        Product product = new Product(name, description, price, userId);
 
         given(productRepository.save(any(Product.class))).willReturn(product);
 
         // when
-        Product actualProduct = productCreater.createProduct(product.name(), product.description(), product.price());
+        Product actualProduct = productCreater.createProduct(product.name(), product.description(), product.price(),
+                product.userId());
 
         // then
         assertThat(actualProduct).isNotNull();
         assertThat(actualProduct.name()).isEqualTo(name);
         assertThat(actualProduct.description()).isEqualTo(description);
         assertThat(actualProduct.price()).isEqualTo(price);
+        assertThat(actualProduct.userId()).isEqualTo(userId);
 
         verify(productRepository, times(1)).save(any(Product.class));
     }

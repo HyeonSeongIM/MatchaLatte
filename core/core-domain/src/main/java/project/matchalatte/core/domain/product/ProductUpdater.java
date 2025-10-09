@@ -7,14 +7,22 @@ public class ProductUpdater {
 
     private final ProductRepository productRepository;
 
-    public ProductUpdater(ProductRepository productRepository) {
+    private final ProductValidator productValidator;
+
+    public ProductUpdater(ProductRepository productRepository, ProductValidator productValidator) {
         this.productRepository = productRepository;
+        this.productValidator = productValidator;
     }
 
-    public Product updateProduct(Long id, String newName, String newDescription, Long price) {
-        Product newProduct = new Product(newName, newDescription, price);
+    public Product updateProduct(Long productId, String newName, String newDescription, Long price, Long userId) {
+        Product newProduct = new Product(newName, newDescription, price, userId);
 
-        return productRepository.update(id, newProduct);
+        if (productValidator.matchUserById(productId, userId)) {
+            return productRepository.update(productId, newProduct);
+        }
+        else {
+            throw new IllegalArgumentException("User does not have permission for this product.");
+        }
     }
 
 }

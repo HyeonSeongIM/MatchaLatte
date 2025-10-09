@@ -29,8 +29,9 @@ class ProductReaderTest {
         String description = "BTS 아이돌 굿즈입니다.";
         Long price = 50000L;
         Long productId = 1L;
+        Long userId = 1L;
 
-        Product product = new Product(name, description, price);
+        Product product = new Product(name, description, price, userId);
 
         given(productRepository.findById(productId)).willReturn(product);
 
@@ -42,6 +43,7 @@ class ProductReaderTest {
         assertThat(actualProduct.name()).isEqualTo(name);
         assertThat(actualProduct.description()).isEqualTo(description);
         assertThat(actualProduct.price()).isEqualTo(price);
+        assertThat(actualProduct.userId()).isEqualTo(userId);
 
         verify(productRepository, times(1)).findById(productId);
     }

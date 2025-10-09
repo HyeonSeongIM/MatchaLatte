@@ -21,20 +21,20 @@ public class ProductService {
         this.productDeleter = productDeleter;
     }
 
-    public Product createProduct(String name, String description, Long price) {
-        return productCreater.createProduct(name, description, price);
+    public Product createProduct(String name, String description, Long price, Long userId) {
+        return productCreater.createProduct(name, description, price, userId);
     }
 
     public Product readProductById(Long id) {
         return productReader.readProductById(id);
     }
 
-    public Product updateProduct(Long id, String name, String description, Long price) {
-        return productUpdater.updateProduct(id, name, description, price);
+    public Product updateProduct(Long productId, String name, String description, Long price, Long userId) {
+        return productUpdater.updateProduct(productId, name, description, price, userId);
     }
 
-    public void deleteProductById(Long id) {
-        productDeleter.deleteById(id);
+    public void deleteProductById(Long productId, Long userId) {
+        productDeleter.deleteById(productId, userId);
     }
 
 }

@@ -47,9 +47,12 @@ class ProductControllerTest {
         // given
         ProductCreateRequest createRequest = new ProductCreateRequest("곰돌이 인형", "애기가 가지고 놀던 곰돌이에요", 35000L);
 
-        Product serviceResult = new Product(createRequest.name(), createRequest.description(), createRequest.price());
+        Long userId = 1L;
 
-        given(productService.createProduct(any(), any(), any())).willReturn(serviceResult);
+        Product serviceResult = new Product(createRequest.name(), createRequest.description(), createRequest.price(),
+                userId);
+
+        given(productService.createProduct(any(), any(), any(), any())).willReturn(serviceResult);
 
         // when & then
         mockMvc
@@ -62,6 +65,7 @@ class ProductControllerTest {
             .andExpect(jsonPath("$.data.name").value("곰돌이 인형"))
             .andExpect(jsonPath("$.data.description").value("애기가 가지고 놀던 곰돌이에요"))
             .andExpect(jsonPath("$.data.price").value(35000L))
+            .andExpect(jsonPath("$.data.userId").value(userId))
             .andExpect(jsonPath("$.error").value(is(nullValue())));
 
     }
@@ -72,7 +76,9 @@ class ProductControllerTest {
         // given
         Long productId = 1L;
 
-        Product savedProduct = new Product("아이돌 굿즈", "BTS 정국 굿즈에요", 50000L);
+        Long userId = 2L;
+
+        Product savedProduct = new Product("아이돌 굿즈", "BTS 정국 굿즈에요", 50000L, userId);
 
         given(productService.readProductById(productId)).willReturn(savedProduct);
 
@@ -96,12 +102,13 @@ class ProductControllerTest {
         // given
         Long productId = 1L;
 
-        ProductUpdateRequest updateRequest = new ProductUpdateRequest("아이패드", "사용한지 1개월 정도 됐어요.", 60000L);
-        Product updatedProduct = new Product(updateRequest.name(), updateRequest.description(), updateRequest.price());
+        Long userId = 2L;
 
-        given(productService.updateProduct(productId, updateRequest.name(), updateRequest.description(),
-                updateRequest.price()))
-            .willReturn(updatedProduct);
+        ProductUpdateRequest updateRequest = new ProductUpdateRequest("아이패드", "사용한지 1개월 정도 됐어요.", 60000L);
+        Product updatedProduct = new Product(updateRequest.name(), updateRequest.description(), updateRequest.price(),
+                userId);
+
+        given(productService.updateProduct(any(), any(), any(), any(), any())).willReturn(updatedProduct);
 
         // when & then
         mockMvc
@@ -114,6 +121,7 @@ class ProductControllerTest {
             .andExpect(jsonPath("$.data.name").value("아이패드"))
             .andExpect(jsonPath("$.data.description").value("사용한지 1개월 정도 됐어요."))
             .andExpect(jsonPath("$.data.price").value(60000L))
+            .andExpect(jsonPath("$.data.userId").value(userId))
             .andExpect(jsonPath("$.error").value(nullValue()));
     }
 
@@ -122,8 +130,9 @@ class ProductControllerTest {
     void productDelete_API() throws Exception {
         // given
         Long productId = 1L;
+        Long userId = 2L;
 
-        willDoNothing().given(productService).deleteProductById(productId);
+        willDoNothing().given(productService).deleteProductById(productId, userId);
 
         // when & then
         mockMvc.perform(delete("/api/v1/product/" + productId).contentType(MediaType.APPLICATION_JSON).with(csrf()))

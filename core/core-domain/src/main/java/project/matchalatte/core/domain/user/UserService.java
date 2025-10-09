@@ -4,8 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import project.matchalatte.support.logging.LogData;
-import project.matchalatte.support.logging.TraceIdContext;
-import project.matchalatte.support.logging.UserIdContext;
 
 @Service
 public class UserService {
@@ -22,11 +20,9 @@ public class UserService {
     }
 
     public User add(String username, String password, String nickname) {
-        String traceId = TraceIdContext.traceId();
-        Long userId = UserIdContext.getCurrentUserId();
-        log.info("{}", LogData.of(traceId, userId, "유저정보 가져오기", "유저 등록 요청"));
+        log.info("{}", LogData.of("유저정보 가져오기", "유저 등록 요청"));
         User result = userWriter.add(username, password, nickname);
-        log.info("{}", LogData.of(traceId, userId, "유저정보 가져오기", "유저 등록 완료"));
+        log.info("{}", LogData.of("유저정보 가져오기", "유저 등록 완료"));
         return result;
     }
 

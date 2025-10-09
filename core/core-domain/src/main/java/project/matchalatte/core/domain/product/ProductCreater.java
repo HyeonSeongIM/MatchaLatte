@@ -11,8 +11,8 @@ public class ProductCreater {
         this.productRepository = productRepository;
     }
 
-    public Product createProduct(String name, String description, Long price) {
-        Product product = new Product(name, description, price);
+    public Product createProduct(String name, String description, Long price, Long userId) {
+        Product product = new Product(name, description, price, userId);
 
         return productRepository.save(product);
     }
