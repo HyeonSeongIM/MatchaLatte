@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ProductJpaRepository extends JpaRepository<ProductEntity, Long> {
 
-    @Query("SELECT p FROM ProductEntity p WHERE p.userId = :userId")
+    @Query("SELECT p FROM ProductEntity p WHERE p.userId = :userId ORDER BY p.id DESC ")
     List<ProductEntity> findByUserId(@Param("userId") Long userId);
 
 }
