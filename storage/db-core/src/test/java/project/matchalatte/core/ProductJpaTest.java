@@ -1,6 +1,5 @@
 package project.matchalatte.core;
 
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,4 +46,5 @@ class ProductJpaTest extends CoreDbContextTest {
         assertThat(result.get(0).getUserId()).isEqualTo(B_userId);
         assertThat(result.get(1).getName()).isEqualTo("상품2");
     }
+
 }

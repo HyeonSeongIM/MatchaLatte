@@ -56,18 +56,14 @@ class ProductReaderTest {
         // given
         Long userId = 1L;
 
-        List<Product> products = List.of(
-                new Product("맥북 m1", "맥북 m1 입니다.", 30000L, userId),
-                new Product("맥북 m2", "맥북 m2 입니다.", 40000L, userId),
-                new Product("맥북 m3", "맥북 m3 입니다.", 50000L, userId),
-                new Product("맥북 m4", "맥북 m4 입니다.", 60000L, userId)
-        );
+        List<Product> products = List.of(new Product("맥북 m1", "맥북 m1 입니다.", 30000L, userId),
+                new Product("맥북 m2", "맥북 m2 입니다.", 40000L, userId), new Product("맥북 m3", "맥북 m3 입니다.", 50000L, userId),
+                new Product("맥북 m4", "맥북 m4 입니다.", 60000L, userId));
 
         given(productRepository.findByUserId(userId)).willReturn(products);
 
         // when
         List<Product> productList = productReader.readProductsByUserId(userId);
-
 
         // then
         assertThat(productList).isNotNull();

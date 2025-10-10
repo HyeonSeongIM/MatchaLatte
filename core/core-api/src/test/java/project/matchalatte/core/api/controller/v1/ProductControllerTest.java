@@ -58,17 +58,17 @@ class ProductControllerTest {
 
         // when & then
         mockMvc
-                .perform(post("/api/v1/product").contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(createRequest))
-                        .with(csrf()))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.result").value("SUCCESS"))
-                .andExpect(jsonPath("$.data.name").value("곰돌이 인형"))
-                .andExpect(jsonPath("$.data.description").value("애기가 가지고 놀던 곰돌이에요"))
-                .andExpect(jsonPath("$.data.price").value(35000L))
-                .andExpect(jsonPath("$.data.userId").value(userId))
-                .andExpect(jsonPath("$.error").value(is(nullValue())));
+            .perform(post("/api/v1/product").contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(createRequest))
+                .with(csrf()))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.result").value("SUCCESS"))
+            .andExpect(jsonPath("$.data.name").value("곰돌이 인형"))
+            .andExpect(jsonPath("$.data.description").value("애기가 가지고 놀던 곰돌이에요"))
+            .andExpect(jsonPath("$.data.price").value(35000L))
+            .andExpect(jsonPath("$.data.userId").value(userId))
+            .andExpect(jsonPath("$.error").value(is(nullValue())));
 
     }
 
@@ -86,16 +86,16 @@ class ProductControllerTest {
 
         // when & then
         mockMvc
-                .perform(get("/api/v1/product/" + productId).contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(savedProduct))
-                        .with(csrf()))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.result").value("SUCCESS"))
-                .andExpect(jsonPath("$.data.name").value("아이돌 굿즈"))
-                .andExpect(jsonPath("$.data.description").value("BTS 정국 굿즈에요"))
-                .andExpect(jsonPath("$.data.price").value(50000L))
-                .andExpect(jsonPath("$.error").value(nullValue()));
+            .perform(get("/api/v1/product/" + productId).contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(savedProduct))
+                .with(csrf()))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.result").value("SUCCESS"))
+            .andExpect(jsonPath("$.data.name").value("아이돌 굿즈"))
+            .andExpect(jsonPath("$.data.description").value("BTS 정국 굿즈에요"))
+            .andExpect(jsonPath("$.data.price").value(50000L))
+            .andExpect(jsonPath("$.error").value(nullValue()));
     }
 
     @Test
@@ -114,17 +114,17 @@ class ProductControllerTest {
 
         // when & then
         mockMvc
-                .perform(put("/api/v1/product/" + productId).contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(updateRequest))
-                        .with(csrf()))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.result").value("SUCCESS"))
-                .andExpect(jsonPath("$.data.name").value("아이패드"))
-                .andExpect(jsonPath("$.data.description").value("사용한지 1개월 정도 됐어요."))
-                .andExpect(jsonPath("$.data.price").value(60000L))
-                .andExpect(jsonPath("$.data.userId").value(userId))
-                .andExpect(jsonPath("$.error").value(nullValue()));
+            .perform(put("/api/v1/product/" + productId).contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(updateRequest))
+                .with(csrf()))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.result").value("SUCCESS"))
+            .andExpect(jsonPath("$.data.name").value("아이패드"))
+            .andExpect(jsonPath("$.data.description").value("사용한지 1개월 정도 됐어요."))
+            .andExpect(jsonPath("$.data.price").value(60000L))
+            .andExpect(jsonPath("$.data.userId").value(userId))
+            .andExpect(jsonPath("$.error").value(nullValue()));
     }
 
     @Test
@@ -138,11 +138,11 @@ class ProductControllerTest {
 
         // when & then
         mockMvc.perform(delete("/api/v1/product/" + productId).contentType(MediaType.APPLICATION_JSON).with(csrf()))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.result").value("SUCCESS"))
-                .andExpect(jsonPath("$.data").value(nullValue()))
-                .andExpect(jsonPath("$.error").value(nullValue()));
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.result").value("SUCCESS"))
+            .andExpect(jsonPath("$.data").value(nullValue()))
+            .andExpect(jsonPath("$.error").value(nullValue()));
 
     }
 
@@ -152,25 +152,20 @@ class ProductControllerTest {
         // given
         Long userId = 1L;
 
-        List<Product> productList = List.of(
-                new Product("상품 1", "입니다.", 5000L, 1L),
-                new Product("상품 2", "입니다.", 6000L, 1L),
-                new Product("상품 3", "입니다.", 7000L, 2L)
-        );
+        List<Product> productList = List.of(new Product("상품 1", "입니다.", 5000L, 1L),
+                new Product("상품 2", "입니다.", 6000L, 1L), new Product("상품 3", "입니다.", 7000L, 2L));
 
         given(productService.readProductsByUserId(userId)).willReturn(productList);
 
         // when & then
-        mockMvc
-                .perform(get("/api/v1/product/user/" + userId).contentType(MediaType.APPLICATION_JSON)
-                        .with(csrf()))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.result").value("SUCCESS"))
-                .andExpect(jsonPath("$.data.[0].name").value("상품 1"))
-                .andExpect(jsonPath("$.data.[0].description").value("입니다."))
-                .andExpect(jsonPath("$.data.[0].price").value(5000L))
-                .andExpect(jsonPath("$.error").value(nullValue()));
+        mockMvc.perform(get("/api/v1/product/user/" + userId).contentType(MediaType.APPLICATION_JSON).with(csrf()))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.result").value("SUCCESS"))
+            .andExpect(jsonPath("$.data.[0].name").value("상품 1"))
+            .andExpect(jsonPath("$.data.[0].description").value("입니다."))
+            .andExpect(jsonPath("$.data.[0].price").value(5000L))
+            .andExpect(jsonPath("$.error").value(nullValue()));
     }
 
 }
