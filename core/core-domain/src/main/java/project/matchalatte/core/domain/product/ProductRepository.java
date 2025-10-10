@@ -1,5 +1,7 @@
 package project.matchalatte.core.domain.product;
 
+import java.util.List;
+
 public interface ProductRepository {
 
     Product save(Product product);
@@ -9,5 +11,7 @@ public interface ProductRepository {
     Product update(Long id, Product newProduct);
 
     void deleteById(Long id);
+
+    List<Product> findByUserId(Long userId);
 
 }

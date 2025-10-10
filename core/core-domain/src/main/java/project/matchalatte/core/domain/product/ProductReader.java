@@ -2,6 +2,8 @@ package project.matchalatte.core.domain.product;
 
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class ProductReader {
 
@@ -11,8 +13,12 @@ public class ProductReader {
         this.productRepository = productRepository;
     }
 
-    public Product readProductById(Long id) {
+    public Product readProductByProductId(Long id) {
         return productRepository.findById(id);
+    }
+
+    public List<Product> readProductsByUserId(Long userId) {
+        return productRepository.findByUserId(userId);
     }
 
 }

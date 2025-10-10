@@ -15,6 +15,8 @@ import project.matchalatte.core.api.controller.v1.request.ProductUpdateRequest;
 import project.matchalatte.core.domain.product.Product;
 import project.matchalatte.core.domain.product.ProductService;
 
+import java.util.List;
+
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.ArgumentMatchers.any;
@@ -142,6 +144,28 @@ class ProductControllerTest {
             .andExpect(jsonPath("$.data").value(nullValue()))
             .andExpect(jsonPath("$.error").value(nullValue()));
 
+    }
+
+    @Test
+    @DisplayName("특정 유저가 올린 상품들 전체 조회")
+    void productListByUserId_API() throws Exception {
+        // given
+        Long userId = 1L;
+
+        List<Product> productList = List.of(new Product("상품 1", "입니다.", 5000L, 1L),
+                new Product("상품 2", "입니다.", 6000L, 1L), new Product("상품 3", "입니다.", 7000L, 2L));
+
+        given(productService.readProductsByUserId(userId)).willReturn(productList);
+
+        // when & then
+        mockMvc.perform(get("/api/v1/product/user/" + userId).contentType(MediaType.APPLICATION_JSON).with(csrf()))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.result").value("SUCCESS"))
+            .andExpect(jsonPath("$.data.[0].name").value("상품 1"))
+            .andExpect(jsonPath("$.data.[0].description").value("입니다."))
+            .andExpect(jsonPath("$.data.[0].price").value(5000L))
+            .andExpect(jsonPath("$.error").value(nullValue()));
     }
 
 }

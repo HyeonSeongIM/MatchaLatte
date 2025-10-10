@@ -5,6 +5,8 @@ import org.springframework.transaction.annotation.Transactional;
 import project.matchalatte.core.domain.product.Product;
 import project.matchalatte.core.domain.product.ProductRepository;
 
+import java.util.List;
+
 @Repository
 public class ProductEntityRepository implements ProductRepository {
 
@@ -52,6 +54,17 @@ public class ProductEntityRepository implements ProductRepository {
             .orElseThrow(() -> new IllegalArgumentException("Product not found"));
 
         jpaRepository.delete(productEntity);
+    }
+
+    @Override
+    public List<Product> findByUserId(Long userId) {
+        List<ProductEntity> productEntityList = jpaRepository.findByUserId(userId);
+
+        return productEntityList.stream()
+            .map(entity -> new Product(entity.getName(), entity.getDescription(), entity.getPrice(),
+                    entity.getUserId()))
+            .toList();
+
     }
 
 }
