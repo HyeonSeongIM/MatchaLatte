@@ -2,6 +2,8 @@ package project.matchalatte.core.domain.product;
 
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductService {
 
@@ -26,7 +28,7 @@ public class ProductService {
     }
 
     public Product readProductById(Long id) {
-        return productReader.readProductById(id);
+        return productReader.readProductByProductId(id);
     }
 
     public Product updateProduct(Long productId, String name, String description, Long price, Long userId) {
@@ -35,6 +37,10 @@ public class ProductService {
 
     public void deleteProductById(Long productId, Long userId) {
         productDeleter.deleteById(productId, userId);
+    }
+
+    public List<Product> readProductsByUserId(Long userId) {
+        return productReader.readProductsByUserId(userId);
     }
 
 }

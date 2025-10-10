@@ -14,6 +14,8 @@ import project.matchalatte.core.support.response.ApiResponse;
 import project.matchalatte.support.logging.LogData;
 import project.matchalatte.support.logging.UserIdContext;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/product")
 public class ProductController {
@@ -60,6 +62,17 @@ public class ProductController {
         productService.deleteProductById(productId, userId);
         log.info("{}", LogData.of("상품 삭제", "상품 삭제 API 처리완료"));
         return ApiResponse.success(null);
+    }
+
+    @GetMapping("/user/{userId}")
+    public ApiResponse<List<ProductReadResponse>> readProductsByUserId(@PathVariable("userId") Long userId) {
+        log.info("{}", LogData.of("특정 유저에 따른 상품 목록 조회", "유저에 따른 상품 목록 조회 API 처리시작"));
+        List<Product> result = productService.readProductsByUserId(userId);
+        List<ProductReadResponse> responseData = result.stream()
+            .map(product -> new ProductReadResponse(product.name(), product.description(), product.price()))
+            .toList();
+        log.info("{}", LogData.of("특정 유저에 따른 상품 목록 조회", "유저에 따른 상품 목록 조회 API 처리완료"));
+        return ApiResponse.success(responseData);
     }
 
 }
