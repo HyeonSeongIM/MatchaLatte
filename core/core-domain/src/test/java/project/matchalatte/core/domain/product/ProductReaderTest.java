@@ -84,6 +84,9 @@ class ProductReaderTest {
 
         given(productRepository.findAll()).willReturn(products);
 
+        int page = 0;
+        int size = 4;
+
         // when
         List<Product> productList = productReader.readAllProducts();
 
