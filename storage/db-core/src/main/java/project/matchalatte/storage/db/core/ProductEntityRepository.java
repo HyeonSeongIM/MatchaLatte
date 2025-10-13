@@ -94,7 +94,7 @@ public class ProductEntityRepository implements ProductRepository {
     public List<Product> findProductsSlice(int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
 
-        Slice<ProductEntity> productEntitySlice = jpaRepository.findAll(pageable);
+        Slice<ProductEntity> productEntitySlice = jpaRepository.findAllBy(pageable);
 
         List<ProductEntity> productEntityList = productEntitySlice.getContent();
 
