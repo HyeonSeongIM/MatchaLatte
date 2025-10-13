@@ -47,4 +47,8 @@ public class ProductService {
         return productReader.readAllProducts();
     }
 
+    public List<Product> readProductsPageable(int page, int size) {
+        return productReader.readProductsPageable(page, size);
+    }
+
 }

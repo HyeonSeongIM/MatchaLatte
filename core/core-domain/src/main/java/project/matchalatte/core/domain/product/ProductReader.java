@@ -25,4 +25,8 @@ public class ProductReader {
         return productRepository.findAll();
     }
 
+    public List<Product> readProductsPageable(int page, int size) {
+        return productRepository.findProductsPageable(page, size);
+    }
+
 }

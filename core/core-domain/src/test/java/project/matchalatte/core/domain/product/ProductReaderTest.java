@@ -92,7 +92,6 @@ class ProductReaderTest {
         assertThat(productList.size()).isEqualTo(4);
         verify(productRepository, times(1)).findAll();
 
-
     }
 
 }

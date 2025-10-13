@@ -16,4 +16,6 @@ public interface ProductRepository {
 
     List<Product> findAll();
 
+    List<Product> findProductsPageable(int size, int page);
+
 }
