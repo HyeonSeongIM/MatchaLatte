@@ -168,4 +168,24 @@ class ProductControllerTest {
             .andExpect(jsonPath("$.error").value(nullValue()));
     }
 
+    @Test
+    @DisplayName("전체 상품 목록 조회")
+    void readAllProducts_API() throws Exception {
+        // given
+        List<Product> productList = List.of(new Product("상품 1", "입니다.", 5000L, 1L),
+                new Product("상품 2", "입니다.", 6000L, 1L), new Product("상품 3", "입니다.", 7000L, 2L));
+
+        given(productService.readAllProducts()).willReturn(productList);
+
+        // when & then
+        mockMvc.perform(get("/api/v1/product/list").contentType(MediaType.APPLICATION_JSON).with(csrf()))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.result").value("SUCCESS"))
+                .andExpect(jsonPath("$.data.[0].name").value("상품 1"))
+                .andExpect(jsonPath("$.data.[0].description").value("입니다."))
+                .andExpect(jsonPath("$.data.[0].price").value(5000L))
+                .andExpect(jsonPath("$.error").value(nullValue()));
+    }
+
 }

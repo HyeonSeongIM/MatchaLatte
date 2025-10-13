@@ -21,4 +21,8 @@ public class ProductReader {
         return productRepository.findByUserId(userId);
     }
 
+    public List<Product> readAllProducts() {
+        return productRepository.findAll();
+    }
+
 }

@@ -14,4 +14,6 @@ public interface ProductRepository {
 
     List<Product> findByUserId(Long userId);
 
+    List<Product> findAll();
+
 }

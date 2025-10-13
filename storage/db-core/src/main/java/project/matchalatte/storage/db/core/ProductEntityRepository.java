@@ -19,7 +19,7 @@ public class ProductEntityRepository implements ProductRepository {
     @Override
     public Product save(Product product) {
         ProductEntity productEntity = jpaRepository
-            .save(new ProductEntity(product.name(), product.description(), product.price(), product.userId()));
+                .save(new ProductEntity(product.name(), product.description(), product.price(), product.userId()));
 
         return new Product(productEntity.getName(), productEntity.getDescription(), productEntity.getPrice(),
                 productEntity.getUserId());
@@ -28,7 +28,7 @@ public class ProductEntityRepository implements ProductRepository {
     @Override
     public Product findById(Long id) {
         ProductEntity productEntity = jpaRepository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("Product not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Product not found"));
 
         return new Product(productEntity.getName(), productEntity.getDescription(), productEntity.getPrice(),
                 productEntity.getUserId());
@@ -38,7 +38,7 @@ public class ProductEntityRepository implements ProductRepository {
     @Override
     public Product update(Long id, Product newProduct) {
         ProductEntity productEntity = jpaRepository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("Product not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Product not found"));
 
         productEntity.setName(newProduct.name());
         productEntity.setDescription(newProduct.description());
@@ -51,7 +51,7 @@ public class ProductEntityRepository implements ProductRepository {
     @Override
     public void deleteById(Long id) {
         ProductEntity productEntity = jpaRepository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("Product not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Product not found"));
 
         jpaRepository.delete(productEntity);
     }
@@ -61,10 +61,18 @@ public class ProductEntityRepository implements ProductRepository {
         List<ProductEntity> productEntityList = jpaRepository.findByUserId(userId);
 
         return productEntityList.stream()
-            .map(entity -> new Product(entity.getName(), entity.getDescription(), entity.getPrice(),
-                    entity.getUserId()))
-            .toList();
+                .map(entity -> new Product(entity.getName(), entity.getDescription(), entity.getPrice(),
+                        entity.getUserId()))
+                .toList();
 
+    }
+
+    @Override
+    public List<Product> findAll() {
+        List<ProductEntity> productEntityList = jpaRepository.findAll();
+
+        return productEntityList.stream()
+                .map(entity -> new Product(entity.getName(), entity.getDescription(), entity.getPrice(), entity.getId())).toList();
     }
 
 }
