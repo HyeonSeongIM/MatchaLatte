@@ -1,9 +1,6 @@
 package project.matchalatte.storage.db.core;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import project.matchalatte.core.domain.product.Product;
@@ -87,6 +84,19 @@ public class ProductEntityRepository implements ProductRepository {
         Page<ProductEntity> productEntityPage = jpaRepository.findAll(pageable);
 
         List<ProductEntity> productEntityList = productEntityPage.getContent();
+
+        return productEntityList.stream()
+            .map(entity -> new Product(entity.getName(), entity.getDescription(), entity.getPrice(), entity.getId()))
+            .toList();
+    }
+
+    @Override
+    public List<Product> findProductsSlice(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+
+        Slice<ProductEntity> productEntitySlice = jpaRepository.findAll(pageable);
+
+        List<ProductEntity> productEntityList = productEntitySlice.getContent();
 
         return productEntityList.stream()
             .map(entity -> new Product(entity.getName(), entity.getDescription(), entity.getPrice(), entity.getId()))

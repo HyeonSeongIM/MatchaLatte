@@ -18,4 +18,6 @@ public interface ProductRepository {
 
     List<Product> findProductsPageable(int size, int page);
 
+    List<Product> findProductsSlice(int size, int page);
+
 }
