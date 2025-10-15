@@ -6,6 +6,6 @@ public enum ErrorCode {
 
     E404,
 
-    E403
+    E400, E403
 
 }

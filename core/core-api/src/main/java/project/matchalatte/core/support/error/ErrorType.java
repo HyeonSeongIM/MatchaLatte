@@ -11,7 +11,9 @@ public enum ErrorType {
     PRODUCT_NOT_FOUND(HttpStatus.NOT_FOUND, ErrorCode.E404, "Product not found.", LogLevel.WARN),
 
     MATCH_NOT_USER(HttpStatus.FORBIDDEN, ErrorCode.E403, "User does not have permission for this product.",
-            LogLevel.WARN);
+            LogLevel.WARN),
+
+    VALID_ERROR(HttpStatus.BAD_REQUEST, ErrorCode.E400, "It is Bad Request.", LogLevel.ERROR),;
 
     private final HttpStatus status;
 

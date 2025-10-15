@@ -1,5 +1,6 @@
 package project.matchalatte.core.api.controller.v1;
 
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +31,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public ApiResponse<ProductCreateResponse> createProduct(@RequestBody ProductCreateRequest request) {
+    public ApiResponse<ProductCreateResponse> createProduct(@Valid @RequestBody ProductCreateRequest request) {
         log.info("{}", LogData.of("상품 생성", "상품 생성 API 처리시작"));
         Product result = productService.createProduct(request.name(), request.description(), request.price(),
                 UserIdContext.getCurrentUserId());
@@ -47,7 +48,7 @@ public class ProductController {
 
     @PutMapping("/{id}")
     public ApiResponse<ProductUpdateResponse> updateProduct(@PathVariable("id") Long id,
-            @RequestBody ProductUpdateRequest request) {
+            @Valid @RequestBody ProductUpdateRequest request) {
         log.info("{}", LogData.of("상품 수정", "상품 수정 API 처리시작"));
         Product result = productService.updateProduct(id, request.name(), request.description(), request.price(),
                 UserIdContext.getCurrentUserId());
