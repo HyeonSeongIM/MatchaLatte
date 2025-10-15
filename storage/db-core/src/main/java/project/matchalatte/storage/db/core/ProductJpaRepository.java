@@ -15,4 +15,7 @@ public interface ProductJpaRepository extends JpaRepository<ProductEntity, Long>
 
     Slice<ProductEntity> findAllBy(Pageable pageable);
 
+    @Query("SELECT p FROM ProductEntity p WHERE p.name LIKE CONCAT(:keyword, '%')")
+    Slice<ProductEntity> findProductsByKeyword(String keyword, Pageable pageable);
+
 }

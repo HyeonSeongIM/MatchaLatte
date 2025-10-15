@@ -29,8 +29,12 @@ public class ProductReader {
         return productRepository.findProductsPageable(page, size);
     }
 
-    public List<Product> readProductsSlice(int page, int size) {
-        return productRepository.findProductsSlice(page, size);
+    public List<Product> readProductsSlice(int page, int size, String sortType, String direction) {
+        return productRepository.findProductsSlice(page, size, sortType, direction);
+    }
+
+    public List<Product> findProductByCondition(String keyword, int page, int size) {
+        return productRepository.findProductsByKeyword(keyword, page, size);
     }
 
 }

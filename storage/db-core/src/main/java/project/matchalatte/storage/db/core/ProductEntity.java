@@ -1,10 +1,11 @@
 package project.matchalatte.storage.db.core;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "product")
+@Table(name = "products", indexes = @Index(name = "idx_product_name", columnList = "name"))
 public class ProductEntity extends BaseEntity {
 
     private String name;
