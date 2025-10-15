@@ -55,4 +55,8 @@ public class ProductService {
         return productReader.readProductsSlice(page, size);
     }
 
+    public List<Product> findProductsByName(String name, int page, int size) {
+        return productReader.findProductByCondition(name, page, size);
+    }
+
 }

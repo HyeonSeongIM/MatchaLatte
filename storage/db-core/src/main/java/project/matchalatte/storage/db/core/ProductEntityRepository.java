@@ -103,4 +103,17 @@ public class ProductEntityRepository implements ProductRepository {
             .toList();
     }
 
+    @Override
+    public List<Product> findProductsByKeyword(String keyword, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+
+        Slice<ProductEntity> productEntitySlice = jpaRepository.findProductsByKeyword(keyword, pageable);
+
+        List<ProductEntity> productEntityList = productEntitySlice.getContent();
+
+        return productEntityList.stream()
+            .map(entity -> new Product(entity.getName(), entity.getDescription(), entity.getPrice(), entity.getId()))
+            .toList();
+    }
+
 }

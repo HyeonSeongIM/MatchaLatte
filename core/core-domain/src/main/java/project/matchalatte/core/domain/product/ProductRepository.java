@@ -20,4 +20,6 @@ public interface ProductRepository {
 
     List<Product> findProductsSlice(int size, int page);
 
+    List<Product> findProductsByKeyword(String keyword, int page, int size);
+
 }

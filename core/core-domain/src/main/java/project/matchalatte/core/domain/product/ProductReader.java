@@ -33,4 +33,8 @@ public class ProductReader {
         return productRepository.findProductsSlice(page, size);
     }
 
+    public List<Product> findProductByCondition(String keyword, int page, int size) {
+        return productRepository.findProductsByKeyword(keyword, page, size);
+    }
+
 }
