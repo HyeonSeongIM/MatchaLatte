@@ -73,6 +73,22 @@ class ProductControllerTest {
     }
 
     @Test
+    @DisplayName("상품 생성 유호성 검증")
+    void productCreate_API_validName() throws Exception {
+        // given
+        ProductCreateRequest createRequest = new ProductCreateRequest("", "아메리카노 원두 팔아요", 35000L);
+
+        // when & then
+        mockMvc
+            .perform(post("/api/v1/product").contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(createRequest))
+                .with(csrf()))
+            .andDo(print())
+            .andExpect(status().isBadRequest());
+
+    }
+
+    @Test
     @DisplayName("상품 단건 읽기 API 정상 테스트")
     void productRead_API() throws Exception {
         // given
