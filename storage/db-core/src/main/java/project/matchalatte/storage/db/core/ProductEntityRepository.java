@@ -91,8 +91,12 @@ public class ProductEntityRepository implements ProductRepository {
     }
 
     @Override
-    public List<Product> findProductsSlice(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+    public List<Product> findProductsSlice(int page, int size, String sortType, String direction) {
+        Sort.Direction sortDirection = "desc".equalsIgnoreCase(direction) ? Sort.Direction.DESC : Sort.Direction.ASC;
+
+        Sort sort = Sort.by(sortDirection, sortType);
+
+        Pageable pageable = PageRequest.of(page, size, sort);
 
         Slice<ProductEntity> productEntitySlice = jpaRepository.findAllBy(pageable);
 

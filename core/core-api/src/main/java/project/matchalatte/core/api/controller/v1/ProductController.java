@@ -3,6 +3,7 @@ package project.matchalatte.core.api.controller.v1;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
+import project.matchalatte.core.api.controller.v1.request.PageInfo;
 import project.matchalatte.core.api.controller.v1.request.ProductCreateRequest;
 import project.matchalatte.core.api.controller.v1.request.ProductUpdateRequest;
 import project.matchalatte.core.api.controller.v1.response.ProductCreateResponse;
@@ -99,9 +100,10 @@ public class ProductController {
     }
 
     @GetMapping("/listss")
-    public ApiResponse<List<ProductReadResponse>> readAllProductsSlice(@RequestParam int page, @RequestParam int size) {
+    public ApiResponse<List<ProductReadResponse>> readAllProductsSlice(PageInfo pageInfo) {
         log.info("{}", LogData.of("전체 상품 목록 조회", "전체 상품 목록 조회 API 처리시작"));
-        List<Product> result = productService.readProductsSlice(page, size);
+        List<Product> result = productService.readProductsSlice(pageInfo.page(), pageInfo.size(), pageInfo.sortType(),
+                pageInfo.direction());
         List<ProductReadResponse> responseData = result.stream()
             .map(product -> new ProductReadResponse(product.name(), product.description(), product.price()))
             .toList();

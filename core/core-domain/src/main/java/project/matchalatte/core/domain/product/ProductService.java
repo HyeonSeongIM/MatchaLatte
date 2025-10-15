@@ -51,8 +51,8 @@ public class ProductService {
         return productReader.readProductsPageable(page, size);
     }
 
-    public List<Product> readProductsSlice(int page, int size) {
-        return productReader.readProductsSlice(page, size);
+    public List<Product> readProductsSlice(int page, int size, String sortType, String direction) {
+        return productReader.readProductsSlice(page, size, sortType, direction);
     }
 
     public List<Product> findProductsByName(String name, int page, int size) {
