@@ -14,4 +14,10 @@ public interface ProductRepository {
 
     List<Product> findByUserId(Long userId);
 
+    List<Product> findAll();
+
+    List<Product> findProductsPageable(int size, int page);
+
+    List<Product> findProductsSlice(int size, int page);
+
 }

@@ -21,4 +21,16 @@ public class ProductReader {
         return productRepository.findByUserId(userId);
     }
 
+    public List<Product> readAllProducts() {
+        return productRepository.findAll();
+    }
+
+    public List<Product> readProductsPageable(int page, int size) {
+        return productRepository.findProductsPageable(page, size);
+    }
+
+    public List<Product> readProductsSlice(int page, int size) {
+        return productRepository.findProductsSlice(page, size);
+    }
+
 }

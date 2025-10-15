@@ -43,4 +43,16 @@ public class ProductService {
         return productReader.readProductsByUserId(userId);
     }
 
+    public List<Product> readAllProducts() {
+        return productReader.readAllProducts();
+    }
+
+    public List<Product> readProductsPageable(int page, int size) {
+        return productReader.readProductsPageable(page, size);
+    }
+
+    public List<Product> readProductsSlice(int page, int size) {
+        return productReader.readProductsSlice(page, size);
+    }
+
 }

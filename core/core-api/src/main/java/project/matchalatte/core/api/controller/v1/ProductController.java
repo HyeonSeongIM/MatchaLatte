@@ -75,4 +75,38 @@ public class ProductController {
         return ApiResponse.success(responseData);
     }
 
+    @GetMapping("/list")
+    public ApiResponse<List<ProductReadResponse>> readAllProducts() {
+        log.info("{}", LogData.of("전체 상품 목록 조회", "전체 상품 목록 조회 API 처리시작"));
+        List<Product> result = productService.readAllProducts();
+        List<ProductReadResponse> responseData = result.stream()
+            .map(product -> new ProductReadResponse(product.name(), product.description(), product.price()))
+            .toList();
+        log.info("{}", LogData.of("전체 상품 목록 조회", "전체 상품 목록 조회 API 처리완료"));
+        return ApiResponse.success(responseData);
+    }
+
+    @GetMapping("/lists")
+    public ApiResponse<List<ProductReadResponse>> readAllProductsByPageable(@RequestParam int page,
+            @RequestParam int size) {
+        log.info("{}", LogData.of("전체 상품 목록 조회", "전체 상품 목록 조회 API 처리시작"));
+        List<Product> result = productService.readProductsPageable(page, size);
+        List<ProductReadResponse> responseData = result.stream()
+            .map(product -> new ProductReadResponse(product.name(), product.description(), product.price()))
+            .toList();
+        log.info("{}", LogData.of("전체 상품 목록 조회", "전체 상품 목록 조회 API 처리완료"));
+        return ApiResponse.success(responseData);
+    }
+
+    @GetMapping("/listss")
+    public ApiResponse<List<ProductReadResponse>> readAllProductsSlice(@RequestParam int page, @RequestParam int size) {
+        log.info("{}", LogData.of("전체 상품 목록 조회", "전체 상품 목록 조회 API 처리시작"));
+        List<Product> result = productService.readProductsSlice(page, size);
+        List<ProductReadResponse> responseData = result.stream()
+            .map(product -> new ProductReadResponse(product.name(), product.description(), product.price()))
+            .toList();
+        log.info("{}", LogData.of("전체 상품 목록 조회", "전체 상품 목록 조회 API 처리완료"));
+        return ApiResponse.success(responseData);
+    }
+
 }
