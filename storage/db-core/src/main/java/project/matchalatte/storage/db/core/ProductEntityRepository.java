@@ -13,8 +13,12 @@ public class ProductEntityRepository implements ProductRepository {
 
     private final ProductJpaRepository jpaRepository;
 
-    public ProductEntityRepository(ProductJpaRepository jpaRepository) {
+    private final ProductJpaQueryRepository productJpaQueryRepository;
+
+    public ProductEntityRepository(ProductJpaRepository jpaRepository,
+            ProductJpaQueryRepository productJpaQueryRepository) {
         this.jpaRepository = jpaRepository;
+        this.productJpaQueryRepository = productJpaQueryRepository;
     }
 
     @Override
