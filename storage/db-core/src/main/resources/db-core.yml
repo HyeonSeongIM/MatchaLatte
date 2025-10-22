@@ -70,6 +70,18 @@ storage:
 ---
 spring.config.activate.on-profile: dev
 
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+  h2:
+    console:
+      enabled: true
+
 storage:
   datasource:
     core:
