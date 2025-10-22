@@ -48,6 +48,8 @@ public class SecurityConfig {
                 .permitAll()
                 .requestMatchers("/metrics")
                 .permitAll()
+                .requestMatchers("/actuator/**")
+                .permitAll()
                 .requestMatchers("/admin")
                 .hasRole("ADMIN")
                 .anyRequest()
