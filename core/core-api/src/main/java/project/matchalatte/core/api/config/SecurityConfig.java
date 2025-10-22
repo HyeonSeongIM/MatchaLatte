@@ -46,6 +46,8 @@ public class SecurityConfig {
                 .permitAll()
                 .requestMatchers("/api/v1/user/signIn")
                 .permitAll()
+                .requestMatchers("/metrics")
+                .permitAll()
                 .requestMatchers("/admin")
                 .hasRole("ADMIN")
                 .anyRequest()
