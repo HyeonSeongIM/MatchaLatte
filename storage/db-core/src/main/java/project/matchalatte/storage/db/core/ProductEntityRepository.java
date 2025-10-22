@@ -5,6 +5,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import project.matchalatte.core.domain.product.Product;
 import project.matchalatte.core.domain.product.ProductRepository;
+import project.matchalatte.core.domain.product.support.Page;
+import project.matchalatte.storage.db.core.support.OffsetLimit;
 
 import java.util.List;
 
@@ -13,8 +15,12 @@ public class ProductEntityRepository implements ProductRepository {
 
     private final ProductJpaRepository jpaRepository;
 
-    public ProductEntityRepository(ProductJpaRepository jpaRepository) {
+    private final ProductJpaQueryRepository jpaQueryRepository;
+
+    public ProductEntityRepository(ProductJpaRepository jpaRepository,
+            ProductJpaQueryRepository productJpaQueryRepository) {
         this.jpaRepository = jpaRepository;
+        this.jpaQueryRepository = productJpaQueryRepository;
     }
 
     @Override
@@ -78,16 +84,14 @@ public class ProductEntityRepository implements ProductRepository {
     }
 
     @Override
-    public List<Product> findProductsPageable(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+    public Page findProductsPageable(int offset, int limit) {
+        Pageable offsetLimit = OffsetLimit.toPageable(offset, limit);
 
-        Page<ProductEntity> productEntityPage = jpaRepository.findAll(pageable);
+        List<ProductEntity> products = jpaQueryRepository.findProducts(offsetLimit);
 
-        List<ProductEntity> productEntityList = productEntityPage.getContent();
+        Long totalCount = jpaQueryRepository.countAllProducts();
 
-        return productEntityList.stream()
-            .map(entity -> new Product(entity.getName(), entity.getDescription(), entity.getPrice(), entity.getId()))
-            .toList();
+        return new Page(products, totalCount, totalCount / limit);
     }
 
     @Override

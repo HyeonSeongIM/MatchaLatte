@@ -81,4 +81,8 @@ subprojects {
         dependsOn test
     }
 
+    tasks.named('checkFormatMain') {
+        dependsOn tasks.named('compileJava')
+    }
+
 }

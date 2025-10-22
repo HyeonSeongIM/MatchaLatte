@@ -1,5 +1,7 @@
 package project.matchalatte.core.domain.product;
 
+import project.matchalatte.core.domain.product.support.Page;
+
 import java.util.List;
 
 public interface ProductRepository {
@@ -16,7 +18,7 @@ public interface ProductRepository {
 
     List<Product> findAll();
 
-    List<Product> findProductsPageable(int size, int page);
+    Page findProductsPageable(int size, int page);
 
     List<Product> findProductsSlice(int size, int page, String sortType, String direction);
 
