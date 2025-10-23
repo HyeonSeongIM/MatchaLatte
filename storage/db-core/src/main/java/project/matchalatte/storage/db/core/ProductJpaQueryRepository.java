@@ -31,7 +31,8 @@ public class ProductJpaQueryRepository {
             .from(productEntity)
             .offset(pageable.getOffset())
             .limit(pageable.getPageSize())
-            .orderBy(productEntity.createdAt.desc())
+            .orderBy(productEntity.createdAt.desc(),
+                    productEntity.id.desc())
             .fetch();
     }
 
