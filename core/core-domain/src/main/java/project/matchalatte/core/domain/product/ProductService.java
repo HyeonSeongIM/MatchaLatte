@@ -49,8 +49,8 @@ public class ProductService {
         return productReader.readAllProducts();
     }
 
-    public Page readProductsPageable(int offset, int limit) {
-        return productReader.readProductsPageable(offset, limit);
+    public Page readProductsPage(int offset, int limit) {
+        return productReader.readProductsPage(offset, limit);
     }
 
     public Slice readProductsSlice(int offset, int limit) {

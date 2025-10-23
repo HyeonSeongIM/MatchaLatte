@@ -93,7 +93,7 @@ public class ProductController {
     @GetMapping("/lists")
     public ApiResponse<Page> readAllProductsByPageable(@RequestParam int offset, @RequestParam int limit) {
         log.info("{}", LogData.of("전체 상품 목록 조회", "전체 상품 목록 조회 API 처리시작"));
-        Page result = productService.readProductsPageable(offset, limit);
+        Page result = productService.readProductsPage(offset, limit);
         log.info("{}", LogData.of("전체 상품 목록 조회", "전체 상품 목록 조회 API 처리완료"));
         return ApiResponse.success(result);
     }

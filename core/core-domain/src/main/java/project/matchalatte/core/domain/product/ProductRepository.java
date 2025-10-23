@@ -18,9 +18,9 @@ public interface ProductRepository {
 
     List<Product> findAll();
 
-    Page findProductsPageable(int size, int page);
-
     List<Product> findProducts(int offset, int limit);
+
+    long countTotal();
 
     List<Product> findProductsByKeyword(String keyword, int page, int size);
 

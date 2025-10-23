@@ -27,8 +27,14 @@ public class ProductReader {
         return productRepository.findAll();
     }
 
-    public Page readProductsPageable(int offset, int limit) {
-        return productRepository.findProductsPageable(offset, limit);
+    public Page readProductsPage(int offset, int limit) {
+        List<Product> products = productRepository.findProducts(offset, limit);
+
+        long countTotal = productRepository.countTotal();
+
+        long totalPages = countTotal / limit + (countTotal % limit == 0 ? 0 : 1);
+
+        return new Page(products, countTotal, totalPages);
     }
 
     public Slice readProductsSlice(int offset, int limit) {

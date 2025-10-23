@@ -84,14 +84,8 @@ public class ProductEntityRepository implements ProductRepository {
     }
 
     @Override
-    public Page findProductsPageable(int offset, int limit) {
-        Pageable offsetLimit = OffsetLimit.toPageable(offset, limit);
-
-        List<ProductEntity> products = jpaQueryRepository.findProducts(offsetLimit);
-
-        Long totalCount = jpaQueryRepository.countAllProducts();
-
-        return new Page(products, totalCount, totalCount / limit);
+    public long countTotal() {
+        return jpaQueryRepository.countAllProducts();
     }
 
     @Override
