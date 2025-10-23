@@ -20,7 +20,7 @@ public interface ProductRepository {
 
     Page findProductsPageable(int size, int page);
 
-    List<Product> findProductsSlice(int size, int page, String sortType, String direction);
+    List<Product> findProducts(int offset, int limit);
 
     List<Product> findProductsByKeyword(String keyword, int page, int size);
 

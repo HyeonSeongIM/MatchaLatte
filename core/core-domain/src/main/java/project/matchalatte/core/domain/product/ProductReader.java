@@ -2,6 +2,7 @@ package project.matchalatte.core.domain.product;
 
 import org.springframework.stereotype.Component;
 import project.matchalatte.core.domain.product.support.Page;
+import project.matchalatte.core.domain.product.support.Slice;
 
 import java.util.List;
 
@@ -30,8 +31,18 @@ public class ProductReader {
         return productRepository.findProductsPageable(offset, limit);
     }
 
-    public List<Product> readProductsSlice(int page, int size, String sortType, String direction) {
-        return productRepository.findProductsSlice(page, size, sortType, direction);
+    public Slice readProductsSlice(int offset, int limit) {
+        List<Product> products = productRepository.findProducts(offset, limit + 1);
+
+        boolean hasNext = false;
+
+        if (products.size() > limit) {
+            hasNext = true;
+
+            products.remove(limit);
+        }
+
+        return new Slice(products, hasNext);
     }
 
     public List<Product> findProductByCondition(String keyword, int page, int size) {
