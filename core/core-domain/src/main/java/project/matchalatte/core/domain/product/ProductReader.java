@@ -1,5 +1,6 @@
 package project.matchalatte.core.domain.product;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 import project.matchalatte.core.domain.product.support.Page;
 import project.matchalatte.core.domain.product.support.Slice;
@@ -11,8 +12,11 @@ public class ProductReader {
 
     private final ProductRepository productRepository;
 
-    public ProductReader(ProductRepository productRepository) {
+    private final ProductCounter productCounter;
+
+    public ProductReader(ProductRepository productRepository, ProductCounter productCounter) {
         this.productRepository = productRepository;
+        this.productCounter = productCounter;
     }
 
     public Product readProductByProductId(Long id) {
@@ -30,11 +34,11 @@ public class ProductReader {
     public Page readProductsPage(int offset, int limit) {
         List<Product> products = productRepository.findProducts(offset, limit);
 
-        long countTotal = productRepository.countTotal();
+        long totalCount = productCounter.getTotalCount();
 
-        long totalPages = countTotal / limit + (countTotal % limit == 0 ? 0 : 1);
+        long totalPages = totalCount / limit + (totalCount % limit == 0 ? 0 : 1);
 
-        return new Page(products, countTotal, totalPages);
+        return new Page(products, totalCount, totalPages);
     }
 
     public Slice readProductsSlice(int offset, int limit) {
