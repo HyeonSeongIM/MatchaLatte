@@ -84,27 +84,15 @@ public class ProductEntityRepository implements ProductRepository {
     }
 
     @Override
-    public Page findProductsPageable(int offset, int limit) {
-        Pageable offsetLimit = OffsetLimit.toPageable(offset, limit);
-
-        List<ProductEntity> products = jpaQueryRepository.findProducts(offsetLimit);
-
-        Long totalCount = jpaQueryRepository.countAllProducts();
-
-        return new Page(products, totalCount, totalCount / limit);
+    public long countTotal() {
+        return jpaQueryRepository.countAllProducts();
     }
 
     @Override
-    public List<Product> findProductsSlice(int page, int size, String sortType, String direction) {
-        Sort.Direction sortDirection = "desc".equalsIgnoreCase(direction) ? Sort.Direction.DESC : Sort.Direction.ASC;
+    public List<Product> findProducts(int offset, int limit) {
+        Pageable offsetLimit = OffsetLimit.toPageable(offset, limit);
 
-        Sort sort = Sort.by(sortDirection, sortType);
-
-        Pageable pageable = PageRequest.of(page, size, sort);
-
-        Slice<ProductEntity> productEntitySlice = jpaRepository.findAllBy(pageable);
-
-        List<ProductEntity> productEntityList = productEntitySlice.getContent();
+        List<ProductEntity> productEntityList = jpaQueryRepository.findProducts(offsetLimit);
 
         return productEntityList.stream()
             .map(entity -> new Product(entity.getName(), entity.getDescription(), entity.getPrice(), entity.getId()))

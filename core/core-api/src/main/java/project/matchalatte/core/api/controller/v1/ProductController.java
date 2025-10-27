@@ -13,6 +13,7 @@ import project.matchalatte.core.api.controller.v1.response.ProductUpdateResponse
 import project.matchalatte.core.domain.product.Product;
 import project.matchalatte.core.domain.product.ProductService;
 import project.matchalatte.core.domain.product.support.Page;
+import project.matchalatte.core.domain.product.support.Slice;
 import project.matchalatte.core.support.response.ApiResponse;
 import project.matchalatte.support.logging.LogData;
 import project.matchalatte.support.logging.UserIdContext;
@@ -92,21 +93,17 @@ public class ProductController {
     @GetMapping("/lists")
     public ApiResponse<Page> readAllProductsByPageable(@RequestParam int offset, @RequestParam int limit) {
         log.info("{}", LogData.of("전체 상품 목록 조회", "전체 상품 목록 조회 API 처리시작"));
-        Page result = productService.readProductsPageable(offset, limit);
+        Page result = productService.readProductsPage(offset, limit);
         log.info("{}", LogData.of("전체 상품 목록 조회", "전체 상품 목록 조회 API 처리완료"));
         return ApiResponse.success(result);
     }
 
     @GetMapping("/listss")
-    public ApiResponse<List<ProductReadResponse>> readAllProductsSlice(PageInfo pageInfo) {
+    public ApiResponse<Slice> readAllProductsSlice(@RequestParam int offset, @RequestParam int limit) {
         log.info("{}", LogData.of("전체 상품 목록 조회", "전체 상품 목록 조회 API 처리시작"));
-        List<Product> result = productService.readProductsSlice(pageInfo.page(), pageInfo.size(), pageInfo.sortType(),
-                pageInfo.direction());
-        List<ProductReadResponse> responseData = result.stream()
-            .map(product -> new ProductReadResponse(product.name(), product.description(), product.price()))
-            .toList();
+        Slice result = productService.readProductsSlice(offset, limit);
         log.info("{}", LogData.of("전체 상품 목록 조회", "전체 상품 목록 조회 API 처리완료"));
-        return ApiResponse.success(responseData);
+        return ApiResponse.success(result);
     }
 
     @GetMapping("/search")

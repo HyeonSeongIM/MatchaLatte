@@ -2,6 +2,7 @@ package project.matchalatte.core.domain.product;
 
 import org.springframework.stereotype.Service;
 import project.matchalatte.core.domain.product.support.Page;
+import project.matchalatte.core.domain.product.support.Slice;
 
 import java.util.List;
 
@@ -48,12 +49,12 @@ public class ProductService {
         return productReader.readAllProducts();
     }
 
-    public Page readProductsPageable(int offset, int limit) {
-        return productReader.readProductsPageable(offset, limit);
+    public Page readProductsPage(int offset, int limit) {
+        return productReader.readProductsPage(offset, limit);
     }
 
-    public List<Product> readProductsSlice(int page, int size, String sortType, String direction) {
-        return productReader.readProductsSlice(page, size, sortType, direction);
+    public Slice readProductsSlice(int offset, int limit) {
+        return productReader.readProductsSlice(offset, limit);
     }
 
     public List<Product> findProductsByName(String name, int page, int size) {
