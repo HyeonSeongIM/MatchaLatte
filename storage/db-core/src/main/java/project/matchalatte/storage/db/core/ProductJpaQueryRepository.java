@@ -1,5 +1,6 @@
 package project.matchalatte.storage.db.core;
 
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -32,6 +33,27 @@ public class ProductJpaQueryRepository {
             .offset(pageable.getOffset())
             .limit(pageable.getPageSize())
             .orderBy(productEntity.createdAt.desc())
+            .fetch();
+    }
+
+    public List<ProductEntity> findProductsNoOffsetNotNull(int limit, Long lastId) {
+        QProductEntity productEntity = QProductEntity.productEntity;
+
+        return queryFactory.select(productEntity)
+            .from(productEntity)
+            .where(productEntity.id.lt(lastId))
+            .limit(limit)
+            .orderBy(productEntity.id.desc())
+            .fetch();
+    }
+
+    public List<ProductEntity> findProductsNoOffsetNull(int limit) {
+        QProductEntity productEntity = QProductEntity.productEntity;
+
+        return queryFactory.select(productEntity)
+            .from(productEntity)
+            .limit(limit)
+            .orderBy(productEntity.id.desc())
             .fetch();
     }
 

@@ -1,7 +1,5 @@
 package project.matchalatte.core.domain.product;
 
-import project.matchalatte.core.domain.product.support.Page;
-
 import java.util.List;
 
 public interface ProductRepository {
@@ -21,6 +19,10 @@ public interface ProductRepository {
     List<Product> findProducts(int offset, int limit);
 
     long countTotal();
+
+    List<Product> findProductsNoOffsetNotNull(int limit, Long lastId);
+
+    List<Product> findProductsNoOffsetNull(int limit);
 
     List<Product> findProductsByKeyword(String keyword, int page, int size);
 
