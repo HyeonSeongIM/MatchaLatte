@@ -57,6 +57,10 @@ public class ProductService {
         return productReader.readProductsSlice(offset, limit);
     }
 
+    public Slice readProductsSliceNoOffset(int limit, Long lastId) {
+        return productReader.readProductsSliceNoOffset(limit, lastId);
+    }
+
     public List<Product> findProductsByName(String name, int page, int size) {
         return productReader.findProductByCondition(name, page, size);
     }

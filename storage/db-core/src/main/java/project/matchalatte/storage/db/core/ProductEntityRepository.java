@@ -1,11 +1,13 @@
 package project.matchalatte.storage.db.core;
 
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import project.matchalatte.core.domain.product.Product;
 import project.matchalatte.core.domain.product.ProductRepository;
-import project.matchalatte.core.domain.product.support.Page;
 import project.matchalatte.storage.db.core.support.OffsetLimit;
 
 import java.util.List;
@@ -93,6 +95,24 @@ public class ProductEntityRepository implements ProductRepository {
         Pageable offsetLimit = OffsetLimit.toPageable(offset, limit);
 
         List<ProductEntity> productEntityList = jpaQueryRepository.findProducts(offsetLimit);
+
+        return productEntityList.stream()
+            .map(entity -> new Product(entity.getName(), entity.getDescription(), entity.getPrice(), entity.getId()))
+            .toList();
+    }
+
+    @Override
+    public List<Product> findProductsNoOffsetNotNull(int limit, Long lastId) {
+        List<ProductEntity> productEntityList = jpaQueryRepository.findProductsNoOffsetNotNull(limit, lastId);
+
+        return productEntityList.stream()
+            .map(entity -> new Product(entity.getName(), entity.getDescription(), entity.getPrice(), entity.getId()))
+            .toList();
+    }
+
+    @Override
+    public List<Product> findProductsNoOffsetNull(int limit) {
+        List<ProductEntity> productEntityList = jpaQueryRepository.findProductsNoOffsetNull(limit);
 
         return productEntityList.stream()
             .map(entity -> new Product(entity.getName(), entity.getDescription(), entity.getPrice(), entity.getId()))
