@@ -1,5 +1,6 @@
 name: CD
 
+### develop 에 커밋들을 올리고 main에 하나의 이슈를 올리기
 on:
   push:
     branches:
