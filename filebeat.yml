@@ -1,0 +1,24 @@
+filebeat.inputs:
+  - type: log
+    enabled: true
+    paths:
+      - /var/log/my-app-logs/*.csv
+    scan_frequency: 10s
+
+processors:
+  - dissect:
+      tokenizer: '"%{[document_id]}","%{[name]}","%{[description]}",%{[price]}'
+      field: "message"
+      target_prefix: ""
+#  - convert:
+#      fields:
+#        - {from: "price", to: "price", type: long}
+  - drop_fields:
+      fields: ["message", "log", "agent", "ecs", "host", "input"]
+
+output.elasticsearch:
+  hosts: ["${ES_URIS}"]
+  index: "products-filebeat"
+  document_id: "%{[document_id]}"
+
+  setup.template.enabled: false

@@ -1,0 +1,31 @@
+services:
+  api-server:
+    build: .
+    container_name: api-server
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    volumes:
+      - csv-logs:/app/logs
+    networks:
+      - file-net
+
+  beats:
+    image: docker.elastic.co/beats/filebeat:8.12.0
+    container_name: filebeat
+    restart: unless-stopped
+    user: root # ⭐️ 볼륨 접근 권한
+    volumes:
+      - csv-logs:/var/log/my-app-logs:ro
+      - ./filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+    networks:
+      - file-net
+
+networks:
+  file-net:
+    driver: bridge
+
+volumes:
+  csv-logs:
