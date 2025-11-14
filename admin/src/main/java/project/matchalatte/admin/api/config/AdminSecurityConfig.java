@@ -21,23 +21,16 @@ public class AdminSecurityConfig {
 
     @Bean
     public SecurityFilterChain adminFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(AbstractHttpConfigurer::disable)
+        http.csrf(AbstractHttpConfigurer::disable)
 
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
-                        .anyRequest().authenticated()
-                )
+            .authorizeHttpRequests(auth -> auth.requestMatchers("/css/**", "/js/**", "/images/**")
+                .permitAll()
+                .anyRequest()
+                .authenticated())
 
-                .formLogin(form -> form
-                        .defaultSuccessUrl("/admin/dashboard", true)
-                        .permitAll()
-                )
+            .formLogin(form -> form.defaultSuccessUrl("/admin/dashboard", true).permitAll())
 
-                .logout(logout -> logout
-                        .logoutUrl("/admin/logout")
-                        .logoutSuccessUrl("/login")
-                );
+            .logout(logout -> logout.logoutUrl("/admin/logout").logoutSuccessUrl("/login"));
 
         return http.build();
     }
@@ -53,10 +46,10 @@ public class AdminSecurityConfig {
     @Bean
     public UserDetailsService adminUserDetailsService() {
         UserDetails admin = User.builder()
-                .username("admin")
-                .password(passwordEncoder().encode("1234"))
-                .roles("ADMIN")
-                .build();
+            .username("admin")
+            .password(passwordEncoder().encode("1234"))
+            .roles("ADMIN")
+            .build();
 
         return new InMemoryUserDetailsManager(admin);
     }
@@ -65,4 +58,5 @@ public class AdminSecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 }
