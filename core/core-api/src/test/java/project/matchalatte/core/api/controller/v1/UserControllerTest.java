@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
+import project.matchalatte.core.api.controller.IntegrationTestSupport;
 import project.matchalatte.core.api.controller.v1.request.SignInRequest;
 import project.matchalatte.core.api.controller.v1.request.SignUpRequest;
 import project.matchalatte.core.domain.user.User;
@@ -44,21 +45,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Tag("restdocs")
-@WithMockUser
-@WebMvcTest(UserController.class)
 @ExtendWith({ RestDocumentationExtension.class, SpringExtension.class })
-class UserControllerTest {
+class UserControllerTest extends IntegrationTestSupport {
 
     private MockMvc mockMvc;
 
     @Autowired
     private ObjectMapper objectMapper;
-
-    @MockBean
-    private UserService userService;
-
-    @MockBean
-    private UserSecurityService userSecurityService;
 
     @BeforeEach
     void setUp(WebApplicationContext context, RestDocumentationContextProvider restDocumentation) {
