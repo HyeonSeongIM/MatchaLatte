@@ -12,8 +12,7 @@ public class ProductCreater {
     }
 
     public Product createProduct(String name, String description, Long price, Long userId) {
-        Product product = new Product(name, description, price, userId);
-
+        Product product = Product.from(name, description, price, userId);
         return productRepository.save(product);
     }
 
