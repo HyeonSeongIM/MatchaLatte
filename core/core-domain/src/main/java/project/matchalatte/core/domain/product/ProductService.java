@@ -1,5 +1,6 @@
 package project.matchalatte.core.domain.product;
 
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import project.matchalatte.core.domain.product.support.Page;
 import project.matchalatte.core.domain.product.support.Slice;
@@ -9,6 +10,8 @@ import java.util.List;
 @Service
 public class ProductService {
 
+    private final ApplicationEventPublisher applicationEventPublisher;
+
     private final ProductCreater productCreater;
 
     private final ProductReader productReader;
@@ -17,8 +20,9 @@ public class ProductService {
 
     private final ProductDeleter productDeleter;
 
-    public ProductService(ProductCreater productCreater, ProductReader productReader, ProductUpdater productUpdater,
-            ProductDeleter productDeleter) {
+    public ProductService(ApplicationEventPublisher applicationEventPublisher, ProductCreater productCreater,
+            ProductReader productReader, ProductUpdater productUpdater, ProductDeleter productDeleter) {
+        this.applicationEventPublisher = applicationEventPublisher;
         this.productCreater = productCreater;
         this.productReader = productReader;
         this.productUpdater = productUpdater;
@@ -26,7 +30,9 @@ public class ProductService {
     }
 
     public Product createProduct(String name, String description, Long price, Long userId) {
-        return productCreater.createProduct(name, description, price, userId);
+        Product product = productCreater.createProduct(name, description, price, userId);
+        applicationEventPublisher.publishEvent(new ProductCreateEvent(product.id()));
+        return product;
     }
 
     public Product readProductById(Long id) {
