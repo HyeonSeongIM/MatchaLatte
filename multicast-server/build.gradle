@@ -1,0 +1,15 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot'
+    id 'io.spring.dependency-management'
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // 3. 나중에 ES 연동할 때 필요 (일단 지금은 주석 처리해도 됨)
+    // implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
+}
