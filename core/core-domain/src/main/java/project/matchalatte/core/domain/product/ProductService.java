@@ -31,7 +31,7 @@ public class ProductService {
 
     public Product createProduct(String name, String description, Long price, Long userId) {
         Product product = productCreater.createProduct(name, description, price, userId);
-        applicationEventPublisher.publishEvent(new ProductCreateEvent(product.id()));
+        applicationEventPublisher.publishEvent(new ProductCreateEvent(product.id(), name, description, price, userId));
         return product;
     }
 

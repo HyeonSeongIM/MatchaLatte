@@ -1,8 +1,13 @@
 package project.matchalatte.service;
 
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch.core.BulkRequest;
+import co.elastic.clients.elasticsearch.core.BulkResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import project.matchalatte.presentation.ProductInfo;
+import project.matchalatte.dto.ProductInfo;
+import project.matchalatte.entity.ProductDocument;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,18 +15,20 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 @Component
+@Slf4j
 public class ProductBulkService {
 
     private final Queue<ProductInfo> buffer = new ConcurrentLinkedQueue<>();
 
-    private static final int MAX_BATCH_SIZE = 500;
+    private final ElasticsearchClient elasticsearchClient;
+
+    public ProductBulkService(ElasticsearchClient elasticsearchClient) {
+        this.elasticsearchClient = elasticsearchClient;
+    }
 
     public void add(ProductInfo productInfo) {
         buffer.add(productInfo);
-
-        if (buffer.size() >= MAX_BATCH_SIZE) {
-            flush();
-        }
+        log.info("Queue 상품 저장 완료 : {}", productInfo.id());
     }
 
     @Scheduled(fixedRate = 10000)
@@ -34,16 +41,24 @@ public class ProductBulkService {
     private void flush() {
         List<ProductInfo> batch = new ArrayList<>();
 
-        while (!buffer.isEmpty() && batch.size() < MAX_BATCH_SIZE) {
+        while (!buffer.isEmpty()) {
             batch.add(buffer.poll());
         }
 
-        if (batch.isEmpty())
-            return;
-
         try {
+            log.info("스케줄링 시작");
+            BulkRequest.Builder br = new BulkRequest.Builder();
 
-            // TODO: 여기서 ES Bulk API 호출
+            for (ProductInfo info : batch) {
+                ProductDocument doc = ProductDocument.from(info);
+
+                log.info("등록될 Product ID : {}", doc.getId());
+
+                br.operations(op -> op.index(idx -> idx.index("products").id(doc.getId().toString()).document(doc)));
+            }
+
+            BulkResponse result = elasticsearchClient.bulk(br.build());
+            log.info("스케줄링 완료 : {}", result);
 
         }
         catch (Exception e) {

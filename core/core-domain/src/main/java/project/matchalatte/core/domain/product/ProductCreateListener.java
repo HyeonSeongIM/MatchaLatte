@@ -20,10 +20,12 @@ public class ProductCreateListener {
     @EventListener
     @Async
     public void onProductCreate(ProductCreateEvent event) {
-        Long productId = event.productId();
+        Long productId = event.id();
 
         try {
-            String jsonBody = String.format("{\"productId\":%d}", productId);
+            String jsonBody = String.format(
+                    "{\"id\":%d, \"name\":\"%s\", \"description\":\"%s\", \"price\":%d, \"userId\":%d}", event.id(),
+                    event.name(), event.description(), event.price(), event.userId());
 
             HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(ES_TRANSFER_URL))
