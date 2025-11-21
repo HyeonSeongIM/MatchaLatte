@@ -1,0 +1,8 @@
+server:
+  port: 8082
+
+spring:
+  elasticsearch:
+    uris: ${ES_URIS}
+    connection-timeout: 5s
+    socket-timeout: 3s
