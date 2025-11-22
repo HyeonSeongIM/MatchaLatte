@@ -70,7 +70,8 @@ public class BatchConfig {
     // 💡 3. ItemWriter: Elasticsearch에 쓰기
     @Bean
     public ElasticsearchItemWriter elasticsearchItemWriter() {
-        String newIndexName = "products_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HHmmss"));
+        String newIndexName = "products_"
+                + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HHmmss"));
         log.info("새로 생성될 대상 인덱스 이름: {}", newIndexName);
         return new ElasticsearchItemWriter(elasticsearchClient, newIndexName);
     }
