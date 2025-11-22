@@ -1,8 +1,8 @@
-package project.matchalatte.entity;
+package project.matchalatte.domain.entity;
 
 import lombok.Builder;
 import lombok.Getter;
-import project.matchalatte.dto.ProductInfo;
+import project.matchalatte.api.dto.ProductInfo;
 
 @Builder
 @Getter

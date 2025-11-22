@@ -1,4 +1,4 @@
-package project.matchalatte.service;
+package project.matchalatte.domain.service;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch.core.BulkRequest;
@@ -6,8 +6,8 @@ import co.elastic.clients.elasticsearch.core.BulkResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import project.matchalatte.dto.ProductInfo;
-import project.matchalatte.entity.ProductDocument;
+import project.matchalatte.api.dto.ProductInfo;
+import project.matchalatte.domain.entity.ProductDocument;
 
 import java.util.ArrayList;
 import java.util.List;

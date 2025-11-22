@@ -1,4 +1,4 @@
-package project.matchalatte.dto;
+package project.matchalatte.api.dto;
 
 public record ProductInfo(Long id, String name, String description, Long price, Long userId) {
 }
