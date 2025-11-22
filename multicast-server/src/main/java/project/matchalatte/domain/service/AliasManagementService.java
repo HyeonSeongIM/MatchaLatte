@@ -55,14 +55,19 @@ public class AliasManagementService {
     // 현재 별칭이 가리키는 인덱스 이름을 찾는 헬퍼 메서드
     private Optional<String> getCurrentIndexForAlias(String aliasName) throws IOException {
         try {
-            return elasticsearchClient.indices().getAlias(a -> a.name(aliasName))
-                    .result().values().stream()
-                    .findFirst()
-                    .map(map -> map.aliases().keySet().stream().findFirst().orElse(null));
-        } catch (Exception e) {
+            return elasticsearchClient.indices()
+                .getAlias(a -> a.name(aliasName))
+                .result()
+                .values()
+                .stream()
+                .findFirst()
+                .map(map -> map.aliases().keySet().stream().findFirst().orElse(null));
+        }
+        catch (Exception e) {
             // 별칭이 존재하지 않는 첫 실행 상황에서는 예외 발생 가능
             log.warn("Alias [{}]를 찾지 못함. 첫 실행으로 간주.", aliasName);
             return Optional.empty();
         }
     }
+
 }

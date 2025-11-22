@@ -18,7 +18,7 @@ public class SyncService {
     private final SyncBatchHelper syncBatchService;
 
     public SyncService(SyncProductHelper syncProductService, SyncScheduleHelper syncScheduleService,
-                       SyncLockHelper syncLockService, SyncBatchHelper syncBatchService) {
+            SyncLockHelper syncLockService, SyncBatchHelper syncBatchService) {
         this.syncProductService = syncProductService;
         this.syncScheduleService = syncScheduleService;
         this.syncLockService = syncLockService;
