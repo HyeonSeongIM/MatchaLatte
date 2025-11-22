@@ -1,7 +1,0 @@
-spring:
-  elasticsearch:
-    uris: ${ES_URIS}
-
-app:
-  csv:
-    file-path: "csv/product_staging.csv"

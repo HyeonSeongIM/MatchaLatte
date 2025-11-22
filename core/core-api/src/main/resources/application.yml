@@ -7,7 +7,6 @@ spring:
       - monitoring.yml
       - security.yml
       - db-core.yml
-      - scheduling.yml
   web.resources.add-mappings: false
 
 server:

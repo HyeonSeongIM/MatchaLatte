@@ -16,7 +16,6 @@ import project.matchalatte.core.domain.product.support.Slice;
 import project.matchalatte.core.support.response.ApiResponse;
 import project.matchalatte.support.logging.LogData;
 import project.matchalatte.support.logging.UserIdContext;
-import project.matchalatte.support.scheduling.SchedulingService;
 
 import java.util.List;
 
@@ -28,11 +27,8 @@ public class ProductController {
 
     private final ProductService productService;
 
-    private final SchedulingService schedulingService;
-
-    public ProductController(ProductService productService, SchedulingService schedulingService) {
+    public ProductController(ProductService productService) {
         this.productService = productService;
-        this.schedulingService = schedulingService;
     }
 
     @PostMapping
@@ -41,9 +37,6 @@ public class ProductController {
         Product result = productService.createProduct(request.name(), request.description(), request.price(),
                 UserIdContext.getCurrentUserId());
         log.info("{}", LogData.of("상품 생성", "상품 생성 API 처리완료"));
-        log.info("{}", LogData.of("상품 생성", "상품 데이터 ES 전환 시도"));
-        schedulingService.schedulingMapper(request.name(), request.description(), request.price());
-        log.info("{}", LogData.of("상품 생성", "상품 데이터 ES 전환 완료"));
         return ApiResponse
             .success(new ProductCreateResponse(result.name(), result.description(), result.price(), result.userId()));
     }
