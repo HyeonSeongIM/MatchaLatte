@@ -4,7 +4,6 @@ import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch.core.BulkRequest;
 import co.elastic.clients.elasticsearch.core.BulkResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import project.matchalatte.api.dto.ProductInfo;
 import project.matchalatte.domain.entity.ProductDocument;
@@ -12,28 +11,22 @@ import project.matchalatte.domain.entity.ProductDocument;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 @Component
 @Slf4j
-public class ProductBulkService {
+public class SyncScheduleService {
 
-    private final Queue<ProductInfo> buffer = new ConcurrentLinkedQueue<>();
+    private final Queue<ProductInfo> productQueue;
 
     private final ElasticsearchClient elasticsearchClient;
 
-    public ProductBulkService(ElasticsearchClient elasticsearchClient) {
+    public SyncScheduleService(Queue<ProductInfo> productQueue, ElasticsearchClient elasticsearchClient) {
+        this.productQueue = productQueue;
         this.elasticsearchClient = elasticsearchClient;
     }
 
-    public void add(ProductInfo productInfo) {
-        buffer.add(productInfo);
-        log.info("Queue 상품 저장 완료 : {}", productInfo.id());
-    }
-
-    @Scheduled(fixedRate = 10000)
     public void scheduleFlush() {
-        if (!buffer.isEmpty()) {
+        if (!productQueue.isEmpty()) {
             flush();
         }
     }
@@ -41,8 +34,8 @@ public class ProductBulkService {
     private void flush() {
         List<ProductInfo> batch = new ArrayList<>();
 
-        while (!buffer.isEmpty()) {
-            batch.add(buffer.poll());
+        while (!productQueue.isEmpty()) {
+            batch.add(productQueue.poll());
         }
 
         try {

@@ -1,8 +1,6 @@
 package project.matchalatte.api.config;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
-import co.elastic.clients.elasticsearch.core.BulkRequest;
-import co.elastic.clients.elasticsearch.core.BulkResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -12,12 +10,10 @@ import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
-import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.JdbcPagingItemReader;
 import org.springframework.batch.item.database.support.SqlPagingQueryProviderFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.DataClassRowMapper;
 import org.springframework.transaction.PlatformTransactionManager;
 import project.matchalatte.api.dto.ProductInfo;
@@ -25,6 +21,8 @@ import project.matchalatte.domain.entity.ProductDocument;
 
 import javax.sql.DataSource;
 import java.util.Objects;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 @Configuration
 @Slf4j
@@ -37,6 +35,14 @@ public class BatchConfig {
     public BatchConfig(DataSource dataSource, ElasticsearchClient elasticsearchClient) {
         this.dataSource = dataSource;
         this.elasticsearchClient = elasticsearchClient;
+    }
+
+    // 0. 공유 자원 데이터 생성
+    // 어처피 이 Queue는 스케줄링 때만 유효하기 때문에 싱글톤 빈으로 관리하여
+    // 클린 코드 유지
+    @Bean
+    public Queue<ProductInfo> productQueue() {
+        return new ConcurrentLinkedQueue<>();
     }
 
     // 💡 1. ItemReader: MySQL 데이터 읽기
@@ -79,8 +85,12 @@ public class BatchConfig {
 
     // 💡 5. Job 정의
     @Bean
-    public Job mysqlToEsJob(JobRepository jobRepository, Step migrationStep) {
+    public Job mysqlToEsJob(JobRepository jobRepository, Step migrationStep, FullSyncJobListener listener // 💡
+                                                                                                          // 리스너
+                                                                                                          // 주입
+    ) {
         return new JobBuilder("mysqlToEsJob", jobRepository).incrementer(new RunIdIncrementer())
+            .listener(listener) // 💡 리스너 등록
             .start(migrationStep)
             .build();
     }
