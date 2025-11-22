@@ -9,16 +9,16 @@ import project.matchalatte.api.dto.ProductInfo;
 @Slf4j
 public class SyncService {
 
-    private final SyncProductService syncProductService;
+    private final SyncProductHelper syncProductService;
 
-    private final SyncScheduleService syncScheduleService;
+    private final SyncScheduleHelper syncScheduleService;
 
-    private final SyncLockService syncLockService;
+    private final SyncLockHelper syncLockService;
 
-    private final SyncBatchService syncBatchService;
+    private final SyncBatchHelper syncBatchService;
 
-    public SyncService(SyncProductService syncProductService, SyncScheduleService syncScheduleService,
-            SyncLockService syncLockService, SyncBatchService syncBatchService) {
+    public SyncService(SyncProductHelper syncProductService, SyncScheduleHelper syncScheduleService,
+                       SyncLockHelper syncLockService, SyncBatchHelper syncBatchService) {
         this.syncProductService = syncProductService;
         this.syncScheduleService = syncScheduleService;
         this.syncLockService = syncLockService;

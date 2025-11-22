@@ -8,11 +8,11 @@ import java.util.Queue;
 
 @Component
 @Slf4j
-public class SyncProductService {
+public class SyncProductHelper {
 
     private final Queue<ProductInfo> productQueue;
 
-    public SyncProductService(Queue<ProductInfo> productQueue) {
+    public SyncProductHelper(Queue<ProductInfo> productQueue) {
         this.productQueue = productQueue;
     }
 

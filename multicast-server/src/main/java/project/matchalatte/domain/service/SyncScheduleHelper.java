@@ -14,13 +14,13 @@ import java.util.Queue;
 
 @Component
 @Slf4j
-public class SyncScheduleService {
+public class SyncScheduleHelper {
 
     private final Queue<ProductInfo> productQueue;
 
     private final ElasticsearchClient elasticsearchClient;
 
-    public SyncScheduleService(Queue<ProductInfo> productQueue, ElasticsearchClient elasticsearchClient) {
+    public SyncScheduleHelper(Queue<ProductInfo> productQueue, ElasticsearchClient elasticsearchClient) {
         this.productQueue = productQueue;
         this.elasticsearchClient = elasticsearchClient;
     }

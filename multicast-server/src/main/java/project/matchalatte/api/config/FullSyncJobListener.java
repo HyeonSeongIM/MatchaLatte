@@ -3,14 +3,14 @@ package project.matchalatte.api.config;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.stereotype.Component;
-import project.matchalatte.domain.service.SyncLockService;
+import project.matchalatte.domain.service.SyncLockHelper;
 
 @Component
 public class FullSyncJobListener implements JobExecutionListener {
 
-    private final SyncLockService syncLockService;
+    private final SyncLockHelper syncLockService;
 
-    public FullSyncJobListener(SyncLockService syncLockService) {
+    public FullSyncJobListener(SyncLockHelper syncLockService) {
         this.syncLockService = syncLockService;
     }
 

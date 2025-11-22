@@ -10,15 +10,15 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-public class SyncBatchService {
+public class SyncBatchHelper {
 
     private final JobLauncher jobLauncher;
 
     private final Job mysqlToEsJob;
 
-    private final SyncLockService syncLockService;
+    private final SyncLockHelper syncLockService;
 
-    public SyncBatchService(JobLauncher jobLauncher, Job mysqlToEsJob, SyncLockService syncLockService) {
+    public SyncBatchHelper(JobLauncher jobLauncher, Job mysqlToEsJob, SyncLockHelper syncLockService) {
         this.jobLauncher = jobLauncher;
         this.mysqlToEsJob = mysqlToEsJob;
         this.syncLockService = syncLockService;

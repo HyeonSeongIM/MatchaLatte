@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 @Component
 @Slf4j
-public class SyncLockService {
+public class SyncLockHelper {
 
     // true: Full Sync(배치) 작업 진행 중
     private final AtomicBoolean fullSyncInProgress = new AtomicBoolean(false);
