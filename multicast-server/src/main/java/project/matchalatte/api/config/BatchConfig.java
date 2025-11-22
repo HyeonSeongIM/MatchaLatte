@@ -20,6 +20,8 @@ import project.matchalatte.api.dto.ProductInfo;
 import project.matchalatte.domain.entity.ProductDocument;
 
 import javax.sql.DataSource;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -68,7 +70,9 @@ public class BatchConfig {
     // 💡 3. ItemWriter: Elasticsearch에 쓰기
     @Bean
     public ElasticsearchItemWriter elasticsearchItemWriter() {
-        return new ElasticsearchItemWriter(elasticsearchClient, "products");
+        String newIndexName = "products_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HHmmss"));
+        log.info("새로 생성될 대상 인덱스 이름: {}", newIndexName);
+        return new ElasticsearchItemWriter(elasticsearchClient, newIndexName);
     }
 
     // 💡 4. Step 정의
