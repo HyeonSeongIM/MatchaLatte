@@ -9,6 +9,8 @@ import project.matchalatte.api.dto.EventType;
 import project.matchalatte.api.dto.ProductEvent;
 import project.matchalatte.domain.entity.ProductDocument;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
@@ -43,9 +45,11 @@ public class SyncScheduleHelper {
             log.info("스케줄링 시작");
             BulkRequest.Builder br = new BulkRequest.Builder();
 
+            String newIndexName = "products_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy_MM_dd"));
+
             for (ProductEvent event : batch) {
                 if (event.type() == EventType.DELETE) {
-                    br.operations(op -> op.delete(del -> del.index("products").id(event.id().toString())));
+                    br.operations(op -> op.delete(del -> del.index(newIndexName).id(event.id().toString())));
                     log.info("삭제 오퍼레이션 등록: Product ID {}", event.id());
 
                 }
@@ -53,7 +57,7 @@ public class SyncScheduleHelper {
                     ProductDocument doc = ProductDocument.from(event);
 
                     br.operations(
-                            op -> op.index(idx -> idx.index("products").id(doc.getId().toString()).document(doc)));
+                            op -> op.index(idx -> idx.index(newIndexName).id(doc.getId().toString()).document(doc)));
                     log.info("색인 오퍼레이션 등록: Product ID {}", doc.getId());
                 }
             }

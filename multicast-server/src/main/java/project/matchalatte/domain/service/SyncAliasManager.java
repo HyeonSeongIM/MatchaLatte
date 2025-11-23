@@ -1,23 +1,22 @@
 package project.matchalatte.domain.service;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch.indices.CreateIndexResponse;
 import co.elastic.clients.elasticsearch.indices.UpdateAliasesRequest;
 import co.elastic.clients.elasticsearch.indices.UpdateAliasesResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.Optional;
 
-@Service
+@Component
 @Slf4j
-public class AliasManagementService {
-
-    private static final String DEFAULT_ALIAS = "products";
+public class SyncAliasManager {
 
     private final ElasticsearchClient elasticsearchClient;
 
-    public AliasManagementService(ElasticsearchClient elasticsearchClient) {
+    public SyncAliasManager(ElasticsearchClient elasticsearchClient) {
         this.elasticsearchClient = elasticsearchClient;
     }
 
@@ -57,16 +56,41 @@ public class AliasManagementService {
         try {
             return elasticsearchClient.indices()
                 .getAlias(a -> a.name(aliasName))
-                .result()
-                .values()
+                .result() // Map<String(Index Name), IndexState>
+                .keySet() // Set<String> (Index Names)
                 .stream()
-                .findFirst()
-                .map(map -> map.aliases().keySet().stream().findFirst().orElse(null));
+                .findFirst();
         }
         catch (Exception e) {
             // 별칭이 존재하지 않는 첫 실행 상황에서는 예외 발생 가능
             log.warn("Alias [{}]를 찾지 못함. 첫 실행으로 간주.", aliasName);
             return Optional.empty();
+        }
+    }
+
+    public void createNewIndex(String newIndexName) throws IOException {
+        log.info("새로운 인덱스 [{}] 생성을 시도합니다.", newIndexName);
+
+        try {
+            // 인덱스 생성 요청
+            CreateIndexResponse response = elasticsearchClient.indices().create(c -> c.index(newIndexName));
+
+            if (response.acknowledged()) {
+                log.info("인덱스 [{}] 생성 성공.", newIndexName);
+            }
+            else {
+                log.error("인덱스 [{}] 생성 실패: acknowledged=false.", newIndexName);
+                throw new RuntimeException("Index creation failed.");
+            }
+        }
+        catch (Exception e) {
+            log.error("인덱스 [{}] 생성 중 예외 발생.", newIndexName, e);
+            // 이미 인덱스가 존재하는 경우 (첫 번째 배치 Job에서 IndexWriter가 생성 못 했을 때)
+            if (e.getMessage() != null && e.getMessage().contains("resource_already_exists_exception")) {
+                log.warn("인덱스 [{}]는 이미 존재합니다. 계속 진행합니다.", newIndexName);
+                return;
+            }
+            throw e;
         }
     }
 

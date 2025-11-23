@@ -16,12 +16,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.DataClassRowMapper;
 import org.springframework.transaction.PlatformTransactionManager;
-import project.matchalatte.api.dto.ProductInfo;
+import project.matchalatte.api.dto.ProductEvent;
+import project.matchalatte.domain.service.SyncProductInfo;
 import project.matchalatte.domain.entity.ProductDocument;
+import project.matchalatte.domain.service.SyncItemWriter;
+import project.matchalatte.domain.service.SyncJobListener;
 
 import javax.sql.DataSource;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -43,14 +44,14 @@ public class BatchConfig {
     // 어처피 이 Queue는 스케줄링 때만 유효하기 때문에 싱글톤 빈으로 관리하여
     // 클린 코드 유지
     @Bean
-    public Queue<ProductInfo> productQueue() {
+    public Queue<ProductEvent> productQueue() {
         return new ConcurrentLinkedQueue<>();
     }
 
     // 💡 1. ItemReader: MySQL 데이터 읽기
     @Bean
-    public ItemReader<ProductInfo> mysqlProductReader() throws Exception {
-        JdbcPagingItemReader<ProductInfo> reader = jdbcPagingItemReader();
+    public ItemReader<SyncProductInfo> mysqlProductReader() throws Exception {
+        JdbcPagingItemReader<SyncProductInfo> reader = jdbcPagingItemReader();
 
         SqlPagingQueryProviderFactoryBean factoryBean = sqlPagingQueryProviderFactoryBean();
 
@@ -63,17 +64,14 @@ public class BatchConfig {
 
     // 💡 2. ItemProcessor: ProductInfo -> ProductDocument 변환 (람다 사용)
     @Bean
-    public ItemProcessor<ProductInfo, ProductDocument> itemProcessor() {
+    public ItemProcessor<SyncProductInfo, ProductDocument> itemProcessor() {
         return ProductDocument::from;
     }
 
     // 💡 3. ItemWriter: Elasticsearch에 쓰기
     @Bean
-    public ElasticsearchItemWriter elasticsearchItemWriter() {
-        String newIndexName = "products_"
-                + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HHmmss"));
-        log.info("새로 생성될 대상 인덱스 이름: {}", newIndexName);
-        return new ElasticsearchItemWriter(elasticsearchClient, newIndexName);
+    public SyncItemWriter elasticsearchItemWriter() {
+        return new SyncItemWriter(elasticsearchClient);
     }
 
     // 💡 4. Step 정의
@@ -81,7 +79,7 @@ public class BatchConfig {
     public Step migrationStep(JobRepository jobRepository, PlatformTransactionManager transactionManager)
             throws Exception {
         return new StepBuilder("migrationStep", jobRepository)
-            .<ProductInfo, ProductDocument>chunk(1000, transactionManager)
+            .<SyncProductInfo, ProductDocument>chunk(1000, transactionManager)
             .reader(mysqlProductReader())
             .processor(itemProcessor())
             .writer(elasticsearchItemWriter())
@@ -90,21 +88,18 @@ public class BatchConfig {
 
     // 💡 5. Job 정의
     @Bean
-    public Job mysqlToEsJob(JobRepository jobRepository, Step migrationStep, FullSyncJobListener listener // 💡
-                                                                                                          // 리스너
-                                                                                                          // 주입
-    ) {
+    public Job mysqlToEsJob(JobRepository jobRepository, Step migrationStep, SyncJobListener listener) {
         return new JobBuilder("mysqlToEsJob", jobRepository).incrementer(new RunIdIncrementer())
-            .listener(listener) // 💡 리스너 등록
+            .listener(listener)
             .start(migrationStep)
             .build();
     }
 
-    private JdbcPagingItemReader<ProductInfo> jdbcPagingItemReader() {
-        JdbcPagingItemReader<ProductInfo> reader = new JdbcPagingItemReader<>();
+    private JdbcPagingItemReader<SyncProductInfo> jdbcPagingItemReader() {
+        JdbcPagingItemReader<SyncProductInfo> reader = new JdbcPagingItemReader<>();
         reader.setDataSource(dataSource);
         reader.setPageSize(1000);
-        reader.setRowMapper(new DataClassRowMapper<>(ProductInfo.class));
+        reader.setRowMapper(new DataClassRowMapper<>(SyncProductInfo.class));
         return reader;
     }
 

@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import project.matchalatte.api.dto.ProductEvent;
-import project.matchalatte.api.dto.ProductInfo;
 import project.matchalatte.domain.service.SyncService;
 
 @RestController

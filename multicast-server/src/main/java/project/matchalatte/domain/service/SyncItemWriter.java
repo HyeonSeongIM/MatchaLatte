@@ -1,4 +1,4 @@
-package project.matchalatte.api.config;
+package project.matchalatte.domain.service;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch.core.BulkRequest;
@@ -9,15 +9,14 @@ import org.springframework.batch.item.ItemWriter;
 import project.matchalatte.domain.entity.ProductDocument;
 
 @Slf4j
-public class ElasticsearchItemWriter implements ItemWriter<ProductDocument> {
+public class SyncItemWriter implements ItemWriter<ProductDocument> {
+
+    private final String indexName = "products";
 
     private final ElasticsearchClient elasticsearchClient;
 
-    private final String indexName;
-
-    public ElasticsearchItemWriter(ElasticsearchClient elasticsearchClient, String indexName) {
+    public SyncItemWriter(ElasticsearchClient elasticsearchClient) {
         this.elasticsearchClient = elasticsearchClient;
-        this.indexName = indexName;
     }
 
     @Override

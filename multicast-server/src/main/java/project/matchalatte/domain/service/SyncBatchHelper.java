@@ -8,6 +8,8 @@ import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
+
 @Component
 @Slf4j
 public class SyncBatchHelper {
@@ -32,6 +34,7 @@ public class SyncBatchHelper {
         try {
             // Job 실행 파라미터 생성 (수동 실행용 고정 파라미터)
             JobParameters jobParameters = new JobParametersBuilder().addString("full_sync_mode", "MANUAL")
+                .addDate("run.date", new Date())
                 .toJobParameters();
 
             JobExecution jobExecution = jobLauncher.run(mysqlToEsJob, jobParameters);
