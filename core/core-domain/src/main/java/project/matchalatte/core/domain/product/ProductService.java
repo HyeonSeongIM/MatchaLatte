@@ -31,7 +31,8 @@ public class ProductService {
 
     public Product createProduct(String name, String description, Long price, Long userId) {
         Product product = productCreater.createProduct(name, description, price, userId);
-        applicationEventPublisher.publishEvent(new ProductCreateEvent(product.id(), name, description, price, userId));
+        applicationEventPublisher
+            .publishEvent(new ProductEvent(EventType.CREATE, product.id(), name, description, price, userId));
         return product;
     }
 
@@ -40,11 +41,15 @@ public class ProductService {
     }
 
     public Product updateProduct(Long productId, String name, String description, Long price, Long userId) {
-        return productUpdater.updateProduct(productId, name, description, price, userId);
+        Product product = productUpdater.updateProduct(productId, name, description, price, userId);
+        applicationEventPublisher
+            .publishEvent(new ProductEvent(EventType.UPDATE, product.id(), name, description, price, userId));
+        return product;
     }
 
     public void deleteProductById(Long productId, Long userId) {
         productDeleter.deleteById(productId, userId);
+        applicationEventPublisher.publishEvent(new ProductEvent(EventType.DELETE, productId, null, null, 0L, null));
     }
 
     public List<Product> readProductsByUserId(Long userId) {
