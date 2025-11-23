@@ -3,6 +3,7 @@ package project.matchalatte.domain.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import project.matchalatte.api.dto.ProductEvent;
 import project.matchalatte.api.dto.ProductInfo;
 
 @Service
@@ -25,8 +26,8 @@ public class SyncService {
         this.syncBatchService = syncBatchService;
     }
 
-    public void registerInQueue(ProductInfo productInfo) {
-        syncProductService.enqueue(productInfo);
+    public void registerInQueue(ProductEvent productEvent) {
+        syncProductService.enqueue(productEvent);
     }
 
     public String triggerBatchJob() {

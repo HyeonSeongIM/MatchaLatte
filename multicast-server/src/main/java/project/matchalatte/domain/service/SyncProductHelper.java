@@ -2,7 +2,7 @@ package project.matchalatte.domain.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import project.matchalatte.api.dto.ProductInfo;
+import project.matchalatte.api.dto.ProductEvent;
 
 import java.util.Queue;
 
@@ -10,15 +10,15 @@ import java.util.Queue;
 @Slf4j
 public class SyncProductHelper {
 
-    private final Queue<ProductInfo> productQueue;
+    private final Queue<ProductEvent> productQueue;
 
-    public SyncProductHelper(Queue<ProductInfo> productQueue) {
+    public SyncProductHelper(Queue<ProductEvent> productQueue) {
         this.productQueue = productQueue;
     }
 
-    public void enqueue(ProductInfo productInfo) {
-        productQueue.add(productInfo);
-        log.info("Queue 상품 저장 완료 : {}", productInfo.id());
+    public void enqueue(ProductEvent productEvent) {
+        productQueue.add(productEvent);
+        log.info("Queue 상품 저장 완료 : {}", productEvent.id());
     }
 
     public boolean isEmptyQueue() {
