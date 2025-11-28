@@ -14,6 +14,7 @@ import project.matchalatte.core.api.controller.v1.request.ProductCreateRequest;
 import project.matchalatte.core.api.controller.v1.request.ProductUpdateRequest;
 import project.matchalatte.core.domain.product.Product;
 import project.matchalatte.core.domain.product.ProductService;
+import project.matchalatte.support.scheduling.SchedulingService;
 
 import java.util.List;
 
@@ -39,6 +40,9 @@ class ProductControllerTest {
     // WebMvcTest 는 해당 컨트롤러만 빈으로 가져옴
     @MockBean
     private ProductService productService;
+
+    @MockBean
+    private SchedulingService schedulingService;
 
     @Autowired
     private ObjectMapper objectMapper;

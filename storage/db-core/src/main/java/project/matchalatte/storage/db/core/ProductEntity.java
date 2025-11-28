@@ -5,7 +5,8 @@ import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "products", indexes = @Index(name = "idx_product_name", columnList = "name"))
+@Table(name = "products", indexes = { @Index(name = "idx_product_name", columnList = "name"),
+        @Index(name = "idx_products_created_at_id", columnList = "created_at DESC, id DESC") })
 public class ProductEntity extends BaseEntity {
 
     private String name;
