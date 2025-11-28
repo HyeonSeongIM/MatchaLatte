@@ -15,7 +15,7 @@ public class ProductUpdater {
     }
 
     public Product updateProduct(Long productId, String newName, String newDescription, Long price, Long userId) {
-        Product newProduct = new Product(newName, newDescription, price, userId);
+        Product newProduct = Product.from(newName, newDescription, price, userId);
 
         if (productValidator.matchUserById(productId, userId)) {
             return productRepository.update(productId, newProduct);
