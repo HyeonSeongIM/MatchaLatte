@@ -1,0 +1,16 @@
+spring.application.name: admin-service
+spring.profiles.active: dev
+
+server:
+  port: 8081
+
+spring:
+  config:
+    import:
+      - db-core.yml
+      - security.yml
+
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html

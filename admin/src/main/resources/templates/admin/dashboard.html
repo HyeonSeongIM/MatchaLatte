@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MatchaLatte Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        body { background-color: #f8f9fa; }
+        .card { border: none; shadow: 0 4px 6px rgba(0,0,0,0.1); border-radius: 12px; margin-bottom: 20px; }
+        .card-header { background-color: #fff; border-bottom: 1px solid #eee; font-weight: bold; border-radius: 12px 12px 0 0 !important; padding: 15px 20px; }
+        .stat-number { font-size: 1.2rem; font-weight: bold; color: #2c3e50; }
+        .table th { background-color: #f8f9fa; font-size: 0.9rem; color: #6c757d; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <i class="bi bi-cup-hot-fill"></i> MatchaLatte Admin
+        </a>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row mb-3">
+        <div class="col">
+            <h2 class="fw-bold text-secondary">Dashboard Overview</h2>
+            <p class="text-muted">서비스의 주요 지표를 한눈에 확인하세요.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header text-primary">
+                    <i class="bi bi-graph-up-arrow"></i> 📅 일별 신규 가입자
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover align-middle">
+                        <thead>
+                        <tr>
+                            <th scope="col">날짜</th>
+                            <th scope="col" class="text-end">가입자 수</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:if="${#lists.isEmpty(dailySignUps)}">
+                            <td colspan="2" class="text-center text-muted">데이터가 없습니다.</td>
+                        </tr>
+                        <tr th:each="stat : ${dailySignUps}">
+                            <td th:text="${stat.date}">2023-11-14</td>
+                            <td class="text-end">
+                                <span class="badge bg-primary rounded-pill" th:text="${stat.count} + '명'">0명</span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header text-success">
+                    <i class="bi bi-pie-chart-fill"></i> 💰 상품 가격대 분포
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover align-middle">
+                        <thead>
+                        <tr>
+                            <th scope="col">가격 구간</th>
+                            <th scope="col" class="text-end">등록된 상품 수</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:if="${#lists.isEmpty(priceRanges)}">
+                            <td colspan="2" class="text-center text-muted">데이터가 없습니다.</td>
+                        </tr>
+                        <tr th:each="range : ${priceRanges}">
+                            <td th:text="${range.priceRange}">1만원 미만</td> <td class="text-end">
+                            <span class="stat-number" th:text="${range.totalCount}">0</span> 개
+                        </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header text-warning">
+                    <i class="bi bi-trophy-fill"></i> 🏆 Top Seller 랭킹
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover align-middle">
+                            <thead class="table-light">
+                            <tr>
+                                <th scope="col">순위</th>
+                                <th scope="col">닉네임</th>
+                                <th scope="col" class="text-end">판매 상품 수</th>
+                                <th scope="col" class="text-end">총 상품 금액 합계</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:if="${#lists.isEmpty(topSellers)}">
+                                <td colspan="4" class="text-center text-muted">데이터가 없습니다.</td>
+                            </tr>
+                            <tr th:each="seller, i : ${topSellers}">
+                                <td>
+                                    <span th:if="${i.count == 1}">🥇</span>
+                                    <span th:if="${i.count == 2}">🥈</span>
+                                    <span th:if="${i.count == 3}">🥉</span>
+                                    <span th:unless="${i.count <= 3}" th:text="${i.count} + '위'"></span>
+                                </td>
+                                <td class="fw-bold" th:text="${seller.nickname}">User1</td>
+                                <td class="text-end" th:text="${seller.productCount} + '개'">0개</td>
+                                <td class="text-end text-success fw-bold"
+                                    th:text="${#numbers.formatInteger(seller.totalPrice, 0, 'COMMA')} + '원'">
+                                    0원
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center text-muted mt-5 mb-5">
+        <small>&copy; 2025 MatchaLatte Admin System. All rights reserved.</small>
+    </footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
