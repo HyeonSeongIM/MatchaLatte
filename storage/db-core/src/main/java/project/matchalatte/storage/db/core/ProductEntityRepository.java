@@ -30,8 +30,7 @@ public class ProductEntityRepository implements ProductRepository {
         ProductEntity productEntity = jpaRepository
             .save(new ProductEntity(product.name(), product.description(), product.price(), product.userId()));
 
-        return new Product(productEntity.getName(), productEntity.getDescription(), productEntity.getPrice(),
-                productEntity.getUserId());
+        return of(productEntity);
     }
 
     @Override
@@ -39,8 +38,7 @@ public class ProductEntityRepository implements ProductRepository {
         ProductEntity productEntity = jpaRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Product not found"));
 
-        return new Product(productEntity.getName(), productEntity.getDescription(), productEntity.getPrice(),
-                productEntity.getUserId());
+        return of(productEntity);
     }
 
     @Transactional
@@ -53,8 +51,7 @@ public class ProductEntityRepository implements ProductRepository {
         productEntity.setDescription(newProduct.description());
         productEntity.setPrice(newProduct.price());
 
-        return new Product(productEntity.getName(), productEntity.getDescription(), productEntity.getPrice(),
-                productEntity.getUserId());
+        return of(productEntity);
     }
 
     @Override
@@ -69,10 +66,7 @@ public class ProductEntityRepository implements ProductRepository {
     public List<Product> findByUserId(Long userId) {
         List<ProductEntity> productEntityList = jpaRepository.findByUserId(userId);
 
-        return productEntityList.stream()
-            .map(entity -> new Product(entity.getName(), entity.getDescription(), entity.getPrice(),
-                    entity.getUserId()))
-            .toList();
+        return productEntityList.stream().map(this::of).toList();
 
     }
 
@@ -80,9 +74,7 @@ public class ProductEntityRepository implements ProductRepository {
     public List<Product> findAll() {
         List<ProductEntity> productEntityList = jpaRepository.findAll();
 
-        return productEntityList.stream()
-            .map(entity -> new Product(entity.getName(), entity.getDescription(), entity.getPrice(), entity.getId()))
-            .toList();
+        return productEntityList.stream().map(this::of).toList();
     }
 
     @Override
@@ -96,27 +88,21 @@ public class ProductEntityRepository implements ProductRepository {
 
         List<ProductEntity> productEntityList = jpaQueryRepository.findProducts(offsetLimit);
 
-        return productEntityList.stream()
-            .map(entity -> new Product(entity.getName(), entity.getDescription(), entity.getPrice(), entity.getId()))
-            .toList();
+        return productEntityList.stream().map(this::of).toList();
     }
 
     @Override
     public List<Product> findProductsNoOffsetNotNull(int limit, Long lastId) {
         List<ProductEntity> productEntityList = jpaQueryRepository.findProductsNoOffsetNotNull(limit, lastId);
 
-        return productEntityList.stream()
-            .map(entity -> new Product(entity.getName(), entity.getDescription(), entity.getPrice(), entity.getId()))
-            .toList();
+        return productEntityList.stream().map(this::of).toList();
     }
 
     @Override
     public List<Product> findProductsNoOffsetNull(int limit) {
         List<ProductEntity> productEntityList = jpaQueryRepository.findProductsNoOffsetNull(limit);
 
-        return productEntityList.stream()
-            .map(entity -> new Product(entity.getName(), entity.getDescription(), entity.getPrice(), entity.getId()))
-            .toList();
+        return productEntityList.stream().map(this::of).toList();
     }
 
     @Override
@@ -127,9 +113,12 @@ public class ProductEntityRepository implements ProductRepository {
 
         List<ProductEntity> productEntityList = productEntitySlice.getContent();
 
-        return productEntityList.stream()
-            .map(entity -> new Product(entity.getName(), entity.getDescription(), entity.getPrice(), entity.getId()))
-            .toList();
+        return productEntityList.stream().map(this::of).toList();
+    }
+
+    private Product of(ProductEntity productEntity) {
+        return new Product(productEntity.getId(), productEntity.getName(), productEntity.getDescription(),
+                productEntity.getPrice(), productEntity.getUserId());
     }
 
 }

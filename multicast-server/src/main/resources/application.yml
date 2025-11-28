@@ -1,0 +1,21 @@
+server:
+  port: 8082
+
+spring:
+  elasticsearch:
+    uris: ${ES_URIS}
+    connection-timeout: 5s
+    socket-timeout: 3s
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/StudyProject?serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  batch:
+    jdbc:
+      initialize-schema: always
+
+    job:
+      enabled: false

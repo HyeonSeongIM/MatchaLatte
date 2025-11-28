@@ -59,28 +59,28 @@ class ApiControllerAdviceTest {
         mockMvc.perform(get("/test/user-exception")).andExpect(status().is5xxServerError()).andDo(print());
     }
 
-//    @Test
-//    @DisplayName("NoSuchElementException 발생 시 404가 아닌 정의된 에러로 처리한다")
-//    void handleNoSuchElement() throws Exception {
-//        // 네 코드에서 NoSuchElement는 DEFAULT_ERROR를 리턴하므로 그 상태코드를 따라감
-//        mockMvc.perform(get("/test/no-such-element"))
-//                .andExpect(jsonPath("$.data").value("리소스를 찾을 수 없습니다."))
-//            .andDo(print());
-//    }
-//
-//    @Test
-//    @DisplayName("BindException (유효성 검사 실패) 발생 시 400 Bad Request를 반환한다")
-//    void handleBindException() throws Exception {
-//        // 유효하지 않은 요청 바디 (name이 null)
-//        TestDto invalidDto = new TestDto(null);
-//
-//        mockMvc
-//            .perform(post("/test/bind-exception").contentType(MediaType.APPLICATION_JSON)
-//                .content(objectMapper.writeValueAsString(invalidDto)))
-//            .andExpect(status().isBadRequest()) // HttpStatus.BAD_REQUEST
-//                .andExpect(jsonPath("$.data").value("이름은 필수입니다."))
-//            .andDo(print());
-//    }
+    // @Test
+    // @DisplayName("NoSuchElementException 발생 시 404가 아닌 정의된 에러로 처리한다")
+    // void handleNoSuchElement() throws Exception {
+    // // 네 코드에서 NoSuchElement는 DEFAULT_ERROR를 리턴하므로 그 상태코드를 따라감
+    // mockMvc.perform(get("/test/no-such-element"))
+    // .andExpect(jsonPath("$.data").value("리소스를 찾을 수 없습니다."))
+    // .andDo(print());
+    // }
+    //
+    // @Test
+    // @DisplayName("BindException (유효성 검사 실패) 발생 시 400 Bad Request를 반환한다")
+    // void handleBindException() throws Exception {
+    // // 유효하지 않은 요청 바디 (name이 null)
+    // TestDto invalidDto = new TestDto(null);
+    //
+    // mockMvc
+    // .perform(post("/test/bind-exception").contentType(MediaType.APPLICATION_JSON)
+    // .content(objectMapper.writeValueAsString(invalidDto)))
+    // .andExpect(status().isBadRequest()) // HttpStatus.BAD_REQUEST
+    // .andExpect(jsonPath("$.data").value("이름은 필수입니다."))
+    // .andDo(print());
+    // }
 
     @Test
     @DisplayName("알 수 없는 예외(Exception) 발생 시 500 에러로 처리한다")

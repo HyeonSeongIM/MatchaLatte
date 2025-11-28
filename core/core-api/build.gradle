@@ -11,9 +11,11 @@ dependencies {
     implementation project(":support:logging")
     implementation project(":storage:db-core")
     implementation project(":infra:security")
+    implementation project(":core:core-elasticsearch")
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation ("org.springframework.boot:spring-boot-starter-cache")
     implementation ("com.github.ben-manes.caffeine:caffeine")
+    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
 }

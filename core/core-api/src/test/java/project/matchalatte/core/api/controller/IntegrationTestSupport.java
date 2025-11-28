@@ -11,10 +11,14 @@ import project.matchalatte.core.domain.user.UserService;
 @WithMockUser
 @WebMvcTest(controllers = {})
 public abstract class IntegrationTestSupport {
+
     @MockBean
     public ProductService productService;
+
     @MockBean
     public UserService userService;
+
     @MockBean
     public UserSecurityService userSecurityService;
+
 }
