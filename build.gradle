@@ -30,12 +30,39 @@ subprojects {
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
     apply plugin: 'org.asciidoctor.jvm.convert'
+    apply plugin: 'jacoco'
 
     dependencyManagement {
         imports {
             mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudDependenciesVersion}"
         }
     }
+
+    jacoco {
+        toolVersion = "0.8.12"
+    }
+
+    def Qdomains = []
+    for (qPattern in "**/QA".."**/QZ") {
+        Qdomains.add(qPattern + "*")
+    }
+
+    def jacocoExcludePatterns = [
+            "**/*Application*",
+            "**/*Config*",
+            "**/*Dto*",
+            "**/*Request*",
+            "**/*Response*",
+            "**/*Interceptor*",
+            "**/*Exception*",
+            "**/entity/**",
+            "**/test/**",
+            "**/resources/**",
+            "**/filter/**",
+            "**/support/**",
+            "**/handler/**",
+            "**/request/**"
+    ] + Qdomains
 
     dependencies {
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -49,28 +76,29 @@ subprojects {
     var snippetsDir = file("build/generated-snippets")
 
     test {
-        useJUnitPlatform{
+        useJUnitPlatform {
             excludeTags('restDocs')
         }
     }
 
-    tasks.register('unitTest', Test){
+    tasks.register('unitTest', Test) {
         group = 'verification'
-        useJUnitPlatform{
+        useJUnitPlatform {
             excludeTags('context', 'restdocs')
         }
+        finalizedBy 'jacocoTestReport'
     }
 
     tasks.register('contextTest', Test) {
         group = 'verification'
-        useJUnitPlatform{
+        useJUnitPlatform {
             includeTags('context')
         }
     }
 
     tasks.register('restDocs', Test) {
         group = 'verification'
-        useJUnitPlatform{
+        useJUnitPlatform {
             includeTags('restdocs')
         }
         outputs.dir snippetsDir
@@ -83,6 +111,46 @@ subprojects {
 
     tasks.named('checkFormatMain') {
         dependsOn tasks.named('compileJava')
+    }
+
+    tasks.named ('jacocoTestReport', JacocoReport) {
+        dependsOn tasks.named('test')
+
+        reports {
+            html.required = true
+            xml.required = true
+        }
+
+        classDirectories.setFrom(
+                sourceSets.main.output.asFileTree.matching {
+                    exclude jacocoExcludePatterns
+                }
+        )
+
+        finalizedBy 'jacocoTestCoverageVerification'
+    }
+
+    tasks.named ('jacocoTestCoverageVerification', JacocoCoverageVerification) {
+
+        // 검증 대상 소스 설정 (이 부분이 있어야 제대로 로드됨)
+        classDirectories.setFrom(
+                sourceSets.main.output.asFileTree.matching {
+                    exclude jacocoExcludePatterns
+                }
+        )
+
+        violationRules {
+            rule {
+                enabled = true
+                element = 'CLASS'
+
+                limit {
+                    counter = 'LINE'
+                    value = 'COVEREDRATIO'
+                    minimum = 0.00
+                }
+            }
+        }
     }
 
 }

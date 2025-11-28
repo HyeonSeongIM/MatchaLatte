@@ -5,16 +5,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import project.matchalatte.core.api.controller.IntegrationTestSupport;
 import project.matchalatte.core.api.controller.v1.request.ProductCreateRequest;
 import project.matchalatte.core.api.controller.v1.request.ProductUpdateRequest;
 import project.matchalatte.core.domain.product.Product;
 import project.matchalatte.core.domain.product.ProductService;
-import project.matchalatte.support.scheduling.SchedulingService;
 
 import java.util.List;
 
@@ -30,19 +27,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Tag("contextTest")
-@WebMvcTest(ProductController.class)
-@WithMockUser
-class ProductControllerTest {
+class ProductControllerTest extends IntegrationTestSupport {
 
     @Autowired
     private MockMvc mockMvc;
-
-    // WebMvcTest 는 해당 컨트롤러만 빈으로 가져옴
-    @MockBean
-    private ProductService productService;
-
-    @MockBean
-    private SchedulingService schedulingService;
 
     @Autowired
     private ObjectMapper objectMapper;
