@@ -1,6 +1,7 @@
 package project.matchalatte.core.domain.product;
 
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class ProductUpdater {
@@ -14,6 +15,7 @@ public class ProductUpdater {
         this.productValidator = productValidator;
     }
 
+    @Transactional
     public Product updateProduct(Long productId, String newName, String newDescription, Long price, Long userId) {
         Product newProduct = Product.from(newName, newDescription, price, userId);
 

@@ -1,6 +1,7 @@
 package project.matchalatte.core.domain.product;
 
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class ProductDeleter {
@@ -14,6 +15,7 @@ public class ProductDeleter {
         this.productValidator = productValidator;
     }
 
+    @Transactional
     public void deleteById(Long productId, Long userId) {
         if (productValidator.matchUserById(userId, productId)) {
             productRepository.deleteById(productId);
