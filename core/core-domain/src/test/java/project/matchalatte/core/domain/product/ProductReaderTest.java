@@ -33,7 +33,7 @@ class ProductReaderTest {
         Long productId = 1L;
         Long userId = 1L;
 
-        Product product = new Product(name, description, price, userId);
+        Product product = new Product(productId, name, description, price, userId);
 
         given(productRepository.findById(productId)).willReturn(product);
 
@@ -56,9 +56,10 @@ class ProductReaderTest {
         // given
         Long userId = 1L;
 
-        List<Product> products = List.of(new Product("맥북 m1", "맥북 m1 입니다.", 30000L, userId),
-                new Product("맥북 m2", "맥북 m2 입니다.", 40000L, userId), new Product("맥북 m3", "맥북 m3 입니다.", 50000L, userId),
-                new Product("맥북 m4", "맥북 m4 입니다.", 60000L, userId));
+        List<Product> products = List.of(new Product(1L, "맥북 m1", "맥북 m1 입니다.", 30000L, userId),
+                new Product(2L, "맥북 m2", "맥북 m2 입니다.", 40000L, userId),
+                new Product(3L, "맥북 m3", "맥북 m3 입니다.", 50000L, userId),
+                new Product(4L, "맥북 m4", "맥북 m4 입니다.", 60000L, userId));
 
         given(productRepository.findByUserId(userId)).willReturn(products);
 
@@ -78,9 +79,10 @@ class ProductReaderTest {
         // given
         Long userId = 1L;
 
-        List<Product> products = List.of(new Product("맥북 m1", "맥북 m1 입니다.", 30000L, userId),
-                new Product("맥북 m2", "맥북 m2 입니다.", 40000L, userId), new Product("맥북 m3", "맥북 m3 입니다.", 50000L, userId),
-                new Product("맥북 m4", "맥북 m4 입니다.", 60000L, userId));
+        List<Product> products = List.of(new Product(1L, "맥북 m1", "맥북 m1 입니다.", 30000L, userId),
+                new Product(2L, "맥북 m2", "맥북 m2 입니다.", 40000L, userId),
+                new Product(3L, "맥북 m3", "맥북 m3 입니다.", 50000L, userId),
+                new Product(4L, "맥북 m4", "맥북 m4 입니다.", 60000L, userId));
 
         given(productRepository.findAll()).willReturn(products);
 

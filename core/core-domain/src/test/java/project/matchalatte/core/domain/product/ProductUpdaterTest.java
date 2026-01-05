@@ -34,9 +34,9 @@ class ProductUpdaterTest {
         Long newPrice = 29000L;
         Long userId = 1L;
 
-        Product newProduct = new Product(newName, newDescription, newPrice, userId);
+        Product newProduct = new Product(productId, newName, newDescription, newPrice, userId);
 
-        given(productRepository.update(productId, newProduct)).willReturn(newProduct);
+        given(productRepository.update(eq(productId), any(Product.class))).willReturn(newProduct);
 
         given(productValidator.matchUserById(productId, userId)).willReturn(true);
 
@@ -50,7 +50,7 @@ class ProductUpdaterTest {
         assertThat(actualProduct.price()).isEqualTo(newPrice);
         assertThat(actualProduct.userId()).isEqualTo(userId);
 
-        verify(productRepository, times(1)).update(productId, newProduct);
+        verify(productRepository, times(1)).update(eq(productId), any(Product.class));
     }
 
     @Test

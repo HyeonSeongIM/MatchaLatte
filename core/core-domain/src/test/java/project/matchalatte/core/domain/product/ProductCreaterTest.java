@@ -33,7 +33,7 @@ class ProductCreaterTest {
         Long price = 10000L;
         Long userId = 1L;
 
-        Product product = new Product(name, description, price, userId);
+        Product product = new Product(1L, name, description, price, userId);
 
         given(productRepository.save(any(Product.class))).willReturn(product);
 

@@ -46,6 +46,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @Tag("restdocs")
 @ExtendWith({ RestDocumentationExtension.class, SpringExtension.class })
+@WebMvcTest(UserController.class)
 class UserControllerTest extends IntegrationTestSupport {
 
     private MockMvc mockMvc;

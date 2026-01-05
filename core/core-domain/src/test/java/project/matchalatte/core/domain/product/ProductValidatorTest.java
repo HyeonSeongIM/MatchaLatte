@@ -27,7 +27,7 @@ public class ProductValidatorTest {
         Long productId = 1L;
         Long userId = 2L;
 
-        Product product = new Product("장난감", "초딩때 부터 사용했어요", 5000L, userId);
+        Product product = new Product(productId, "장난감", "초딩때 부터 사용했어요", 5000L, userId);
 
         given(productRepository.findById(any())).willReturn(product);
 
@@ -46,7 +46,7 @@ public class ProductValidatorTest {
         Long productId = 1L;
         Long ownerUserId = 2L;
         Long otherUserId = 99L;
-        Product product = new Product("장난감", "초딩때 부터 사용했어요", 5000L, ownerUserId);
+        Product product = new Product(productId, "장난감", "초딩때 부터 사용했어요", 5000L, ownerUserId);
 
         given(productRepository.findById(any())).willReturn(product);
 
