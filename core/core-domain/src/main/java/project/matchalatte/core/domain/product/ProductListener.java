@@ -6,6 +6,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import project.matchalatte.support.logging.LogData;
+import project.matchalatte.support.logging.TraceIdContext;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -47,6 +48,7 @@ public class ProductListener {
         return HttpRequest.newBuilder()
             .uri(URI.create(ES_TRANSFER_URL))
             .header("Content-Type", "application/json")
+            .header("X-Trace-Id", event.traceId())
             .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
             .timeout(Duration.ofSeconds(5))
             .build();
