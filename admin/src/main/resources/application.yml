@@ -5,10 +5,19 @@ server:
   port: 8081
 
 spring:
-  config:
-    import:
-      - db-core.yml
-      - security.yml
+
+  datasource:
+    url: ${STORAGE_DB_URL}
+    username: ${STORAGE_DB_USER}
+    password: ${STORAGE_DB_PASS}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      initialization-fail-timeout: 60000
+
+  security:
+    jwt:
+      secret: dhaskdhjakshdkjashdjkk1j23k12j3k21j4kksa9daskdjaskld
+      accessTime: 3600000
 
   thymeleaf:
     cache: false
