@@ -19,3 +19,11 @@ dependencies {
 
     implementation 'com.fasterxml.jackson.core:jackson-databind'
 }
+
+jar {
+    enabled = false
+}
+
+bootJar {
+    enabled = true
+}
