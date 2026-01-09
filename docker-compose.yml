@@ -1,0 +1,43 @@
+services:
+  api-service:
+    container_name: api-service
+    restart: unless-stopped
+    image: hyeonseong1010/api-service:latest
+    environment:
+      - ES_URIS=${ES_URIS}
+      - STORAGE_DB_URL=${STORAGE_DB_URL}
+      - STORAGE_DB_USER=${STORAGE_DB_USER}
+      - STORAGE_DB_PASS=${STORAGE_DB_PASS}
+    ports:
+      - "8080:8080"
+    env_file: .env
+
+  admin-service:
+    container_name: admin-service
+    restart: unless-stopped
+    image: hyeonseong1010/admin-service:latest
+    environment:
+      - ES_URIS=${ES_URIS}
+      - STORAGE_DB_URL=${STORAGE_DB_URL}
+      - STORAGE_DB_USER=${STORAGE_DB_USER}
+      - STORAGE_DB_PASS=${STORAGE_DB_PASS}
+    ports:
+      - "8081:8081"
+    env_file: .env
+
+  multicast-service:
+    container_name: multicast-service
+    restart: unless-stopped
+    image: hyeonseong1010/multicast-service:latest
+    environment:
+      - ES_URIS=${ES_URIS}
+      - STORAGE_DB_URL=${STORAGE_DB_URL}
+      - STORAGE_DB_USER=${STORAGE_DB_USER}
+      - STORAGE_DB_PASS=${STORAGE_DB_PASS}
+    ports:
+      - "8082:8082"
+    env_file: .env
+
+networks:
+  matcha-network:
+    driver: bridge
