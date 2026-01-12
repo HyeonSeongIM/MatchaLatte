@@ -3,6 +3,7 @@ package project.matchalatte.domain.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import project.matchalatte.api.dto.ProductEvent;
+import project.matchalatte.support.monitoring.QueueMetricMonitoring;
 
 import java.util.Queue;
 
@@ -12,13 +13,24 @@ public class SyncProductHelper {
 
     private final Queue<ProductEvent> productQueue;
 
-    public SyncProductHelper(Queue<ProductEvent> productQueue) {
+    private final QueueMetricMonitoring monitoring;
+
+    public SyncProductHelper(Queue<ProductEvent> productQueue, QueueMetricMonitoring monitoring) {
         this.productQueue = productQueue;
+        this.monitoring = monitoring;
     }
 
     public void enqueue(ProductEvent productEvent) {
-        productQueue.add(productEvent);
-        log.info("Queue 상품 저장 완료 : {}", productEvent.id());
+        try {
+            productQueue.add(productEvent);
+            monitoring.recordEnqueue();
+            log.info("Queue 상품 저장 완료 : {}", productEvent.id());
+        }
+        catch (Exception e) {
+            monitoring.recordError();
+            log.error("Queue 상품 저장 실패 : {}", productEvent.id(), e);
+            throw e;
+        }
     }
 
     public boolean isEmptyQueue() {
