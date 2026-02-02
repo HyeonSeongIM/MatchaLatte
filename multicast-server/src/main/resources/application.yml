@@ -1,4 +1,4 @@
-spring.application.name: admin-service
+spring.application.name: multicast-service
 spring.profiles.active: dev
 
 server:
@@ -32,3 +32,8 @@ management:
 queue:
   product:
     max-capacity: 10000
+
+logging:
+  file:
+    name: /app/logs/api.log
+  config: classpath:logback-spring.xml

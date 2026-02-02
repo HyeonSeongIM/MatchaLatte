@@ -8,7 +8,7 @@
 
     <springProfile name="dev">
         <property name="LOG_PATH" value="/app/logs" />
-        <property name="LOG_FILE_NAME" value="api" />
+        <property name="LOG_FILE_NAME" value="multicast" />
 
         <appender name="FILE" class="ch.qos.logback.core.FileAppender">
             <file>${LOG_PATH}/${LOG_FILE_NAME}.log</file>

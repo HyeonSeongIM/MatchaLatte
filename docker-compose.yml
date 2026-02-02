@@ -43,7 +43,7 @@ services:
       - STORAGE_DB_USER=${STORAGE_DB_USER}
       - STORAGE_DB_PASS=${STORAGE_DB_PASS}
     volumes:
-      - ./logs/admin:/app/logs
+      - ./logs/multicast:/app/logs
     ports:
       - "8082:8082"
     env_file: .env
