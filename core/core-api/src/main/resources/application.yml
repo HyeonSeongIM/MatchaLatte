@@ -8,6 +8,7 @@ spring:
       - security.yml
       - db-core.yml
       - elasticsearch.yml
+      - logging.yml
   web.resources.add-mappings: false
 
 server:
