@@ -43,7 +43,7 @@ public class BatchConfig {
     // 0. 공유 자원 데이터 생성
     // 어처피 이 Queue는 스케줄링 때만 유효하기 때문에 싱글톤 빈으로 관리하여
     // 클린 코드 유지
-    @Bean
+    @Bean(name = "batchProductQueue")
     public Queue<ProductEvent> productQueue() {
         return new ConcurrentLinkedQueue<>();
     }

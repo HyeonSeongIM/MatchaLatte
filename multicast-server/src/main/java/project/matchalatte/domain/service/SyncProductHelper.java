@@ -1,6 +1,7 @@
 package project.matchalatte.domain.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import project.matchalatte.api.dto.ProductEvent;
 import project.matchalatte.support.monitoring.QueueMetricMonitoring;
@@ -15,7 +16,8 @@ public class SyncProductHelper {
 
     private final QueueMetricMonitoring monitoring;
 
-    public SyncProductHelper(Queue<ProductEvent> productQueue, QueueMetricMonitoring monitoring) {
+    public SyncProductHelper(@Qualifier("apiProductQueue") Queue<ProductEvent> productQueue,
+            QueueMetricMonitoring monitoring) {
         this.productQueue = productQueue;
         this.monitoring = monitoring;
     }

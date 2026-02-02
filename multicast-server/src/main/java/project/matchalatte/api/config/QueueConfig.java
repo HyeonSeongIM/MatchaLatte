@@ -14,7 +14,7 @@ public class QueueConfig {
     @Value("${queue.product.max-capacity}")
     private int maxCapacity;
 
-    @Bean
+    @Bean(name = "apiProductQueue")
     public Queue<ProductEvent> productQueue() {
         // 용량 제한이 있는 큐 사용
         return new ArrayBlockingQueue<>(maxCapacity);
