@@ -19,7 +19,7 @@ public class ProductListener {
 
     private final Logger log = LoggerFactory.getLogger(ProductListener.class);
 
-    private static final String ES_TRANSFER_URL = "http://localhost:8082/api/internal/sync/products";
+    private static final String ES_TRANSFER_URL = "http://multicaset-service:8082/api/internal/sync/products";
 
     private final HttpClient httpClient;
 
