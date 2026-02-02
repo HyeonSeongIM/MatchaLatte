@@ -31,6 +31,4 @@ management:
         include: prometheus
 
 logging:
-  file:
-    name: /app/logs/api.log
   config: classpath:logback-spring.xml

@@ -34,6 +34,4 @@ queue:
     max-capacity: 10000
 
 logging:
-  file:
-    name: /app/logs/api.log
   config: classpath:logback-spring.xml
