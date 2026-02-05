@@ -1,6 +1,5 @@
 package project.matchalatte.core.api.controller.v1;
 
-import co.elastic.clients.elasticsearch.core.SearchResponse;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,17 +75,6 @@ public class ProductController {
             .map(product -> new ProductReadResponse(product.name(), product.description(), product.price()))
             .toList();
         log.info("{}", LogData.of("특정 유저에 따른 상품 목록 조회", "유저에 따른 상품 목록 조회 API 처리완료"));
-        return ApiResponse.success(responseData);
-    }
-
-    @GetMapping("/list")
-    public ApiResponse<List<ProductReadResponse>> readAllProducts() {
-        log.info("{}", LogData.of("전체 상품 목록 조회", "전체 상품 목록 조회 API 처리시작"));
-        List<Product> result = productService.readAllProducts();
-        List<ProductReadResponse> responseData = result.stream()
-            .map(product -> new ProductReadResponse(product.name(), product.description(), product.price()))
-            .toList();
-        log.info("{}", LogData.of("전체 상품 목록 조회", "전체 상품 목록 조회 API 처리완료"));
         return ApiResponse.success(responseData);
     }
 
