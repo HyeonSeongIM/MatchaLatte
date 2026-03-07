@@ -36,3 +36,23 @@ spring.config.activate.on-profile: staging
 
 ---
 spring.config.activate.on-profile: live
+
+
+---
+spring.config.activate.on-profile: test
+
+spring:
+  config:
+    import:
+      - monitoring.yml
+      - security.yml
+      - db-core.yml
+      - elasticsearch.yml
+  web.resources.add-mappings: false
+
+logging:
+  level:
+    org.springframework.test.context: DEBUG
+    org.springframework.boot.test.context: DEBUG
+    org.springframework.test.context.TestContextManager: TRACE
+    org.springframework.test.context.cache: TRACE
