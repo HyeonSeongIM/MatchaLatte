@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Tag("contextTest")
+@Tag("integrationTest")
 @WebMvcTest(controllers = ProductController.class)
 class ProductControllerTest extends IntegrationTestSupport {
 

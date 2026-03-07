@@ -84,15 +84,16 @@ subprojects {
     tasks.register('unitTest', Test) {
         group = 'verification'
         useJUnitPlatform {
-            excludeTags('context', 'restdocs')
+            // excludeTags('integration', 'restdocs')
+            includeTags('unit')
         }
         finalizedBy 'jacocoTestReport'
     }
 
-    tasks.register('contextTest', Test) {
+    tasks.register('integrationTest', Test) {
         group = 'verification'
         useJUnitPlatform {
-            includeTags('context')
+            includeTags('integration')
         }
     }
 
