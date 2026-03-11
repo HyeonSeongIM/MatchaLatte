@@ -1,20 +1,20 @@
 package project.matchalatte.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import project.matchalatte.core.api.controller.IntegrationTestSupport;
 import project.matchalatte.core.api.controller.v1.request.ProductCreateRequest;
 import project.matchalatte.core.api.controller.v1.request.ProductUpdateRequest;
 import project.matchalatte.core.domain.product.Product;
-import project.matchalatte.core.domain.product.ProductService;
 import project.matchalatte.storage.db.core.ProductEntity;
 import project.matchalatte.storage.db.core.ProductJpaRepository;
 import project.matchalatte.support.logging.UserIdContext;
@@ -25,12 +25,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
 @AutoConfigureMockMvc
-@ActiveProfiles("local")
-@WithMockUser
-@Tag("integration")
-class ProductIntegrationTest {
+class ProductIntegrationTest extends IntegrationTestSupport {
 
     @Autowired
     private MockMvc mockMvc;
@@ -40,9 +36,6 @@ class ProductIntegrationTest {
 
     @Autowired
     private ObjectMapper objectMapper;
-
-    @Autowired
-    private ProductService productService;
 
     @Autowired
     private ProductJpaRepository productRepository;
