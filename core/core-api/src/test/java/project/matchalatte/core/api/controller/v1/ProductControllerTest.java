@@ -2,16 +2,16 @@ package project.matchalatte.core.api.controller.v1;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import project.matchalatte.core.api.controller.IntegrationTestSupport;
 import project.matchalatte.core.api.controller.v1.request.ProductCreateRequest;
 import project.matchalatte.core.api.controller.v1.request.ProductUpdateRequest;
 import project.matchalatte.core.domain.product.Product;
+import project.matchalatte.core.domain.product.ProductService;
 
 import java.util.List;
 
@@ -26,9 +26,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Tag("integrationTest")
 @WebMvcTest(controllers = ProductController.class)
-class ProductControllerTest extends IntegrationTestSupport {
+@AutoConfigureMockMvc
+class ProductControllerTest {
+
+    @Autowired
+    private ProductService productService;
 
     @Autowired
     private MockMvc mockMvc;
