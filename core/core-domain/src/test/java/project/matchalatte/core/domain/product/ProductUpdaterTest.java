@@ -1,6 +1,7 @@
 package project.matchalatte.core.domain.product;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -13,6 +14,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@Tag("unit")
 class ProductUpdaterTest {
 
     @Mock
@@ -34,9 +36,9 @@ class ProductUpdaterTest {
         Long newPrice = 29000L;
         Long userId = 1L;
 
-        Product newProduct = new Product(newName, newDescription, newPrice, userId);
+        Product newProduct = new Product(productId, newName, newDescription, newPrice, userId);
 
-        given(productRepository.update(productId, newProduct)).willReturn(newProduct);
+        given(productRepository.update(eq(productId), any(Product.class))).willReturn(newProduct);
 
         given(productValidator.matchUserById(productId, userId)).willReturn(true);
 
@@ -50,7 +52,7 @@ class ProductUpdaterTest {
         assertThat(actualProduct.price()).isEqualTo(newPrice);
         assertThat(actualProduct.userId()).isEqualTo(userId);
 
-        verify(productRepository, times(1)).update(productId, newProduct);
+        verify(productRepository, times(1)).update(eq(productId), any(Product.class));
     }
 
     @Test

@@ -1,6 +1,5 @@
 package project.matchalatte.core.api.controller.v1;
 
-import co.elastic.clients.elasticsearch.core.SearchResponse;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,8 +13,6 @@ import project.matchalatte.core.domain.product.Product;
 import project.matchalatte.core.domain.product.ProductService;
 import project.matchalatte.core.domain.product.support.Page;
 import project.matchalatte.core.domain.product.support.Slice;
-import project.matchalatte.core.elasticsearch.service.ProductInfo;
-import project.matchalatte.core.elasticsearch.service.SearchService;
 import project.matchalatte.core.support.response.ApiResponse;
 import project.matchalatte.support.logging.LogData;
 import project.matchalatte.support.logging.UserIdContext;
@@ -30,11 +27,8 @@ public class ProductController {
 
     private final ProductService productService;
 
-    private final SearchService searchService;
-
-    public ProductController(ProductService productService, SearchService searchService) {
+    public ProductController(ProductService productService) {
         this.productService = productService;
-        this.searchService = searchService;
     }
 
     @PostMapping
@@ -84,17 +78,6 @@ public class ProductController {
         return ApiResponse.success(responseData);
     }
 
-    @GetMapping("/list")
-    public ApiResponse<List<ProductReadResponse>> readAllProducts() {
-        log.info("{}", LogData.of("전체 상품 목록 조회", "전체 상품 목록 조회 API 처리시작"));
-        List<Product> result = productService.readAllProducts();
-        List<ProductReadResponse> responseData = result.stream()
-            .map(product -> new ProductReadResponse(product.name(), product.description(), product.price()))
-            .toList();
-        log.info("{}", LogData.of("전체 상품 목록 조회", "전체 상품 목록 조회 API 처리완료"));
-        return ApiResponse.success(responseData);
-    }
-
     @GetMapping("/lists")
     public ApiResponse<Page> readAllProductsByPageable(@RequestParam int offset, @RequestParam int limit) {
         log.info("{}", LogData.of("전체 상품 목록 조회", "전체 상품 목록 조회 API 처리시작"));
@@ -130,15 +113,6 @@ public class ProductController {
             .toList();
         log.info("{}", LogData.of("검색 상품 목록 조회", keyword + " 상품 목록 조회 API 처리완료"));
         return ApiResponse.success(responseData);
-    }
-
-    @GetMapping("/search/es")
-    public ApiResponse<SearchResponse<ProductInfo>> searchProductsFromES(@RequestParam("keyword") String keyword)
-            throws Exception {
-        log.info("{}", LogData.of("검색 상품 목록 조회", " " + " 상품 목록 조회 API 처리시작"));
-        SearchResponse<ProductInfo> result = searchService.searchProducts(keyword);
-        log.info("{}", LogData.of("검색 상품 목록 조회", " " + " 상품 목록 조회 API 처리완료"));
-        return ApiResponse.success(result);
     }
 
 }

@@ -1,5 +1,5 @@
 spring:
   elasticsearch:
-    uris: ${ES_URIS}
+    uris: ${ES_URIS:localhost:9200}
     connection-timeout: 5s
     socket-timeout: 3s

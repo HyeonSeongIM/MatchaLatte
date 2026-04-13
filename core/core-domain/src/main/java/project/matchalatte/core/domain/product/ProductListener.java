@@ -1,8 +1,12 @@
 package project.matchalatte.core.domain.product;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import project.matchalatte.support.logging.LogData;
+import project.matchalatte.support.logging.TraceIdContext;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -13,80 +17,67 @@ import java.time.Duration;
 @Component
 public class ProductListener {
 
-    private static final String ES_TRANSFER_URL = "http://localhost:8082/api/internal/sync/products";
+    private final Logger log = LoggerFactory.getLogger(ProductListener.class);
 
-    private final HttpClient httpClient = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(3)).build();
+    private static final String ES_TRANSFER_URL = "http://multicast-service:8082/api/internal/sync/products";
+
+    private final HttpClient httpClient;
+
+    public ProductListener(HttpClient httpClient) {
+        this.httpClient = httpClient;
+    }
 
     @EventListener
     @Async
     public void onProductListen(ProductEvent event) {
-        if (event.eventType() == EventType.DELETE) {
-            sendDeleteEvent(event.id());
-            return;
-        }
-        sendInsertOrUpdateEvent(event);
-    }
-
-    private void sendInsertOrUpdateEvent(ProductEvent event) {
-        Long productId = event.id();
         try {
-            String jsonBody = String.format(
-                    "{\"id\":%d, \"name\":\"%s\", \"description\":\"%s\", \"price\":%d, \"userId\":%d, \"eventType\":\"%s\"}",
-                    event.id(), event.name(), event.description(), event.price(), event.userId(),
-                    event.eventType().name());
+            HttpRequest request = createHttpRequest(event);
+            log.info("{}", LogData.of("상품 데이터 가공 로직", "상품 데이터 가공 성공 : " + event.id()));
 
-            HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(ES_TRANSFER_URL))
-                .header("Content-Type", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
-                .timeout(Duration.ofSeconds(5))
-                .build();
-
-            httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenAccept(response -> {
-                if (response.statusCode() == 200) {
-                    System.out.println("ES 전송 성공 (INSERT/UPDATE): " + productId);
-                }
-                else {
-                    System.err.println("ES 전송 실패 (Status " + response.statusCode() + "): " + productId);
-                }
-            }).exceptionally(e -> {
-                System.err.println("ES 전송 중 에러 발생: " + e.getMessage());
-                return null;
-            });
-
+            sendData(request, event.id());
+            log.info("{}", LogData.of("상품 데이터 전송 로직", "상품 데이터 전송 성공 : " + event.id()));
         }
         catch (Exception e) {
-            e.printStackTrace();
+            log.error("{}", LogData.of("상품 이벤트 처리 로직", event.id() + " : " + e.getMessage()));
         }
     }
 
-    private void sendDeleteEvent(Long productId) {
-        try {
-            String jsonBody = String.format("{\"id\":%d, \"eventType\":\"DELETE\"}", productId);
+    private HttpRequest createHttpRequest(ProductEvent event) {
+        String jsonBody = (event.eventType() == EventType.DELETE) ? toDeleteJson(event.id()) : toInsertJson(event);
 
-            HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(ES_TRANSFER_URL))
-                .header("Content-Type", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
-                .timeout(Duration.ofSeconds(5))
-                .build();
+        return HttpRequest.newBuilder()
+            .uri(URI.create(ES_TRANSFER_URL))
+            .header("Content-Type", "application/json")
+            .header("X-Trace-Id", event.traceId())
+            .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
+            .timeout(Duration.ofSeconds(5))
+            .build();
+    }
 
-            httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenAccept(response -> {
-                if (response.statusCode() == 200) {
-                    System.out.println("ES 전송 성공 (DELETE): " + productId);
-                }
-                else {
-                    System.err.println("ES 전송 실패 (Status " + response.statusCode() + "): " + productId);
-                }
-            }).exceptionally(e -> {
-                System.err.println("ES 전송 중 에러 발생: " + e.getMessage());
-                return null;
-            });
+    private void sendData(HttpRequest httpRequest, Long productId) {
+        httpClient.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString()).thenAccept(response -> {
+            if (response.statusCode() == 200) {
+                log.info("{}", LogData.of("상품 데이터 전송 로직", "상품 데이터 전송 성공 ID: " + productId));
+            }
+            else {
+                // 특이한 상황
+                log.error("{}", LogData.of("상품 데이터 전송 로직", "상품 데이터 전송 실패 ID: {}" + productId));
+            }
+        }).exceptionally(e -> {
+            // 서버가 꺼져있거나 응답시간이 너무 길 때
+            log.error("{}",
+                    LogData.of("상품 데이터 전송 로직", "상품 데이터 전송 실패 ID: " + productId + ", Message: " + e.getMessage()));
+            return null;
+        });
+    }
 
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+    private String toInsertJson(ProductEvent event) {
+        return String.format("{\"id\":%d, \"name\":\"%s\", \"price\":%d, \"userId\":%d, \"eventType\":\"%s\"}",
+                event.id(), event.name(), event.price(), event.userId(), event.eventType().name());
+    }
+
+    private String toDeleteJson(Long productId) {
+        return String.format("{\"id\":%d, \"eventType\":\"DELETE\"}", productId);
     }
 
 }

@@ -38,3 +38,6 @@ out/
 
 ### AWS RDS Info ###
 .env
+
+### 로컬 테스트 도커 환경 ###
+./local-docker.sh

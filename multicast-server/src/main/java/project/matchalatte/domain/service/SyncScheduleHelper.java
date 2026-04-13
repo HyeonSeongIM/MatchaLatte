@@ -4,6 +4,7 @@ import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch.core.BulkRequest;
 import co.elastic.clients.elasticsearch.core.BulkResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import project.matchalatte.api.dto.EventType;
 import project.matchalatte.api.dto.ProductEvent;
@@ -23,7 +24,8 @@ public class SyncScheduleHelper {
 
     private final ElasticsearchClient elasticsearchClient;
 
-    public SyncScheduleHelper(Queue<ProductEvent> productQueue, ElasticsearchClient elasticsearchClient) {
+    public SyncScheduleHelper(@Qualifier("apiProductQueue") Queue<ProductEvent> productQueue,
+            ElasticsearchClient elasticsearchClient) {
         this.productQueue = productQueue;
         this.elasticsearchClient = elasticsearchClient;
     }

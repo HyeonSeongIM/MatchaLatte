@@ -25,6 +25,8 @@ public class AdminSecurityConfig {
 
             .authorizeHttpRequests(auth -> auth.requestMatchers("/css/**", "/js/**", "/images/**")
                 .permitAll()
+                .requestMatchers("/actuator/prometheus")
+                .permitAll()
                 .anyRequest()
                 .authenticated())
 

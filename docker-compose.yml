@@ -1,0 +1,67 @@
+services:
+  api-service:
+    container_name: api-service
+    restart: unless-stopped
+    image: hyeonseong1010/api-service:latest
+    environment:
+      - ES_URIS=${ES_URIS}
+      - STORAGE_DB_URL=${STORAGE_DB_URL}
+      - STORAGE_DB_USER=${STORAGE_DB_USER}
+      - STORAGE_DB_PASS=${STORAGE_DB_PASS}
+    volumes:
+      - ./logs/api:/app/logs
+    ports:
+      - "8080:8080"
+    env_file: .env
+    networks:
+      - matcha-network
+
+  admin-service:
+    container_name: admin-service
+    restart: unless-stopped
+    image: hyeonseong1010/admin-service:latest
+    environment:
+      - ES_URIS=${ES_URIS}
+      - STORAGE_DB_URL=${STORAGE_DB_URL}
+      - STORAGE_DB_USER=${STORAGE_DB_USER}
+      - STORAGE_DB_PASS=${STORAGE_DB_PASS}
+    volumes:
+      - ./logs/admin:/app/logs
+    ports:
+      - "8081:8081"
+    env_file: .env
+    networks:
+      - matcha-network
+
+  multicast-service:
+    container_name: multicast-service
+    restart: unless-stopped
+    image: hyeonseong1010/multicast-service:latest
+    environment:
+      - ES_URIS=${ES_URIS}
+      - STORAGE_DB_URL=${STORAGE_DB_URL}
+      - STORAGE_DB_USER=${STORAGE_DB_USER}
+      - STORAGE_DB_PASS=${STORAGE_DB_PASS}
+    volumes:
+      - ./logs/multicast:/app/logs
+    ports:
+      - "8082:8082"
+    env_file: .env
+    networks:
+      - matcha-network
+
+  filebeat:
+    container_name: filebeat
+    image: docker.elastic.co/beats/filebeat:8.12.0
+    user: root
+    volumes:
+      - ./filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - ./logs:/usr/share/filebeat/logs:ro
+    environment:
+      - ES_URIS=${ES_URIS}
+    networks:
+      - matcha-network
+
+networks:
+  matcha-network:
+    driver: bridge

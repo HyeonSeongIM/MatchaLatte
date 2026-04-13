@@ -1,24 +1,29 @@
 package project.matchalatte.core.api.controller;
 
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.junit.jupiter.api.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
-import project.matchalatte.core.api.controller.v1.UserController;
+import org.springframework.test.context.ActiveProfiles;
 import project.matchalatte.core.domain.product.ProductService;
 import project.matchalatte.core.domain.user.UserSecurityService;
 import project.matchalatte.core.domain.user.UserService;
 
 @WithMockUser
-@WebMvcTest(controllers = {})
+@SpringBootTest
+@ActiveProfiles("test")
+@Tag("integration")
+@AutoConfigureMockMvc
 public abstract class IntegrationTestSupport {
 
-    @MockBean
-    public ProductService productService;
+    @Autowired
+    protected ProductService productService;
 
-    @MockBean
-    public UserService userService;
+    @Autowired
+    protected UserService userService;
 
-    @MockBean
-    public UserSecurityService userSecurityService;
+    @Autowired
+    protected UserSecurityService userSecurityService;
 
 }

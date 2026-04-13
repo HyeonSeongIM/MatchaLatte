@@ -2,12 +2,12 @@ package project.matchalatte.core.api.controller.v1;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import project.matchalatte.core.api.controller.IntegrationTestSupport;
 import project.matchalatte.core.api.controller.v1.request.ProductCreateRequest;
 import project.matchalatte.core.api.controller.v1.request.ProductUpdateRequest;
 import project.matchalatte.core.domain.product.Product;
@@ -26,8 +26,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Tag("contextTest")
-class ProductControllerTest extends IntegrationTestSupport {
+@WebMvcTest(controllers = ProductController.class)
+@AutoConfigureMockMvc
+class ProductControllerTest {
+
+    @Autowired
+    private ProductService productService;
 
     @Autowired
     private MockMvc mockMvc;
@@ -43,8 +47,8 @@ class ProductControllerTest extends IntegrationTestSupport {
 
         Long userId = 1L;
 
-        Product serviceResult = new Product(createRequest.name(), createRequest.description(), createRequest.price(),
-                userId);
+        Product serviceResult = new Product(1L, createRequest.name(), createRequest.description(),
+                createRequest.price(), userId);
 
         given(productService.createProduct(any(), any(), any(), any())).willReturn(serviceResult);
 
@@ -88,7 +92,7 @@ class ProductControllerTest extends IntegrationTestSupport {
 
         Long userId = 2L;
 
-        Product savedProduct = new Product("아이돌 굿즈", "BTS 정국 굿즈에요", 50000L, userId);
+        Product savedProduct = new Product(productId, "아이돌 굿즈", "BTS 정국 굿즈에요", 50000L, userId);
 
         given(productService.readProductById(productId)).willReturn(savedProduct);
 
@@ -115,8 +119,8 @@ class ProductControllerTest extends IntegrationTestSupport {
         Long userId = 2L;
 
         ProductUpdateRequest updateRequest = new ProductUpdateRequest("아이패드", "사용한지 1개월 정도 됐어요.", 60000L);
-        Product updatedProduct = new Product(updateRequest.name(), updateRequest.description(), updateRequest.price(),
-                userId);
+        Product updatedProduct = new Product(productId, updateRequest.name(), updateRequest.description(),
+                updateRequest.price(), userId);
 
         given(productService.updateProduct(any(), any(), any(), any(), any())).willReturn(updatedProduct);
 
@@ -160,33 +164,13 @@ class ProductControllerTest extends IntegrationTestSupport {
         // given
         Long userId = 1L;
 
-        List<Product> productList = List.of(new Product("상품 1", "입니다.", 5000L, 1L),
-                new Product("상품 2", "입니다.", 6000L, 1L), new Product("상품 3", "입니다.", 7000L, 2L));
+        List<Product> productList = List.of(new Product(1L, "상품 1", "입니다.", 5000L, 1L),
+                new Product(2L, "상품 2", "입니다.", 6000L, 1L), new Product(3L, "상품 3", "입니다.", 7000L, 2L));
 
         given(productService.readProductsByUserId(userId)).willReturn(productList);
 
         // when & then
         mockMvc.perform(get("/api/v1/product/user/" + userId).contentType(MediaType.APPLICATION_JSON).with(csrf()))
-            .andDo(print())
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.result").value("SUCCESS"))
-            .andExpect(jsonPath("$.data.[0].name").value("상품 1"))
-            .andExpect(jsonPath("$.data.[0].description").value("입니다."))
-            .andExpect(jsonPath("$.data.[0].price").value(5000L))
-            .andExpect(jsonPath("$.error").value(nullValue()));
-    }
-
-    @Test
-    @DisplayName("전체 상품 목록 조회")
-    void readAllProducts_API() throws Exception {
-        // given
-        List<Product> productList = List.of(new Product("상품 1", "입니다.", 5000L, 1L),
-                new Product("상품 2", "입니다.", 6000L, 1L), new Product("상품 3", "입니다.", 7000L, 2L));
-
-        given(productService.readAllProducts()).willReturn(productList);
-
-        // when & then
-        mockMvc.perform(get("/api/v1/product/list").contentType(MediaType.APPLICATION_JSON).with(csrf()))
             .andDo(print())
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.result").value("SUCCESS"))
