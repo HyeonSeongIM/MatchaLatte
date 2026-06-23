@@ -21,4 +21,5 @@ public class ProductCategoryMap {
     public Long getId() {
         return id;
     }
+
 }
