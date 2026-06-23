@@ -26,6 +26,7 @@ public class AsyncConfig {
         executor.setKeepAliveSeconds(properties.getKeepAliveSeconds());
         executor.setThreadNamePrefix(properties.getThreadNamePrefix());
         executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
+        executor.setAllowCoreThreadTimeOut(true);
         executor.initialize();
         return executor;
     }

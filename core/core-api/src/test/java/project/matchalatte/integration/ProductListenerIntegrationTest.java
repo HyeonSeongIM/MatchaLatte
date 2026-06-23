@@ -52,6 +52,7 @@ class ProductListenerIntegrationTest extends IntegrationTestSupport {
         // then
         String threadName = capturedThreadName.get(5, TimeUnit.SECONDS);
         assertThat(threadName).startsWith("product-event-");
+        Mockito.verify(httpClient, Mockito.timeout(5000)).sendAsync(any(), any());
     }
 
 }
