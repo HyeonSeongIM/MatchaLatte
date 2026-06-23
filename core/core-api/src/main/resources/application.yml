@@ -1,6 +1,14 @@
 spring.application.name: core-api
 spring.profiles.active: local
 
+async:
+  product-event:
+    core-size: 5
+    max-size: 20
+    queue-capacity: 500
+    keep-alive-seconds: 60
+    thread-name-prefix: product-event-
+
 spring:
   config:
     import:
