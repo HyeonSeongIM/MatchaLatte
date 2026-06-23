@@ -28,7 +28,7 @@ public class ProductListener {
     }
 
     @EventListener
-    @Async
+    @Async("productEventExecutor")
     public void onProductListen(ProductEvent event) {
         try {
             HttpRequest request = createHttpRequest(event);
