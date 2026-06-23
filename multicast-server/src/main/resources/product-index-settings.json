@@ -1,0 +1,36 @@
+{
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0,
+    "analysis": {
+      "analyzer": {
+        "nori_analyzer": {
+          "type": "custom",
+          "tokenizer": "nori_tokenizer",
+          "filter": ["lowercase"]
+        }
+      },
+      "tokenizer": {
+        "nori_tokenizer": {
+          "type": "nori_tokenizer",
+          "decompound_mode": "mixed"
+        }
+      }
+    }
+  },
+  "mappings": {
+    "dynamic": "strict",
+    "properties": {
+      "id":     { "type": "long" },
+      "name":   {
+        "type": "text",
+        "analyzer": "nori_analyzer",
+        "fields": {
+          "keyword": { "type": "keyword" }
+        }
+      },
+      "price":  { "type": "long" },
+      "userId": { "type": "long" }
+    }
+  }
+}
