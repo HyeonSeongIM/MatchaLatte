@@ -5,9 +5,11 @@ import co.elastic.clients.elasticsearch.indices.CreateIndexResponse;
 import co.elastic.clients.elasticsearch.indices.UpdateAliasesRequest;
 import co.elastic.clients.elasticsearch.indices.UpdateAliasesResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Optional;
 
 @Component
@@ -71,9 +73,9 @@ public class SyncAliasManager {
     public void createNewIndex(String newIndexName) throws IOException {
         log.info("새로운 인덱스 [{}] 생성을 시도합니다.", newIndexName);
 
-        try {
-            // 인덱스 생성 요청
-            CreateIndexResponse response = elasticsearchClient.indices().create(c -> c.index(newIndexName));
+        try (InputStream is = new ClassPathResource("product-index-settings.json").getInputStream()) {
+            CreateIndexResponse response = elasticsearchClient.indices()
+                .create(c -> c.withJson(is).index(newIndexName));
 
             if (response.acknowledged()) {
                 log.info("인덱스 [{}] 생성 성공.", newIndexName);
@@ -85,7 +87,6 @@ public class SyncAliasManager {
         }
         catch (Exception e) {
             log.error("인덱스 [{}] 생성 중 예외 발생.", newIndexName, e);
-            // 이미 인덱스가 존재하는 경우 (첫 번째 배치 Job에서 IndexWriter가 생성 못 했을 때)
             if (e.getMessage() != null && e.getMessage().contains("resource_already_exists_exception")) {
                 log.warn("인덱스 [{}]는 이미 존재합니다. 계속 진행합니다.", newIndexName);
                 return;
