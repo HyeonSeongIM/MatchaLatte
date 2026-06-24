@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -27,9 +28,22 @@ class RepairServiceTest {
     @InjectMocks
     RepairService sut;
 
+    private static final String RUN_AT = "2026-06-24T10:00:00";
+
+    @Test
+    void validate_report_비어있으면_색인_안_함() {
+        when(reportHelper.findLatestRunAt()).thenReturn(Optional.empty());
+
+        String result = sut.repair();
+
+        assertThat(result).contains("MISSING 항목 없음");
+        verifyNoInteractions(elasticsearchClient);
+    }
+
     @Test
     void MISSING_없으면_색인_안_함() {
-        when(reportHelper.findMissingProductIds()).thenReturn(List.of());
+        when(reportHelper.findLatestRunAt()).thenReturn(Optional.of(RUN_AT));
+        when(reportHelper.findMissingProductIds(RUN_AT)).thenReturn(List.of());
 
         String result = sut.repair();
 
@@ -40,7 +54,8 @@ class RepairServiceTest {
     @Test
     @SuppressWarnings("unchecked")
     void MISSING_id로_RDB_조회_후_Bulk_색인() throws Exception {
-        when(reportHelper.findMissingProductIds()).thenReturn(List.of(1L, 2L));
+        when(reportHelper.findLatestRunAt()).thenReturn(Optional.of(RUN_AT));
+        when(reportHelper.findMissingProductIds(RUN_AT)).thenReturn(List.of(1L, 2L));
         when(jdbcTemplate.query(anyString(), any(Object[].class), any(RowMapper.class)))
             .thenReturn(List.of(
                 new SyncProductInfo(1L, "상품A", "설명A", 10000L, 100L),

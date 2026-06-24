@@ -9,6 +9,7 @@ import project.matchalatte.domain.entity.ProductDocument;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -27,9 +28,15 @@ public class RepairService {
     }
 
     public String repair() {
-        List<Long> missingIds = reportHelper.findMissingProductIds();
+        Optional<String> latestRunAt = reportHelper.findLatestRunAt();
+        if (latestRunAt.isEmpty()) {
+            log.info("validate_report 비어있음 — 검증 실행 필요");
+            return "MISSING 항목 없음";
+        }
+
+        List<Long> missingIds = reportHelper.findMissingProductIds(latestRunAt.get());
         if (missingIds.isEmpty()) {
-            log.info("MISSING 항목 없음 — 재색인 불필요");
+            log.info("MISSING 항목 없음 (run_at={}) — 재색인 불필요", latestRunAt.get());
             return "MISSING 항목 없음";
         }
 

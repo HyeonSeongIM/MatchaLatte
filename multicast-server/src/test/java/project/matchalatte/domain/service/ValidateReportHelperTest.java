@@ -8,6 +8,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.*;
@@ -56,19 +57,39 @@ class ValidateReportHelperTest {
     @Test
     @SuppressWarnings("unchecked")
     void findMissingProductIds_MISSING_id_목록_반환() {
-        when(jdbcTemplate.queryForList(contains("issue_type = 'MISSING'"), eq(Long.class)))
+        when(jdbcTemplate.queryForList(contains("issue_type = 'MISSING'"), eq(Long.class), eq("2026-06-24T10:00:00")))
             .thenReturn(List.of(1L, 2L, 3L));
 
-        List<Long> result = sut.findMissingProductIds();
+        List<Long> result = sut.findMissingProductIds("2026-06-24T10:00:00");
 
         assertThat(result).containsExactly(1L, 2L, 3L);
     }
 
     @Test
     void countByIssueType_건수_반환() {
-        when(jdbcTemplate.queryForObject(contains("COUNT(*)"), eq(Integer.class), eq("MISSING")))
+        when(jdbcTemplate.queryForObject(contains("COUNT(*)"), eq(Integer.class), eq("MISSING"), eq("2026-06-24T10:00:00")))
             .thenReturn(5);
 
-        assertThat(sut.countByIssueType("MISSING")).isEqualTo(5);
+        assertThat(sut.countByIssueType("MISSING", "2026-06-24T10:00:00")).isEqualTo(5);
+    }
+
+    @Test
+    void findLatestRunAt_최신_runAt_반환() {
+        when(jdbcTemplate.queryForList(contains("ORDER BY run_at DESC"), eq(String.class)))
+            .thenReturn(List.of("2026-06-24T10:00:00"));
+
+        Optional<String> result = sut.findLatestRunAt();
+
+        assertThat(result).isPresent().hasValue("2026-06-24T10:00:00");
+    }
+
+    @Test
+    void findLatestRunAt_데이터_없으면_empty_반환() {
+        when(jdbcTemplate.queryForList(contains("ORDER BY run_at DESC"), eq(String.class)))
+            .thenReturn(List.of());
+
+        Optional<String> result = sut.findLatestRunAt();
+
+        assertThat(result).isEmpty();
     }
 }

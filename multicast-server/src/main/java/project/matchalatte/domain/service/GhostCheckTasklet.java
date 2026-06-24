@@ -94,7 +94,8 @@ public class GhostCheckTasklet implements Tasklet {
                 if (hits.size() < 1000) break;
             }
         } catch (Exception e) {
-            log.error("ghostCheckStep 오류", e);
+            log.error("ghostCheckStep 루프 중 오류 — 이후 범위 미검증", e);
+            reportHelper.insertGhostCheckInterrupted(runAt);
         } finally {
             final String finalPitId = pitId;
             try {

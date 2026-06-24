@@ -83,4 +83,21 @@ class GhostCheckTaskletTest {
 
         verify(elasticsearchClient).closePointInTime(any(Function.class));
     }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    void 루프_예외_발생시_insertGhostCheckInterrupted_호출() throws Exception {
+        OpenPointInTimeResponse pitOpen = mock(OpenPointInTimeResponse.class);
+        ClosePointInTimeResponse closeResponse = mock(ClosePointInTimeResponse.class);
+
+        when(elasticsearchClient.openPointInTime(any(Function.class))).thenReturn(pitOpen);
+        when(pitOpen.id()).thenReturn("pit-1");
+        when(elasticsearchClient.search(any(Function.class), eq(Void.class)))
+            .thenThrow(new RuntimeException("ES error"));
+        when(elasticsearchClient.closePointInTime(any(Function.class))).thenReturn(closeResponse);
+
+        sut.execute(stepContribution, chunkContext);
+
+        verify(reportHelper).insertGhostCheckInterrupted("2026-06-24T10:00:00");
+    }
 }
