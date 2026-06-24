@@ -70,6 +70,23 @@ public class SyncAliasManager {
         }
     }
 
+    public void applyBatchSettings(String indexName) throws IOException {
+        elasticsearchClient.indices().putSettings(s ->
+            s.index(indexName)
+             .settings(is -> is.refreshInterval(t -> t.time("-1")))
+        );
+        log.info("인덱스 [{}] batch 설정 적용: refresh_interval=-1", indexName);
+    }
+
+    public void restoreBatchSettings(String indexName) throws IOException {
+        elasticsearchClient.indices().putSettings(s ->
+            s.index(indexName)
+             .settings(is -> is.refreshInterval(t -> t.time("1s")))
+        );
+        elasticsearchClient.indices().refresh(r -> r.index(indexName));
+        log.info("인덱스 [{}] 설정 복구 완료: refresh_interval=1s, force refresh", indexName);
+    }
+
     public void createNewIndex(String newIndexName) throws IOException {
         log.info("새로운 인덱스 [{}] 생성을 시도합니다.", newIndexName);
 

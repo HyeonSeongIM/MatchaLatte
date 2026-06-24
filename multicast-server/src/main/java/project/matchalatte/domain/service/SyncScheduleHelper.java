@@ -65,11 +65,26 @@ public class SyncScheduleHelper {
             }
 
             BulkResponse result = elasticsearchClient.bulk(br.build());
-            log.info("스케줄링 완료 : {}", result);
+
+            if (result.errors()) {
+                result.items().forEach(item -> {
+                    if (item.error() != null) {
+                        if (item.status() == 429) {
+                            log.error("Bulk 아이템 실패 (429 Too Many Requests — ES write 풀 포화) ID: {}, reason: {}",
+                                item.id(), item.error().reason());
+                        } else {
+                            log.error("Bulk 아이템 실패 — ID: {}, status: {}, reason: {}",
+                                item.id(), item.status(), item.error().reason());
+                        }
+                    }
+                });
+            } else {
+                log.info("스케줄링 완료: {}건, {}ms", batch.size(), result.took());
+            }
 
         }
         catch (Exception e) {
-            e.printStackTrace();
+            log.error("스케줄링 Bulk 요청 실패", e);
         }
     }
 

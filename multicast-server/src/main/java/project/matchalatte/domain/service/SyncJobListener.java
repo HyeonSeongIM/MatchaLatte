@@ -38,7 +38,10 @@ public class SyncJobListener implements JobExecutionListener {
             // 2. 새로운 인덱스 생성
             aliasManagementService.createNewIndex(newIndexName);
 
-            // 3. 인덱스 이름을 JobExecutionContext에 저장하여 ItemWriter가 사용할 수 있도록 함
+            // 3. Bulk 색인 속도 향상을 위해 자동 refresh 비활성화
+            aliasManagementService.applyBatchSettings(newIndexName);
+
+            // 4. 인덱스 이름을 JobExecutionContext에 저장하여 ItemWriter가 사용할 수 있도록 함
             jobExecution.getExecutionContext().put(NEW_INDEX_NAME_KEY, newIndexName);
 
         }
@@ -60,13 +63,15 @@ public class SyncJobListener implements JobExecutionListener {
             }
 
             try {
-                // 4. Job 성공 완료 후, Alias를 새 인덱스로 교체 (Atomic Swap)
+                // 5. refresh 복구 + force refresh → 검색 가능 상태로 전환
+                aliasManagementService.restoreBatchSettings(newIndexName);
+
+                // 6. Alias를 새 인덱스로 교체 (Atomic Swap)
                 log.info("Job 완료. Alias [{}]를 인덱스 [{}]로 교체 시도.", ALIAS_NAME, newIndexName);
                 aliasManagementService.swapAlias(ALIAS_NAME, newIndexName);
             }
             catch (IOException e) {
-                log.error("Job 완료 후 Alias 교체 실패", e);
-                // Alias 교체 실패 시 롤백 또는 알림 처리 필요
+                log.error("Job 완료 후 설정 복구 또는 Alias 교체 실패", e);
             }
         }
         else {
