@@ -58,7 +58,7 @@ public class GhostCheckTasklet implements Tasklet {
                 SearchResponse<Void> response = elasticsearchClient.search(s -> {
                     var builder = s
                         .pit(p -> p.id(currentPitId).keepAlive(t -> t.time("5m")))
-                        .sort(so -> so.field(f -> f.field("_id").order(SortOrder.Asc)))
+                        .sort(so -> so.field(f -> f.field("id").order(SortOrder.Asc)))
                         .size(1000)
                         .source(src -> src.fetch(false));
                     if (currentSearchAfter != null) {
