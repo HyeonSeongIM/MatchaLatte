@@ -19,8 +19,11 @@
 |------|------|
 | MISSING | RDB에 존재하는데 ES에 없음 (CREATE/UPDATE 이벤트 유실) |
 | GHOST | ES에 존재하는데 RDB에 없음 (DELETE 이벤트 유실) |
+| SKIPPED | ES mget 실패로 해당 청크를 검사하지 못함 |
 
 값 불일치(VALUE_MISMATCH) 탐지는 이번 범위에서 제외한다.
+
+**SKIPPED 기록이 핵심이다.** skip된 청크를 리포트에 남기지 않으면 "이상 없음"처럼 보이지만 실제로는 검사 자체를 못 한 것이다. 리포트에 SKIPPED가 있으면 해당 청크 범위를 재검증해야 한다는 신호다.
 
 ---
 
@@ -57,16 +60,25 @@ ItemWriter  : ValidateItemWriter
 Scroll API(deprecated) 대신 **PIT + search_after** 방식을 사용한다.
 
 ```
-① openPointInTime(index: "products", keep_alive: "1m")  → pit_id 획득
-② loop:
-     search(pit_id, sort: _id asc, search_after: [last_id], size: 1000)
-     → 청크 _id 목록 → RDB IN 쿼리
-     → RDB에 없는 ID → validate_report에 GHOST 기록
-     → 결과 < 1000 이면 종료
-③ closePointInTime(pit_id)
+pit_id = openPointInTime(index: "products", keep_alive: "5m")
+try:
+    lastSortValue = null
+    loop:
+        response = search(pit_id, sort: _id asc, search_after: lastSortValue, size: 1000)
+        pit_id = response.pit_id   ← ES가 응답마다 갱신된 pit_id 반환, 이걸 이어받아야 함
+        → 청크 _id 목록 → RDB IN 쿼리
+        → RDB에 없는 ID → validate_report에 GHOST 기록
+        lastSortValue = 마지막 hit의 sort 값
+        → 결과 < 1000 이면 종료
+finally:
+    closePointInTime(pit_id)       ← 예외 발생 시에도 반드시 close
 ```
 
-PIT를 열면 검색 시점의 인덱스 스냅샷이 고정되어, 페이지 이동 중 변경 영향을 받지 않는다.
+- `keep_alive: "5m"`: 청크 처리 중 PIT가 만료되지 않도록 넉넉하게 설정
+- `pit_id` 갱신: ES는 매 search 응답에 새 `pit_id`를 포함하며, 이 값을 다음 요청에 써야 한다. 이전 `pit_id`를 재사용하면 만료 오류 발생
+- `finally` close: PIT는 ES 리소스를 점유하므로 정상/예외 모두 반드시 해제
+
+PIT를 열면 검색 시점의 인덱스 스냅샷이 고정되어 페이지 이동 중 변경 영향을 받지 않는다.
 
 ### JobListener.afterJob()
 
@@ -82,12 +94,15 @@ PIT를 열면 검색 시점의 인덱스 스냅샷이 고정되어, 페이지 �
 CREATE TABLE validate_report (
     id          BIGINT      NOT NULL AUTO_INCREMENT,
     run_at      DATETIME    NOT NULL,
-    issue_type  ENUM('MISSING', 'GHOST') NOT NULL,
-    product_id  BIGINT      NOT NULL,
+    issue_type  ENUM('MISSING', 'GHOST', 'SKIPPED') NOT NULL,
+    product_id  BIGINT      NULL,      -- SKIPPED일 때는 NULL (청크 범위로 대신 기록)
+    detail      VARCHAR(255) NULL,     -- SKIPPED: "chunk_start=1001, chunk_end=2000"
     PRIMARY KEY (id),
     INDEX idx_issue_type_product_id (issue_type, product_id)
 );
 ```
+
+`SKIPPED` 행은 어떤 ID 범위가 미검증 상태인지 보여준다. 리포트에 SKIPPED가 존재하면 해당 범위를 재검증해야 하며, "이상 없음"으로 간주해서는 안 된다.
 
 ---
 
@@ -122,9 +137,9 @@ POST /api/internal/sync/repair
 
 | 상황 | 처리 |
 |------|------|
-| ES mget 실패 (청크 단위) | 해당 청크 skip, 로그 기록 후 다음 청크 계속 |
+| ES mget 실패 (청크 단위) | 해당 청크 skip → validate_report에 SKIPPED 기록 (청크 범위 포함) → 다음 청크 계속 |
 | PIT 연결 끊김 | Step 실패 → Batch 재시작 시 해당 Step부터 재개 |
-| repair Bulk 일부 실패 | 실패 ID 로그 + validate_report 재기록 |
+| repair Bulk 일부 실패 | 실패 ID 로그만 (validate_report 재기록 안 함) |
 
 ---
 
