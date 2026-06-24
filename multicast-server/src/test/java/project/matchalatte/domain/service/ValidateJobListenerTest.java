@@ -8,6 +8,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.JobExecution;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -39,6 +40,16 @@ class ValidateJobListenerTest {
         when(reportHelper.countByIssueType(anyString())).thenReturn(0);
 
         sut.afterJob(jobExecution);
+
+        verify(syncLockHelper).stopFullSync();
+    }
+
+    @Test
+    void afterJob_countByIssueType_예외에도_Lock_해제_호출() {
+        JobExecution jobExecution = mock(JobExecution.class);
+        when(reportHelper.countByIssueType(anyString())).thenThrow(new RuntimeException("DB error"));
+
+        assertThrows(RuntimeException.class, () -> sut.afterJob(jobExecution));
 
         verify(syncLockHelper).stopFullSync();
     }

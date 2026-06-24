@@ -19,17 +19,19 @@ public class ValidateJobListener implements JobExecutionListener {
 
     @Override
     public void afterJob(JobExecution jobExecution) {
-        int missing = reportHelper.countByIssueType("MISSING");
-        int ghost = reportHelper.countByIssueType("GHOST");
-        int skipped = reportHelper.countByIssueType("SKIPPED");
+        try {
+            int missing = reportHelper.countByIssueType("MISSING");
+            int ghost = reportHelper.countByIssueType("GHOST");
+            int skipped = reportHelper.countByIssueType("SKIPPED");
 
-        log.info("[검증 완료] 상태={} | MISSING={} | GHOST={} | SKIPPED={}",
-            jobExecution.getStatus(), missing, ghost, skipped);
+            log.info("[검증 완료] 상태={} | MISSING={} | GHOST={} | SKIPPED={}",
+                jobExecution.getStatus(), missing, ghost, skipped);
 
-        if (skipped > 0) {
-            log.warn("[주의] SKIPPED 청크 {}개 존재 — 해당 범위는 미검증 상태입니다. validate_report 확인 필요.", skipped);
+            if (skipped > 0) {
+                log.warn("[주의] SKIPPED 청크 {}개 존재 — 해당 범위는 미검증 상태입니다. validate_report 확인 필요.", skipped);
+            }
+        } finally {
+            syncLockHelper.stopFullSync();
         }
-
-        syncLockHelper.stopFullSync();
     }
 }
