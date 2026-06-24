@@ -1,0 +1,35 @@
+package project.matchalatte.domain.service;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.JobExecutionListener;
+import org.springframework.stereotype.Component;
+
+@Component
+@Slf4j
+public class ValidateJobListener implements JobExecutionListener {
+
+    private final ValidateReportHelper reportHelper;
+    private final SyncLockHelper syncLockHelper;
+
+    public ValidateJobListener(ValidateReportHelper reportHelper, SyncLockHelper syncLockHelper) {
+        this.reportHelper = reportHelper;
+        this.syncLockHelper = syncLockHelper;
+    }
+
+    @Override
+    public void afterJob(JobExecution jobExecution) {
+        int missing = reportHelper.countByIssueType("MISSING");
+        int ghost = reportHelper.countByIssueType("GHOST");
+        int skipped = reportHelper.countByIssueType("SKIPPED");
+
+        log.info("[검증 완료] 상태={} | MISSING={} | GHOST={} | SKIPPED={}",
+            jobExecution.getStatus(), missing, ghost, skipped);
+
+        if (skipped > 0) {
+            log.warn("[주의] SKIPPED 청크 {}개 존재 — 해당 범위는 미검증 상태입니다. validate_report 확인 필요.", skipped);
+        }
+
+        syncLockHelper.stopFullSync();
+    }
+}
