@@ -41,7 +41,7 @@ public class SyncAliasManager {
         }
 
         // 3. 새 인덱스에 별칭을 추가합니다.
-        updateAliasesBuilder.actions(a -> a.add(ad -> ad.index(newIndexName).alias(aliasName)));
+        updateAliasesBuilder.actions(a -> a.add(ad -> ad.index(newIndexName).alias(aliasName).isWriteIndex(true)));
 
         // 4. 원자적(Atomic) 요청 전송
         UpdateAliasesResponse response = elasticsearchClient.indices().updateAliases(updateAliasesBuilder.build());

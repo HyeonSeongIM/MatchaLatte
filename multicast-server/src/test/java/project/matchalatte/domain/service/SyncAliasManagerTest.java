@@ -1,26 +1,34 @@
 package project.matchalatte.domain.service;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch.indices.update_aliases.Action;
+import co.elastic.clients.elasticsearch.indices.update_aliases.AddAction;
+import co.elastic.clients.elasticsearch.indices.CreateIndexRequest;
 import co.elastic.clients.elasticsearch.indices.CreateIndexResponse;
 import co.elastic.clients.elasticsearch.indices.ElasticsearchIndicesClient;
+import co.elastic.clients.elasticsearch.indices.GetAliasResponse;
+import co.elastic.clients.elasticsearch.indices.UpdateAliasesRequest;
+import co.elastic.clients.elasticsearch.indices.UpdateAliasesResponse;
+import co.elastic.clients.json.JsonData;
+import co.elastic.clients.util.ObjectBuilder;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.ClassPathResource;
+
+import java.util.Map;
+import java.util.function.Function;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import java.util.function.Function;
-import co.elastic.clients.elasticsearch.indices.CreateIndexRequest;
-import co.elastic.clients.json.JsonData;
-import co.elastic.clients.util.ObjectBuilder;
 
 @ExtendWith(MockitoExtension.class)
 class SyncAliasManagerTest {
@@ -121,6 +129,34 @@ class SyncAliasManagerTest {
 
         assertThatCode(() -> syncAliasManager.createNewIndex("products_2026_06_23"))
                 .doesNotThrowAnyException();
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    void swapAlias_isWriteIndex_true_설정() throws Exception {
+        ElasticsearchIndicesClient mockIndicesClient = mock(ElasticsearchIndicesClient.class);
+        GetAliasResponse mockGetAliasResponse = mock(GetAliasResponse.class);
+        UpdateAliasesResponse mockUpdateResponse = mock(UpdateAliasesResponse.class);
+
+        when(elasticsearchClient.indices()).thenReturn(mockIndicesClient);
+        when(mockIndicesClient.getAlias(any(Function.class))).thenReturn(mockGetAliasResponse);
+        when(mockGetAliasResponse.result()).thenReturn(Map.of());
+        when(mockIndicesClient.updateAliases(any(UpdateAliasesRequest.class))).thenReturn(mockUpdateResponse);
+        when(mockUpdateResponse.acknowledged()).thenReturn(true);
+
+        syncAliasManager.swapAlias("products", "products_2026_06_24");
+
+        ArgumentCaptor<UpdateAliasesRequest> captor = ArgumentCaptor.forClass(UpdateAliasesRequest.class);
+        verify(mockIndicesClient).updateAliases(captor.capture());
+        UpdateAliasesRequest request = captor.getValue();
+
+        AddAction addAction = request.actions().stream()
+            .filter(a -> a.add() != null)
+            .map(Action::add)
+            .findFirst()
+            .orElseThrow(() -> new AssertionError("add action 없음"));
+
+        assertThat(addAction.isWriteIndex()).isTrue();
     }
 
 }
