@@ -40,20 +40,6 @@ public class ProductReader {
         return new Page(products, totalCount, totalPages);
     }
 
-    public Slice readProductsSlice(int offset, int limit) {
-        List<Product> products = productRepository.findProducts(offset, limit + 1);
-
-        boolean hasNext = false;
-
-        if (products.size() > limit) {
-            hasNext = true;
-
-            products.remove(limit);
-        }
-
-        return new Slice(products, hasNext);
-    }
-
     public Slice readProductsSliceNoOffset(int limit, Long lastId) {
 
         List<Product> products;
