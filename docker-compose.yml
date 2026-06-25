@@ -3,6 +3,8 @@ services:
     container_name: api-service
     restart: unless-stopped
     image: hyeonseong1010/api-service:latest
+    mem_limit: 640m
+    cpus: 4
     environment:
       - ES_URIS=${ES_URIS}
       - STORAGE_DB_URL=${STORAGE_DB_URL}
