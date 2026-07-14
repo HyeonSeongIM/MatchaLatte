@@ -73,11 +73,6 @@ public class ProductService {
         return productReader.readProductsPage(offset, limit);
     }
 
-    public Slice readProductsSlice(int offset, int limit) {
-        log.debug(LogData.of("상품 슬라이스 읽기 로직", "요청 받음 offset={} limit={}"), offset, limit);
-        return productReader.readProductsSlice(offset, limit);
-    }
-
     public Slice readProductsSliceNoOffset(int limit, Long lastId) {
         log.debug(LogData.of("상품 슬라이스(NoOffset) 읽기 로직", "요청 받음 limit={} lastId={}"), limit, lastId);
         return productReader.readProductsSliceNoOffset(limit, lastId);

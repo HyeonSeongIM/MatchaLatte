@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import project.matchalatte.api.dto.ProductEvent;
+import project.matchalatte.domain.service.RepairService;
 import project.matchalatte.domain.service.SyncService;
+import project.matchalatte.domain.service.ValidateBatchHelper;
 import project.matchalatte.support.logging.LogData;
 
 @RestController
@@ -16,9 +18,15 @@ public class SyncController {
     private final Logger log = LoggerFactory.getLogger(SyncController.class);
 
     private final SyncService syncService;
+    private final ValidateBatchHelper validateBatchHelper;
+    private final RepairService repairService;
 
-    public SyncController(SyncService syncService) {
+    public SyncController(SyncService syncService,
+                          ValidateBatchHelper validateBatchHelper,
+                          RepairService repairService) {
         this.syncService = syncService;
+        this.validateBatchHelper = validateBatchHelper;
+        this.repairService = repairService;
     }
 
     @PostMapping("/api/internal/sync/products")
@@ -32,6 +40,16 @@ public class SyncController {
     @PostMapping("/api/internal/sync/mysql-to-es")
     public String runSyncJob() {
         return syncService.triggerBatchJob();
+    }
+
+    @PostMapping("/api/internal/sync/validate")
+    public String validateSync() {
+        return validateBatchHelper.validateProduct();
+    }
+
+    @PostMapping("/api/internal/sync/repair")
+    public String repairSync() {
+        return repairService.repair();
     }
 
 }

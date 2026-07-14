@@ -16,7 +16,7 @@ public class ProductCounter {
         this.productRepository = productRepository;
     }
 
-    @Cacheable(value = "productsCount")
+    @Cacheable(value = "productsCount", sync = true)
     public long getTotalCount() {
         return productRepository.countTotal();
     }

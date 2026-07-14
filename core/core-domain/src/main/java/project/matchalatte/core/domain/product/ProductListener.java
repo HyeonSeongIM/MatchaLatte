@@ -6,7 +6,6 @@ import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import project.matchalatte.support.logging.LogData;
-import project.matchalatte.support.logging.TraceIdContext;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -28,7 +27,7 @@ public class ProductListener {
     }
 
     @EventListener
-    @Async
+    @Async("productEventExecutor")
     public void onProductListen(ProductEvent event) {
         try {
             HttpRequest request = createHttpRequest(event);
@@ -61,7 +60,7 @@ public class ProductListener {
             }
             else {
                 // 특이한 상황
-                log.error("{}", LogData.of("상품 데이터 전송 로직", "상품 데이터 전송 실패 ID: {}" + productId));
+                log.error("{}", LogData.of("상품 데이터 전송 로직", "상품 데이터 전송 실패 ID: " + productId));
             }
         }).exceptionally(e -> {
             // 서버가 꺼져있거나 응답시간이 너무 길 때

@@ -78,7 +78,7 @@ public class ProductController {
         return ApiResponse.success(responseData);
     }
 
-    @GetMapping("/lists")
+    @GetMapping("/page")
     public ApiResponse<Page> readAllProductsByPageable(@RequestParam int offset, @RequestParam int limit) {
         log.info("{}", LogData.of("전체 상품 목록 조회", "전체 상품 목록 조회 API 처리시작"));
         Page result = productService.readProductsPage(offset, limit);
@@ -86,15 +86,7 @@ public class ProductController {
         return ApiResponse.success(result);
     }
 
-    @GetMapping("/listss")
-    public ApiResponse<Slice> readAllProductsSlice(@RequestParam int offset, @RequestParam int limit) {
-        log.info("{}", LogData.of("전체 상품 목록 조회", "전체 상품 목록 조회 API 처리시작"));
-        Slice result = productService.readProductsSlice(offset, limit);
-        log.info("{}", LogData.of("전체 상품 목록 조회", "전체 상품 목록 조회 API 처리완료"));
-        return ApiResponse.success(result);
-    }
-
-    @GetMapping("/list/noOffset")
+    @GetMapping("/cursor")
     public ApiResponse<Slice> readAllProductsSliceNoOffset(@RequestParam int limit,
             @RequestParam(required = false) Long lastId) {
         log.info("{}", LogData.of("전체 상품 목록 조회", "전체 상품 목록 조회 API 처리시작"));
