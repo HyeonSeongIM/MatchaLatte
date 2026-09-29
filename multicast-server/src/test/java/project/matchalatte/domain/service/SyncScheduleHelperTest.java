@@ -18,6 +18,7 @@ import java.util.Queue;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -25,6 +26,9 @@ class SyncScheduleHelperTest {
 
     @Mock
     private ElasticsearchClient elasticsearchClient;
+
+    @Mock
+    private ValidateReportHelper reportHelper;
 
     private Queue<ProductEvent> productQueue;
     private SyncScheduleHelper syncScheduleHelper;
@@ -34,7 +38,7 @@ class SyncScheduleHelperTest {
     }
 
     private void setupHelper() {
-        syncScheduleHelper = new SyncScheduleHelper(productQueue, elasticsearchClient);
+        syncScheduleHelper = new SyncScheduleHelper(productQueue, elasticsearchClient, reportHelper);
     }
 
     @Test
@@ -67,6 +71,7 @@ class SyncScheduleHelperTest {
         when(elasticsearchClient.bulk(any(BulkRequest.class))).thenThrow(ex);
 
         assertThatCode(() -> syncScheduleHelper.scheduleFlush()).doesNotThrowAnyException();
+        verify(reportHelper).insertMissing(eq(42L), any());
     }
 
     @Test
@@ -78,5 +83,6 @@ class SyncScheduleHelperTest {
         when(elasticsearchClient.bulk(any(BulkRequest.class))).thenThrow(new RuntimeException("network error"));
 
         assertThatCode(() -> syncScheduleHelper.scheduleFlush()).doesNotThrowAnyException();
+        verify(reportHelper).insertMissing(eq(42L), any());
     }
 }
