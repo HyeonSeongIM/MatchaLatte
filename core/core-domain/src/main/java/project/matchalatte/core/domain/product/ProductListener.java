@@ -2,9 +2,10 @@ package project.matchalatte.core.domain.product;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.event.TransactionPhase;
+import org.springframework.transaction.event.TransactionalEventListener;
 import project.matchalatte.support.logging.LogData;
 
 import java.net.URI;
@@ -26,7 +27,10 @@ public class ProductListener {
         this.httpClient = httpClient;
     }
 
-    @EventListener
+    // fallbackExecution=true: 현재는 호출 시점에 활성 트랜잭션이 없는 경우(별도 빈의 @Transactional이
+    // 이미 커밋 완료된 뒤 발행)가 대부분이라, 트랜잭션이 없을 때도 즉시 실행되도록 함. 없으면 이벤트가
+    // 조용히 버려짐.
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT, fallbackExecution = true)
     @Async("productEventExecutor")
     public void onProductListen(ProductEvent event) {
         try {
