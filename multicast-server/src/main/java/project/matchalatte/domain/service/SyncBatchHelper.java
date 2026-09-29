@@ -8,6 +8,8 @@ import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 @Component
@@ -32,8 +34,11 @@ public class SyncBatchHelper {
         }
 
         try {
+            String newIndexName = "products_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy_MM_dd"));
+
             // Job 실행 파라미터 생성 (수동 실행용 고정 파라미터)
             JobParameters jobParameters = new JobParametersBuilder().addString("full_sync_mode", "MANUAL")
+                .addString("newIndexName", newIndexName)
                 .addDate("run.date", new Date())
                 .toJobParameters();
 

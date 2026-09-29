@@ -11,12 +11,13 @@ import project.matchalatte.domain.entity.ProductDocument;
 @Slf4j
 public class SyncItemWriter implements ItemWriter<ProductDocument> {
 
-    private final String indexName = "products";
+    private final String indexName;
 
     private final ElasticsearchClient elasticsearchClient;
 
-    public SyncItemWriter(ElasticsearchClient elasticsearchClient) {
+    public SyncItemWriter(ElasticsearchClient elasticsearchClient, String indexName) {
         this.elasticsearchClient = elasticsearchClient;
+        this.indexName = indexName;
     }
 
     @Override

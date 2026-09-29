@@ -80,21 +80,22 @@ public class BatchConfig {
         return ProductDocument::from;
     }
 
-    // 💡 3. ItemWriter: Elasticsearch에 쓰기
+    // 💡 3. ItemWriter: Elasticsearch에 쓰기 (재인덱싱 대상은 이번 Job의 새 인덱스)
     @Bean
-    public SyncItemWriter elasticsearchItemWriter() {
-        return new SyncItemWriter(elasticsearchClient);
+    @StepScope
+    public SyncItemWriter elasticsearchItemWriter(@Value("#{jobParameters['newIndexName']}") String newIndexName) {
+        return new SyncItemWriter(elasticsearchClient, newIndexName);
     }
 
     // 💡 4. Step 정의
     @Bean
-    public Step migrationStep(JobRepository jobRepository, PlatformTransactionManager transactionManager)
-            throws Exception {
+    public Step migrationStep(JobRepository jobRepository, PlatformTransactionManager transactionManager,
+            SyncItemWriter elasticsearchItemWriter) throws Exception {
         return new StepBuilder("migrationStep", jobRepository)
             .<SyncProductInfo, ProductDocument>chunk(1000, transactionManager)
             .reader(mysqlProductReader())
             .processor(itemProcessor())
-            .writer(elasticsearchItemWriter())
+            .writer(elasticsearchItemWriter)
             .build();
     }
 

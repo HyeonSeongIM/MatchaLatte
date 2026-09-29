@@ -7,8 +7,6 @@ import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Component
 @Slf4j
@@ -17,8 +15,6 @@ public class SyncJobListener implements JobExecutionListener {
     private final SyncLockHelper syncLockService;
 
     private final SyncAliasManager aliasManagementService;
-
-    private static final String NEW_INDEX_NAME_KEY = "newIndexName";
 
     private static final String ALIAS_NAME = "products";
 
@@ -29,21 +25,17 @@ public class SyncJobListener implements JobExecutionListener {
 
     @Override
     public void beforeJob(JobExecution jobExecution) {
-        // 1. 새로운 인덱스 이름 생성
-        String newIndexName = ALIAS_NAME + "_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy_MM_dd"));
+        // 새 인덱스 이름은 SyncBatchHelper가 Job 실행 시점에 JobParameter로 넘겨줌
+        String newIndexName = jobExecution.getJobParameters().getString("newIndexName");
 
         log.info("Job 시작. 대상 인덱스: {}", newIndexName);
 
         try {
-            // 2. 새로운 인덱스 생성
+            // 1. 새로운 인덱스 생성
             aliasManagementService.createNewIndex(newIndexName);
 
-            // 3. Bulk 색인 속도 향상을 위해 자동 refresh 비활성화
+            // 2. Bulk 색인 속도 향상을 위해 자동 refresh 비활성화
             aliasManagementService.applyBatchSettings(newIndexName);
-
-            // 4. 인덱스 이름을 JobExecutionContext에 저장하여 ItemWriter가 사용할 수 있도록 함
-            jobExecution.getExecutionContext().put(NEW_INDEX_NAME_KEY, newIndexName);
-
         }
         catch (IOException e) {
             log.error("Job 시작 전 인덱스 생성 실패", e);
@@ -54,7 +46,7 @@ public class SyncJobListener implements JobExecutionListener {
     // Job이 완료(성공/실패)된 후 호출됨
     @Override
     public void afterJob(JobExecution jobExecution) {
-        String newIndexName = jobExecution.getExecutionContext().getString(NEW_INDEX_NAME_KEY);
+        String newIndexName = jobExecution.getJobParameters().getString("newIndexName");
 
         if (newIndexName != null) {
             try {
