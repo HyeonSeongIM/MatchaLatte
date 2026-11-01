@@ -21,8 +21,11 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class ValidateItemWriterTest {
 
-    @Mock ElasticsearchClient elasticsearchClient;
-    @Mock ValidateReportHelper reportHelper;
+    @Mock
+    ElasticsearchClient elasticsearchClient;
+
+    @Mock
+    ValidateReportHelper reportHelper;
 
     ValidateItemWriter sut;
 
@@ -78,4 +81,5 @@ class ValidateItemWriterTest {
         verify(reportHelper, never()).insertMissing(anyLong(), anyString());
         verify(reportHelper, never()).insertSkipped(anyLong(), anyLong(), anyString());
     }
+
 }

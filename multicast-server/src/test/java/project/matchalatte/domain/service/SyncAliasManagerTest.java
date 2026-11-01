@@ -43,8 +43,7 @@ class SyncAliasManagerTest {
 
     @Test
     void productIndexSettings_샤드_레플리카_검증() throws Exception {
-        JsonNode root = objectMapper.readTree(
-                new ClassPathResource("product-index-settings.json").getInputStream());
+        JsonNode root = objectMapper.readTree(new ClassPathResource("product-index-settings.json").getInputStream());
 
         assertThat(root.at("/settings/number_of_shards").asInt()).isEqualTo(1);
         assertThat(root.at("/settings/number_of_replicas").asInt()).isEqualTo(2);
@@ -52,16 +51,14 @@ class SyncAliasManagerTest {
 
     @Test
     void productIndexSettings_dynamic_strict_검증() throws Exception {
-        JsonNode root = objectMapper.readTree(
-                new ClassPathResource("product-index-settings.json").getInputStream());
+        JsonNode root = objectMapper.readTree(new ClassPathResource("product-index-settings.json").getInputStream());
 
         assertThat(root.at("/mappings/dynamic").asText()).isEqualTo("strict");
     }
 
     @Test
     void productIndexSettings_name_필드_nori_분석기_검증() throws Exception {
-        JsonNode root = objectMapper.readTree(
-                new ClassPathResource("product-index-settings.json").getInputStream());
+        JsonNode root = objectMapper.readTree(new ClassPathResource("product-index-settings.json").getInputStream());
 
         assertThat(root.at("/mappings/properties/name/type").asText()).isEqualTo("text");
         assertThat(root.at("/mappings/properties/name/analyzer").asText()).isEqualTo("nori_analyzer");
@@ -70,19 +67,15 @@ class SyncAliasManagerTest {
 
     @Test
     void productIndexSettings_nori_decompound_mode_검증() throws Exception {
-        JsonNode root = objectMapper.readTree(
-                new ClassPathResource("product-index-settings.json").getInputStream());
+        JsonNode root = objectMapper.readTree(new ClassPathResource("product-index-settings.json").getInputStream());
 
-        assertThat(root.at("/settings/analysis/tokenizer/nori_tokenizer/type").asText())
-                .isEqualTo("nori_tokenizer");
-        assertThat(root.at("/settings/analysis/tokenizer/nori_tokenizer/decompound_mode").asText())
-                .isEqualTo("mixed");
+        assertThat(root.at("/settings/analysis/tokenizer/nori_tokenizer/type").asText()).isEqualTo("nori_tokenizer");
+        assertThat(root.at("/settings/analysis/tokenizer/nori_tokenizer/decompound_mode").asText()).isEqualTo("mixed");
     }
 
     @Test
     void productIndexSettings_description_필드_없음_검증() throws Exception {
-        JsonNode root = objectMapper.readTree(
-                new ClassPathResource("product-index-settings.json").getInputStream());
+        JsonNode root = objectMapper.readTree(new ClassPathResource("product-index-settings.json").getInputStream());
 
         assertThat(root.at("/mappings/properties/description").isMissingNode()).isTrue();
     }
@@ -97,8 +90,7 @@ class SyncAliasManagerTest {
         when(mockIndicesClient.create(any(Function.class))).thenReturn(mockResponse);
         when(mockResponse.acknowledged()).thenReturn(true);
 
-        assertThatCode(() -> syncAliasManager.createNewIndex("products_2026_06_23"))
-                .doesNotThrowAnyException();
+        assertThatCode(() -> syncAliasManager.createNewIndex("products_2026_06_23")).doesNotThrowAnyException();
 
         verify(mockIndicesClient).create(any(Function.class));
     }
@@ -114,8 +106,8 @@ class SyncAliasManagerTest {
         when(mockResponse.acknowledged()).thenReturn(false);
 
         assertThatThrownBy(() -> syncAliasManager.createNewIndex("products_2026_06_23"))
-                .isInstanceOf(RuntimeException.class)
-                .hasMessage("Index creation failed.");
+            .isInstanceOf(RuntimeException.class)
+            .hasMessage("Index creation failed.");
     }
 
     @Test
@@ -125,10 +117,9 @@ class SyncAliasManagerTest {
 
         when(elasticsearchClient.indices()).thenReturn(mockIndicesClient);
         when(mockIndicesClient.create(any(Function.class)))
-                .thenThrow(new RuntimeException("resource_already_exists_exception"));
+            .thenThrow(new RuntimeException("resource_already_exists_exception"));
 
-        assertThatCode(() -> syncAliasManager.createNewIndex("products_2026_06_23"))
-                .doesNotThrowAnyException();
+        assertThatCode(() -> syncAliasManager.createNewIndex("products_2026_06_23")).doesNotThrowAnyException();
     }
 
     @Test
@@ -150,7 +141,8 @@ class SyncAliasManagerTest {
         verify(mockIndicesClient).updateAliases(captor.capture());
         UpdateAliasesRequest request = captor.getValue();
 
-        AddAction addAction = request.actions().stream()
+        AddAction addAction = request.actions()
+            .stream()
             .filter(a -> a.add() != null)
             .map(Action::add)
             .findFirst()

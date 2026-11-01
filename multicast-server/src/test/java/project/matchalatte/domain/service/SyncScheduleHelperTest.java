@@ -31,6 +31,7 @@ class SyncScheduleHelperTest {
     private ValidateReportHelper reportHelper;
 
     private Queue<ProductEvent> productQueue;
+
     private SyncScheduleHelper syncScheduleHelper;
 
     private ProductEvent sampleEvent() {
@@ -85,4 +86,5 @@ class SyncScheduleHelperTest {
         assertThatCode(() -> syncScheduleHelper.scheduleFlush()).doesNotThrowAnyException();
         verify(reportHelper).insertMissing(eq(42L), any());
     }
+
 }

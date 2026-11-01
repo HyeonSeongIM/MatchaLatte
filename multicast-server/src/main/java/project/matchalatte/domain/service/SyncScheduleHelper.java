@@ -24,7 +24,9 @@ import java.util.stream.Collectors;
 public class SyncScheduleHelper {
 
     private static final int MAX_RETRY = 2;
-    private static final long[] BACKOFF_MS = {300, 800};
+
+    private static final long[] BACKOFF_MS = { 300, 800 };
+
     private static final DateTimeFormatter RUN_AT_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
     private final Queue<ProductEvent> productQueue;
@@ -89,10 +91,10 @@ public class SyncScheduleHelper {
                 if (event.type() == EventType.DELETE) {
                     br.operations(op -> op.delete(del -> del.index(indexName).id(event.id().toString())));
                     log.info("삭제 오퍼레이션 등록: Product ID {}", event.id());
-                } else {
+                }
+                else {
                     ProductDocument doc = ProductDocument.from(event);
-                    br.operations(
-                        op -> op.index(idx -> idx.index(indexName).id(doc.getId().toString()).document(doc)));
+                    br.operations(op -> op.index(idx -> idx.index(indexName).id(doc.getId().toString()).document(doc)));
                     log.info("색인 오퍼레이션 등록: Product ID {}", doc.getId());
                 }
             }
@@ -108,11 +110,12 @@ public class SyncScheduleHelper {
             result.items().forEach(item -> {
                 if (item.error() != null) {
                     if (item.status() == 429) {
-                        log.error("Bulk 아이템 실패 (429 Too Many Requests — ES write 풀 포화) ID: {}, reason: {}",
-                            item.id(), item.error().reason());
-                    } else {
-                        log.error("Bulk 아이템 실패 — ID: {}, status: {}, reason: {}",
-                            item.id(), item.status(), item.error().reason());
+                        log.error("Bulk 아이템 실패 (429 Too Many Requests — ES write 풀 포화) ID: {}, reason: {}", item.id(),
+                                item.error().reason());
+                    }
+                    else {
+                        log.error("Bulk 아이템 실패 — ID: {}, status: {}, reason: {}", item.id(), item.status(),
+                                item.error().reason());
                     }
                     ProductEvent failedEvent = byId.get(item.id());
                     if (failedEvent != null) {
@@ -122,15 +125,18 @@ public class SyncScheduleHelper {
             });
             return failed;
 
-        } catch (ElasticsearchException e) {
+        }
+        catch (ElasticsearchException e) {
             List<Long> ids = events.stream().map(ProductEvent::id).collect(Collectors.toList());
             if (e.status() == 404) {
                 log.error("[CRITICAL] 'products' alias 없음 — {}건 재시도 대상. ID: {}", events.size(), ids);
-            } else {
+            }
+            else {
                 log.error("스케줄링 Bulk 요청 실패 — status: {}, {}건 재시도 대상. ID: {}", e.status(), events.size(), ids, e);
             }
             return events;
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             log.error("스케줄링 Bulk 요청 실패 — {}건 재시도 대상", events.size(), e);
             return events;
         }
@@ -143,21 +149,22 @@ public class SyncScheduleHelper {
         for (ProductEvent event : events) {
             if (event.type() == EventType.DELETE) {
                 reportHelper.insertGhost(event.id(), runAt);
-            } else {
+            }
+            else {
                 reportHelper.insertMissing(event.id(), runAt);
             }
         }
 
         List<Long> ids = events.stream().map(ProductEvent::id).collect(Collectors.toList());
         log.error("[CRITICAL] flush 재시도 소진 — {}건 validate_report 기록(run_at={}), ID: {}. "
-                + "CREATE/UPDATE는 /repair로 자동 복구 가능, DELETE(GHOST)는 수동 확인 필요.",
-            events.size(), runAt, ids);
+                + "CREATE/UPDATE는 /repair로 자동 복구 가능, DELETE(GHOST)는 수동 확인 필요.", events.size(), runAt, ids);
     }
 
     private void sleep(long millis) {
         try {
             Thread.sleep(millis);
-        } catch (InterruptedException e) {
+        }
+        catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
     }

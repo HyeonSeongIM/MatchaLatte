@@ -28,11 +28,20 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class GhostCheckTaskletTest {
 
-    @Mock ElasticsearchClient elasticsearchClient;
-    @Mock NamedParameterJdbcTemplate namedJdbc;
-    @Mock ValidateReportHelper reportHelper;
-    @Mock StepContribution stepContribution;
-    @Mock ChunkContext chunkContext;
+    @Mock
+    ElasticsearchClient elasticsearchClient;
+
+    @Mock
+    NamedParameterJdbcTemplate namedJdbc;
+
+    @Mock
+    ValidateReportHelper reportHelper;
+
+    @Mock
+    StepContribution stepContribution;
+
+    @Mock
+    ChunkContext chunkContext;
 
     GhostCheckTasklet sut;
 
@@ -100,4 +109,5 @@ class GhostCheckTaskletTest {
 
         verify(reportHelper).insertGhostCheckInterrupted("2026-06-24T10:00:00");
     }
+
 }

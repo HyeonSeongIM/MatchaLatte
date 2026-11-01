@@ -17,8 +17,11 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class ValidateJobListenerTest {
 
-    @Mock ValidateReportHelper reportHelper;
-    @Mock SyncLockHelper syncLockHelper;
+    @Mock
+    ValidateReportHelper reportHelper;
+
+    @Mock
+    SyncLockHelper syncLockHelper;
 
     @InjectMocks
     ValidateJobListener sut;
@@ -27,9 +30,7 @@ class ValidateJobListenerTest {
 
     private JobExecution jobExecutionWithRunAt(BatchStatus status) {
         JobExecution jobExecution = mock(JobExecution.class);
-        JobParameters params = new JobParametersBuilder()
-            .addString("run_at", RUN_AT)
-            .toJobParameters();
+        JobParameters params = new JobParametersBuilder().addString("run_at", RUN_AT).toJobParameters();
         when(jobExecution.getStatus()).thenReturn(status);
         when(jobExecution.getJobParameters()).thenReturn(params);
         return jobExecution;
@@ -61,9 +62,7 @@ class ValidateJobListenerTest {
     void afterJob_countByIssueType_예외에도_Lock_해제_호출() {
         // getStatus()는 예외 발생 전에 호출되지 않으므로 stubbing 없이 생성
         JobExecution jobExecution = mock(JobExecution.class);
-        JobParameters params = new JobParametersBuilder()
-            .addString("run_at", RUN_AT)
-            .toJobParameters();
+        JobParameters params = new JobParametersBuilder().addString("run_at", RUN_AT).toJobParameters();
         when(jobExecution.getJobParameters()).thenReturn(params);
         when(reportHelper.countByIssueType(anyString(), eq(RUN_AT))).thenThrow(new RuntimeException("DB error"));
 
@@ -71,4 +70,5 @@ class ValidateJobListenerTest {
 
         verify(syncLockHelper).stopFullSync();
     }
+
 }

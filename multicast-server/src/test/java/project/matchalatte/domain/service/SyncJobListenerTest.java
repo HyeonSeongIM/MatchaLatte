@@ -17,8 +17,11 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class SyncJobListenerTest {
 
-    @Mock SyncLockHelper syncLockHelper;
-    @Mock SyncAliasManager aliasManager;
+    @Mock
+    SyncLockHelper syncLockHelper;
+
+    @Mock
+    SyncAliasManager aliasManager;
 
     @InjectMocks
     SyncJobListener sut;

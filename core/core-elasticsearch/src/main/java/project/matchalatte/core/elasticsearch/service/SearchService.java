@@ -18,10 +18,8 @@ public class SearchService {
 
     public SearchResponse<ProductInfo> searchProducts(String query) throws Exception {
 
-        SearchRequest searchRequest = SearchRequest.of(s -> s
-            .index(ALIAS_NAME)
-            .query(q -> q.match(m -> m.field("name").query(query)))
-            .size(10));
+        SearchRequest searchRequest = SearchRequest
+            .of(s -> s.index(ALIAS_NAME).query(q -> q.match(m -> m.field("name").query(query))).size(10));
 
         return elasticsearchClient.search(searchRequest, ProductInfo.class);
     }

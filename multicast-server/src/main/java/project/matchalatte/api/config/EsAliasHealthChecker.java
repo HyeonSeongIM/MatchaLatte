@@ -18,12 +18,11 @@ public class EsAliasHealthChecker implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        boolean exists = esClient.indices()
-            .existsAlias(a -> a.name("products")).value();
+        boolean exists = esClient.indices().existsAlias(a -> a.name("products")).value();
         if (!exists) {
-            throw new IllegalStateException(
-                "[FATAL] ES alias 'products' 없음 — mysqlToEsJob 선행 실행 필요");
+            throw new IllegalStateException("[FATAL] ES alias 'products' 없음 — mysqlToEsJob 선행 실행 필요");
         }
         log.info("ES alias 'products' 확인 완료.");
     }
+
 }

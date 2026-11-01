@@ -21,9 +21,14 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class RepairServiceTest {
 
-    @Mock ValidateReportHelper reportHelper;
-    @Mock ElasticsearchClient elasticsearchClient;
-    @Mock JdbcTemplate jdbcTemplate;
+    @Mock
+    ValidateReportHelper reportHelper;
+
+    @Mock
+    ElasticsearchClient elasticsearchClient;
+
+    @Mock
+    JdbcTemplate jdbcTemplate;
 
     @InjectMocks
     RepairService sut;
@@ -57,10 +62,8 @@ class RepairServiceTest {
         when(reportHelper.findLatestRunAt()).thenReturn(Optional.of(RUN_AT));
         when(reportHelper.findMissingProductIds(RUN_AT)).thenReturn(List.of(1L, 2L));
         when(jdbcTemplate.query(anyString(), any(Object[].class), any(RowMapper.class)))
-            .thenReturn(List.of(
-                new SyncProductInfo(1L, "상품A", "설명A", 10000L, 100L),
-                new SyncProductInfo(2L, "상품B", "설명B", 20000L, 200L)
-            ));
+            .thenReturn(List.of(new SyncProductInfo(1L, "상품A", "설명A", 10000L, 100L),
+                    new SyncProductInfo(2L, "상품B", "설명B", 20000L, 200L)));
         BulkResponse bulkResponse = mock(BulkResponse.class);
         when(bulkResponse.errors()).thenReturn(false);
         when(elasticsearchClient.bulk(any(Function.class))).thenReturn(bulkResponse);
@@ -70,4 +73,5 @@ class RepairServiceTest {
         assertThat(result).contains("2");
         verify(elasticsearchClient).bulk(any(Function.class));
     }
+
 }

@@ -53,7 +53,8 @@ public class SyncJobListener implements JobExecutionListener {
             try {
                 aliasManagementService.restoreBatchSettings(newIndexName);
                 restored = true;
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 log.error("refresh_interval 복구 실패 — 인덱스 [{}] 수동 확인 필요", newIndexName, e);
             }
         }
@@ -61,18 +62,22 @@ public class SyncJobListener implements JobExecutionListener {
         // 복구 실패한 인덱스(refresh 미실행 → 검색 0건, replica 0)로 교체하면 검색 장애가 되므로 교체하지 않는다
         if (!restored) {
             log.error("인덱스 설정 복구 실패. Alias 교체를 건너뜀 — 기존 인덱스로 계속 서빙");
-        } else if (jobExecution.getStatus() == BatchStatus.COMPLETED) {
+        }
+        else if (jobExecution.getStatus() == BatchStatus.COMPLETED) {
             if (newIndexName == null) {
                 log.error("Job Context에서 새 인덱스 이름을 찾을 수 없습니다.");
-            } else {
+            }
+            else {
                 try {
                     log.info("Job 완료. Alias [{}]를 인덱스 [{}]로 교체 시도.", ALIAS_NAME, newIndexName);
                     aliasManagementService.swapAlias(ALIAS_NAME, newIndexName);
-                } catch (IOException e) {
+                }
+                catch (IOException e) {
                     log.error("Alias 교체 실패", e);
                 }
             }
-        } else {
+        }
+        else {
             log.warn("Job이 완료되지 않음. Alias 교체를 건너뜀. 상태: {}", jobExecution.getStatus());
         }
 

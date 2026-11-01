@@ -36,8 +36,7 @@ class EsAliasHealthCheckerTest {
         when(mockIndicesClient.existsAlias(any(Function.class))).thenReturn(mockBoolResponse);
         when(mockBoolResponse.value()).thenReturn(true);
 
-        assertThatCode(() -> healthChecker.run(mock(ApplicationArguments.class)))
-            .doesNotThrowAnyException();
+        assertThatCode(() -> healthChecker.run(mock(ApplicationArguments.class))).doesNotThrowAnyException();
     }
 
     @Test
@@ -54,4 +53,5 @@ class EsAliasHealthCheckerTest {
             .hasMessageContaining("'products'")
             .hasMessageContaining("mysqlToEsJob");
     }
+
 }

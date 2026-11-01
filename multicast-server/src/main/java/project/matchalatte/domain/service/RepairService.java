@@ -16,12 +16,13 @@ import java.util.Optional;
 public class RepairService {
 
     private final ValidateReportHelper reportHelper;
+
     private final ElasticsearchClient elasticsearchClient;
+
     private final JdbcTemplate jdbcTemplate;
 
-    public RepairService(ValidateReportHelper reportHelper,
-                         ElasticsearchClient elasticsearchClient,
-                         JdbcTemplate jdbcTemplate) {
+    public RepairService(ValidateReportHelper reportHelper, ElasticsearchClient elasticsearchClient,
+            JdbcTemplate jdbcTemplate) {
         this.reportHelper = reportHelper;
         this.elasticsearchClient = elasticsearchClient;
         this.jdbcTemplate = jdbcTemplate;
@@ -42,17 +43,9 @@ public class RepairService {
 
         String placeholders = String.join(",", Collections.nCopies(missingIds.size(), "?"));
         String sql = "SELECT id, name, description, price, user_id FROM products WHERE id IN (" + placeholders + ")";
-        List<SyncProductInfo> products = jdbcTemplate.query(
-            sql,
-            missingIds.toArray(),
-            (rs, row) -> new SyncProductInfo(
-                rs.getLong("id"),
-                rs.getString("name"),
-                rs.getString("description"),
-                rs.getLong("price"),
-                rs.getLong("user_id")
-            )
-        );
+        List<SyncProductInfo> products = jdbcTemplate.query(sql, missingIds.toArray(),
+                (rs, row) -> new SyncProductInfo(rs.getLong("id"), rs.getString("name"), rs.getString("description"),
+                        rs.getLong("price"), rs.getLong("user_id")));
 
         if (products.isEmpty()) {
             log.warn("MISSING id가 RDB에도 없음 — 이미 삭제된 데이터일 수 있음");
@@ -60,15 +53,12 @@ public class RepairService {
         }
 
         try {
-            List<ProductDocument> docs = products.stream()
-                .map(ProductDocument::from)
-                .toList();
+            List<ProductDocument> docs = products.stream().map(ProductDocument::from).toList();
 
             BulkResponse result = elasticsearchClient.bulk(br -> {
                 for (ProductDocument doc : docs) {
-                    br.operations(op -> op.index(idx ->
-                        idx.index("products").id(doc.getId().toString()).document(doc)
-                    ));
+                    br.operations(
+                            op -> op.index(idx -> idx.index("products").id(doc.getId().toString()).document(doc)));
                 }
                 return br;
             });
@@ -84,9 +74,11 @@ public class RepairService {
 
             log.info("재색인 완료: {}건, {}ms", products.size(), result.took());
             return "재색인 완료: " + products.size() + "건";
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             log.error("재색인 중 오류", e);
             return "재색인 오류: " + e.getMessage();
         }
     }
+
 }

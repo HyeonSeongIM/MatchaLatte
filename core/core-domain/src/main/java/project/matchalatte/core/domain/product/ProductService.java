@@ -15,9 +15,13 @@ public class ProductService {
     private final Logger log = LoggerFactory.getLogger(ProductService.class);
 
     private final ProductCreater productCreater;
+
     private final ProductReader productReader;
+
     private final ProductUpdater productUpdater;
+
     private final ProductDeleter productDeleter;
+
     private final ProductEventer productEventer;
 
     public ProductService(ProductCreater productCreater, ProductReader productReader, ProductUpdater productUpdater,

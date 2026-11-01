@@ -17,7 +17,8 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class ValidateReportHelperTest {
 
-    @Mock JdbcTemplate jdbcTemplate;
+    @Mock
+    JdbcTemplate jdbcTemplate;
 
     ValidateReportHelper sut;
 
@@ -29,29 +30,22 @@ class ValidateReportHelperTest {
     @Test
     void insertMissing_정상_insert_호출() {
         sut.insertMissing(42L, "2026-06-24T10:00:00");
-        verify(jdbcTemplate).update(
-            contains("INSERT INTO validate_report"),
-            eq("2026-06-24T10:00:00"), eq("MISSING"), eq(42L), isNull()
-        );
+        verify(jdbcTemplate).update(contains("INSERT INTO validate_report"), eq("2026-06-24T10:00:00"), eq("MISSING"),
+                eq(42L), isNull());
     }
 
     @Test
     void insertGhost_정상_insert_호출() {
         sut.insertGhost(99L, "2026-06-24T10:00:00");
-        verify(jdbcTemplate).update(
-            contains("INSERT INTO validate_report"),
-            eq("2026-06-24T10:00:00"), eq("GHOST"), eq(99L), isNull()
-        );
+        verify(jdbcTemplate).update(contains("INSERT INTO validate_report"), eq("2026-06-24T10:00:00"), eq("GHOST"),
+                eq(99L), isNull());
     }
 
     @Test
     void insertSkipped_detail에_청크_범위_기록() {
         sut.insertSkipped(1001L, 2000L, "2026-06-24T10:00:00");
-        verify(jdbcTemplate).update(
-            contains("INSERT INTO validate_report"),
-            eq("2026-06-24T10:00:00"), eq("SKIPPED"), isNull(),
-            eq("chunk_start=1001, chunk_end=2000")
-        );
+        verify(jdbcTemplate).update(contains("INSERT INTO validate_report"), eq("2026-06-24T10:00:00"), eq("SKIPPED"),
+                isNull(), eq("chunk_start=1001, chunk_end=2000"));
     }
 
     @Test
@@ -67,7 +61,8 @@ class ValidateReportHelperTest {
 
     @Test
     void countByIssueType_건수_반환() {
-        when(jdbcTemplate.queryForObject(contains("COUNT(*)"), eq(Integer.class), eq("MISSING"), eq("2026-06-24T10:00:00")))
+        when(jdbcTemplate.queryForObject(contains("COUNT(*)"), eq(Integer.class), eq("MISSING"),
+                eq("2026-06-24T10:00:00")))
             .thenReturn(5);
 
         assertThat(sut.countByIssueType("MISSING", "2026-06-24T10:00:00")).isEqualTo(5);
@@ -85,11 +80,11 @@ class ValidateReportHelperTest {
 
     @Test
     void findLatestRunAt_데이터_없으면_empty_반환() {
-        when(jdbcTemplate.queryForList(contains("ORDER BY run_at DESC"), eq(String.class)))
-            .thenReturn(List.of());
+        when(jdbcTemplate.queryForList(contains("ORDER BY run_at DESC"), eq(String.class))).thenReturn(List.of());
 
         Optional<String> result = sut.findLatestRunAt();
 
         assertThat(result).isEmpty();
     }
+
 }

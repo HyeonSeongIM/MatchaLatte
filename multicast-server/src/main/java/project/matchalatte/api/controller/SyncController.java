@@ -18,12 +18,13 @@ public class SyncController {
     private final Logger log = LoggerFactory.getLogger(SyncController.class);
 
     private final SyncService syncService;
+
     private final ValidateBatchHelper validateBatchHelper;
+
     private final RepairService repairService;
 
-    public SyncController(SyncService syncService,
-                          ValidateBatchHelper validateBatchHelper,
-                          RepairService repairService) {
+    public SyncController(SyncService syncService, ValidateBatchHelper validateBatchHelper,
+            RepairService repairService) {
         this.syncService = syncService;
         this.validateBatchHelper = validateBatchHelper;
         this.repairService = repairService;

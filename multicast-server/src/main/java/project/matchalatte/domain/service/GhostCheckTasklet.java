@@ -22,14 +22,15 @@ import java.util.Set;
 public class GhostCheckTasklet implements Tasklet {
 
     private final ElasticsearchClient elasticsearchClient;
+
     private final NamedParameterJdbcTemplate namedJdbc;
+
     private final ValidateReportHelper reportHelper;
+
     private final String runAt;
 
-    public GhostCheckTasklet(ElasticsearchClient elasticsearchClient,
-                              NamedParameterJdbcTemplate namedJdbc,
-                              ValidateReportHelper reportHelper,
-                              String runAt) {
+    public GhostCheckTasklet(ElasticsearchClient elasticsearchClient, NamedParameterJdbcTemplate namedJdbc,
+            ValidateReportHelper reportHelper, String runAt) {
         this.elasticsearchClient = elasticsearchClient;
         this.namedJdbc = namedJdbc;
         this.reportHelper = reportHelper;
@@ -40,10 +41,9 @@ public class GhostCheckTasklet implements Tasklet {
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) {
         OpenPointInTimeResponse pitOpen;
         try {
-            pitOpen = elasticsearchClient.openPointInTime(
-                p -> p.index("products").keepAlive(t -> t.time("5m"))
-            );
-        } catch (Exception e) {
+            pitOpen = elasticsearchClient.openPointInTime(p -> p.index("products").keepAlive(t -> t.time("5m")));
+        }
+        catch (Exception e) {
             log.error("PIT open 실패 — ghostCheckStep 건너뜀", e);
             return RepeatStatus.FINISHED;
         }
@@ -56,8 +56,7 @@ public class GhostCheckTasklet implements Tasklet {
                 final List<FieldValue> currentSearchAfter = searchAfter;
 
                 SearchResponse<Void> response = elasticsearchClient.search(s -> {
-                    var builder = s
-                        .pit(p -> p.id(currentPitId).keepAlive(t -> t.time("5m")))
+                    var builder = s.pit(p -> p.id(currentPitId).keepAlive(t -> t.time("5m")))
                         .sort(so -> so.field(f -> f.field("id").order(SortOrder.Asc)))
                         .size(1000)
                         .source(src -> src.fetch(false));
@@ -70,17 +69,13 @@ public class GhostCheckTasklet implements Tasklet {
                 pitId = response.pitId(); // 매 응답마다 갱신된 pit_id 이어받기
 
                 List<Hit<Void>> hits = response.hits().hits();
-                if (hits.isEmpty()) break;
+                if (hits.isEmpty())
+                    break;
 
-                List<Long> esIds = hits.stream()
-                    .map(h -> Long.parseLong(h.id()))
-                    .toList();
+                List<Long> esIds = hits.stream().map(h -> Long.parseLong(h.id())).toList();
 
-                List<Long> existingInRdb = namedJdbc.queryForList(
-                    "SELECT id FROM products WHERE id IN (:ids)",
-                    new MapSqlParameterSource("ids", esIds),
-                    Long.class
-                );
+                List<Long> existingInRdb = namedJdbc.queryForList("SELECT id FROM products WHERE id IN (:ids)",
+                        new MapSqlParameterSource("ids", esIds), Long.class);
                 Set<Long> existingSet = new HashSet<>(existingInRdb);
 
                 for (Long esId : esIds) {
@@ -91,20 +86,25 @@ public class GhostCheckTasklet implements Tasklet {
                 }
 
                 searchAfter = hits.get(hits.size() - 1).sort();
-                if (hits.size() < 1000) break;
+                if (hits.size() < 1000)
+                    break;
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             log.error("ghostCheckStep 루프 중 오류 — 이후 범위 미검증", e);
             reportHelper.insertGhostCheckInterrupted(runAt);
-        } finally {
+        }
+        finally {
             final String finalPitId = pitId;
             try {
                 elasticsearchClient.closePointInTime(p -> p.id(finalPitId));
                 log.info("PIT close 완료");
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 log.error("PIT close 실패: pit_id={}", finalPitId, e);
             }
         }
         return RepeatStatus.FINISHED;
     }
+
 }

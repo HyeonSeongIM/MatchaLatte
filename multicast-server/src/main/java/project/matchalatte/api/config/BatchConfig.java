@@ -44,13 +44,12 @@ public class BatchConfig {
 
     private final NamedParameterJdbcTemplate namedJdbc;
 
-    // 100만 건 재색인 실험 결과 5000이 중앙값 최단(37.6s). 5000~20000은 오차 범위 내 동일 — docs/experiments/reindex-chunk-size.md
+    // 100만 건 재색인 실험 결과 5000이 중앙값 최단(37.6s). 5000~20000은 오차 범위 내 동일 —
+    // docs/experiments/reindex-chunk-size.md
     private final int chunkSize;
 
-    public BatchConfig(DataSource dataSource,
-                       ElasticsearchClient elasticsearchClient,
-                       NamedParameterJdbcTemplate namedJdbc,
-                       @Value("${sync.batch.chunk-size:5000}") int chunkSize) {
+    public BatchConfig(DataSource dataSource, ElasticsearchClient elasticsearchClient,
+            NamedParameterJdbcTemplate namedJdbc, @Value("${sync.batch.chunk-size:5000}") int chunkSize) {
         this.dataSource = dataSource;
         this.elasticsearchClient = elasticsearchClient;
         this.namedJdbc = namedJdbc;
@@ -134,16 +133,14 @@ public class BatchConfig {
 
     @Bean
     @StepScope
-    public ValidateItemWriter validateItemWriter(
-            ValidateReportHelper reportHelper,
+    public ValidateItemWriter validateItemWriter(ValidateReportHelper reportHelper,
             @Value("#{jobParameters['run_at']}") String runAt) {
         return new ValidateItemWriter(elasticsearchClient, reportHelper, runAt);
     }
 
     @Bean
     @StepScope
-    public GhostCheckTasklet ghostCheckTasklet(
-            ValidateReportHelper reportHelper,
+    public GhostCheckTasklet ghostCheckTasklet(ValidateReportHelper reportHelper,
             @Value("#{jobParameters['run_at']}") String runAt) {
         return new GhostCheckTasklet(elasticsearchClient, namedJdbc, reportHelper, runAt);
     }
@@ -166,32 +163,24 @@ public class BatchConfig {
     }
 
     @Bean
-    public Step rdbToEsCheckStep(JobRepository jobRepository,
-                                  PlatformTransactionManager transactionManager,
-                                  ValidateItemWriter validateItemWriter) throws Exception {
-        return new StepBuilder("rdbToEsCheckStep", jobRepository)
-            .<Long, Long>chunk(1000, transactionManager)
+    public Step rdbToEsCheckStep(JobRepository jobRepository, PlatformTransactionManager transactionManager,
+            ValidateItemWriter validateItemWriter) throws Exception {
+        return new StepBuilder("rdbToEsCheckStep", jobRepository).<Long, Long>chunk(1000, transactionManager)
             .reader(validateProductIdReader())
             .writer(validateItemWriter)
             .build();
     }
 
     @Bean
-    public Step ghostCheckStep(JobRepository jobRepository,
-                                PlatformTransactionManager transactionManager,
-                                GhostCheckTasklet ghostCheckTasklet) {
-        return new StepBuilder("ghostCheckStep", jobRepository)
-            .tasklet(ghostCheckTasklet, transactionManager)
-            .build();
+    public Step ghostCheckStep(JobRepository jobRepository, PlatformTransactionManager transactionManager,
+            GhostCheckTasklet ghostCheckTasklet) {
+        return new StepBuilder("ghostCheckStep", jobRepository).tasklet(ghostCheckTasklet, transactionManager).build();
     }
 
     @Bean("validateSyncJob")
-    public Job validateSyncJob(JobRepository jobRepository,
-                                Step rdbToEsCheckStep,
-                                Step ghostCheckStep,
-                                ValidateJobListener validateJobListener) {
-        return new JobBuilder("validateSyncJob", jobRepository)
-            .incrementer(new RunIdIncrementer())
+    public Job validateSyncJob(JobRepository jobRepository, Step rdbToEsCheckStep, Step ghostCheckStep,
+            ValidateJobListener validateJobListener) {
+        return new JobBuilder("validateSyncJob", jobRepository).incrementer(new RunIdIncrementer())
             .listener(validateJobListener)
             .start(rdbToEsCheckStep)
             .next(ghostCheckStep)

@@ -11,8 +11,7 @@ import java.util.Optional;
 @Slf4j
 public class ValidateReportHelper {
 
-    private static final String INSERT_SQL =
-        "INSERT INTO validate_report (run_at, issue_type, product_id, detail) VALUES (?, ?, ?, ?)";
+    private static final String INSERT_SQL = "INSERT INTO validate_report (run_at, issue_type, product_id, detail) VALUES (?, ?, ?, ?)";
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -34,29 +33,26 @@ public class ValidateReportHelper {
     }
 
     public Optional<String> findLatestRunAt() {
-        List<String> results = jdbcTemplate.queryForList(
-            "SELECT run_at FROM validate_report ORDER BY run_at DESC LIMIT 1",
-            String.class
-        );
+        List<String> results = jdbcTemplate
+            .queryForList("SELECT run_at FROM validate_report ORDER BY run_at DESC LIMIT 1", String.class);
         return results.isEmpty() ? Optional.empty() : Optional.of(results.get(0));
     }
 
     public List<Long> findMissingProductIds(String runAt) {
         return jdbcTemplate.queryForList(
-            "SELECT product_id FROM validate_report WHERE issue_type = 'MISSING' AND run_at = ?",
-            Long.class, runAt
-        );
+                "SELECT product_id FROM validate_report WHERE issue_type = 'MISSING' AND run_at = ?", Long.class,
+                runAt);
     }
 
     public int countByIssueType(String issueType, String runAt) {
         Integer count = jdbcTemplate.queryForObject(
-            "SELECT COUNT(*) FROM validate_report WHERE issue_type = ? AND run_at = ?",
-            Integer.class, issueType, runAt
-        );
+                "SELECT COUNT(*) FROM validate_report WHERE issue_type = ? AND run_at = ?", Integer.class, issueType,
+                runAt);
         return count != null ? count : 0;
     }
 
     public void insertGhostCheckInterrupted(String runAt) {
         jdbcTemplate.update(INSERT_SQL, runAt, "SKIPPED", null, "ghost_check_interrupted");
     }
+
 }

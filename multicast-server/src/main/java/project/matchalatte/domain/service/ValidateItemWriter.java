@@ -13,12 +13,13 @@ import java.util.List;
 public class ValidateItemWriter implements ItemWriter<Long> {
 
     private final ElasticsearchClient elasticsearchClient;
+
     private final ValidateReportHelper reportHelper;
+
     private final String runAt;
 
-    public ValidateItemWriter(ElasticsearchClient elasticsearchClient,
-                              ValidateReportHelper reportHelper,
-                              String runAt) {
+    public ValidateItemWriter(ElasticsearchClient elasticsearchClient, ValidateReportHelper reportHelper,
+            String runAt) {
         this.elasticsearchClient = elasticsearchClient;
         this.reportHelper = reportHelper;
         this.runAt = runAt;
@@ -30,10 +31,7 @@ public class ValidateItemWriter implements ItemWriter<Long> {
         List<String> idStrings = ids.stream().map(String::valueOf).toList();
 
         try {
-            MgetResponse<Void> response = elasticsearchClient.mget(
-                m -> m.index("products").ids(idStrings),
-                Void.class
-            );
+            MgetResponse<Void> response = elasticsearchClient.mget(m -> m.index("products").ids(idStrings), Void.class);
 
             for (MultiGetResponseItem<Void> item : response.docs()) {
                 if (item.isFailure()) {
@@ -46,11 +44,13 @@ public class ValidateItemWriter implements ItemWriter<Long> {
                     reportHelper.insertMissing(missingId, runAt);
                 }
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             long chunkStart = ids.get(0);
             long chunkEnd = ids.get(ids.size() - 1);
             log.error("mget 실패 — SKIPPED 기록: chunk_start={}, chunk_end={}", chunkStart, chunkEnd, e);
             reportHelper.insertSkipped(chunkStart, chunkEnd, runAt);
         }
     }
+
 }
