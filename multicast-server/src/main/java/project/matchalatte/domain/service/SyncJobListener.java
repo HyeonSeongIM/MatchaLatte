@@ -48,15 +48,20 @@ public class SyncJobListener implements JobExecutionListener {
     public void afterJob(JobExecution jobExecution) {
         String newIndexName = jobExecution.getJobParameters().getString("newIndexName");
 
+        boolean restored = false;
         if (newIndexName != null) {
             try {
                 aliasManagementService.restoreBatchSettings(newIndexName);
-            } catch (IOException e) {
+                restored = true;
+            } catch (Exception e) {
                 log.error("refresh_interval 복구 실패 — 인덱스 [{}] 수동 확인 필요", newIndexName, e);
             }
         }
 
-        if (jobExecution.getStatus() == BatchStatus.COMPLETED) {
+        // 복구 실패한 인덱스(refresh 미실행 → 검색 0건, replica 0)로 교체하면 검색 장애가 되므로 교체하지 않는다
+        if (!restored) {
+            log.error("인덱스 설정 복구 실패. Alias 교체를 건너뜀 — 기존 인덱스로 계속 서빙");
+        } else if (jobExecution.getStatus() == BatchStatus.COMPLETED) {
             if (newIndexName == null) {
                 log.error("Job Context에서 새 인덱스 이름을 찾을 수 없습니다.");
             } else {
