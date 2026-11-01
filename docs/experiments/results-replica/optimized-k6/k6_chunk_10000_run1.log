@@ -1,0 +1,36 @@
+
+
+  █ THRESHOLDS 
+
+    checks
+    ✓ 'rate==1.0' rate=100.00%
+
+
+  █ TOTAL RESULTS 
+
+    checks_total.......: 7158    99.992452/s
+    checks_succeeded...: 100.00% 7158 out of 7158
+    checks_failed......: 0.00%   0 out of 7158
+
+    ✓ status 200
+    ✓ hits > 0
+
+    HTTP
+    http_req_duration..............: avg=5.94ms min=1.18ms med=3.32ms max=382.62ms p(90)=9.8ms   p(95)=16.73ms
+      { expected_response:true }...: avg=5.94ms min=1.18ms med=3.32ms max=382.62ms p(90)=9.8ms   p(95)=16.73ms
+    http_req_failed................: 0.00%  0 out of 3579
+    http_reqs......................: 3579   49.996226/s
+
+    EXECUTION
+    iteration_duration.............: avg=6.21ms min=1.33ms med=3.6ms  max=382.96ms p(90)=10.13ms p(95)=17.14ms
+    iterations.....................: 3579   49.996226/s
+    vus............................: 0      min=0         max=4 
+    vus_max........................: 20     min=20        max=20
+
+    NETWORK
+    data_received..................: 6.3 MB 88 kB/s
+    data_sent......................: 669 kB 9.3 kB/s
+
+
+
+time="2026-11-01T23:25:09+09:00" level=error msg="test run was aborted because k6 received a 'interrupt' signal"

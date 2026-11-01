@@ -1,0 +1,9 @@
+spring_batch_chunk_write_seconds_count{spring_batch_chunk_write_job_name="mysqlToEsJob",spring_batch_chunk_write_status="SUCCESS",spring_batch_chunk_write_step_name="migrationStep"} 200
+spring_batch_chunk_write_seconds_sum{spring_batch_chunk_write_job_name="mysqlToEsJob",spring_batch_chunk_write_status="SUCCESS",spring_batch_chunk_write_step_name="migrationStep"} 40.011089748
+spring_batch_item_process_seconds_count{spring_batch_item_process_job_name="mysqlToEsJob",spring_batch_item_process_status="SUCCESS",spring_batch_item_process_step_name="migrationStep"} 1000000
+spring_batch_item_process_seconds_sum{spring_batch_item_process_job_name="mysqlToEsJob",spring_batch_item_process_status="SUCCESS",spring_batch_item_process_step_name="migrationStep"} 0.330810719
+spring_batch_item_read_seconds_count{spring_batch_item_read_job_name="mysqlToEsJob",spring_batch_item_read_status="SUCCESS",spring_batch_item_read_step_name="migrationStep"} 1000001
+spring_batch_item_read_seconds_sum{spring_batch_item_read_job_name="mysqlToEsJob",spring_batch_item_read_status="SUCCESS",spring_batch_item_read_step_name="migrationStep"} 8.609767668
+spring_batch_job_seconds_sum{error="none",spring_batch_job_name="mysqlToEsJob",spring_batch_job_status="COMPLETED"} 50.544430291
+spring_batch_step_seconds_count{error="none",spring_batch_step_job_name="mysqlToEsJob",spring_batch_step_name="migrationStep",spring_batch_step_status="COMPLETED"} 1
+spring_batch_step_seconds_sum{error="none",spring_batch_step_job_name="mysqlToEsJob",spring_batch_step_name="migrationStep",spring_batch_step_status="COMPLETED"} 50.239434125

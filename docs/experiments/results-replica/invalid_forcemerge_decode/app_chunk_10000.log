@@ -1,0 +1,650 @@
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.4)
+
+2026-11-01 23:04:37.198 [main] INFO  p.matchalatte.MulticastApplication - Starting MulticastApplication v0.0.1-SNAPSHOT using Java 17.0.14 with PID 31686 (/private/tmp/claude-501/-Users-user-IdeaProjects-MatchaLatte/4eab942e-37dd-40e8-bcdb-fcf70d9b6c7f/scratchpad/optimized.jar started by user in /Users/user/IdeaProjects/MatchaLatte)
+2026-11-01 23:04:37.200 [main] INFO  p.matchalatte.MulticastApplication - The following 1 profile is active: "bench"
+2026-11-01 23:04:37.731 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2026-11-01 23:04:37.742 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 8 ms. Found 0 Elasticsearch repository interfaces.
+2026-11-01 23:04:37.874 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2026-11-01 23:04:37.888 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'spring.datasource-org.springframework.boot.autoconfigure.jdbc.DataSourceProperties' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2026-11-01 23:04:37.889 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration$PooledDataSourceConfiguration' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration$PooledDataSourceConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2026-11-01 23:04:37.889 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'jdbcConnectionDetails' of type [org.springframework.boot.autoconfigure.jdbc.PropertiesJdbcConnectionDetails] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2026-11-01 23:04:37.901 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dataSource' of type [com.zaxxer.hikari.HikariDataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2026-11-01 23:04:37.904 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration$JdbcTransactionManagerConfiguration' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration$JdbcTransactionManagerConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2026-11-01 23:04:37.907 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.boot.autoconfigure.transaction.TransactionManagerCustomizationAutoConfiguration' of type [org.springframework.boot.autoconfigure.transaction.TransactionManagerCustomizationAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2026-11-01 23:04:37.910 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'transactionExecutionListeners' of type [org.springframework.boot.autoconfigure.transaction.ExecutionListenersTransactionManagerCustomizer] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2026-11-01 23:04:37.911 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'spring.transaction-org.springframework.boot.autoconfigure.transaction.TransactionProperties' of type [org.springframework.boot.autoconfigure.transaction.TransactionProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2026-11-01 23:04:37.912 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'platformTransactionManagerCustomizers' of type [org.springframework.boot.autoconfigure.transaction.TransactionManagerCustomizers] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2026-11-01 23:04:37.914 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'transactionManager' of type [org.springframework.jdbc.support.JdbcTransactionManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2026-11-01 23:04:37.918 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'spring.batch-org.springframework.boot.autoconfigure.batch.BatchProperties' of type [org.springframework.boot.autoconfigure.batch.BatchProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2026-11-01 23:04:37.921 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.boot.autoconfigure.batch.BatchAutoConfiguration$SpringBootBatchConfiguration' of type [org.springframework.boot.autoconfigure.batch.BatchAutoConfiguration$SpringBootBatchConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [jobRegistryBeanPostProcessor] is declared through a non-static factory method on that class; consider declaring it as static instead.
+2026-11-01 23:04:38.055 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8082 (http)
+2026-11-01 23:04:38.061 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8082"]
+2026-11-01 23:04:38.064 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-11-01 23:04:38.064 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.30]
+2026-11-01 23:04:38.086 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-11-01 23:04:38.087 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 855 ms
+2026-11-01 23:04:38.197 [main] INFO  p.m.s.m.QueueMetricMonitoring - Queue metrics initialized
+2026-11-01 23:04:38.407 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-11-01 23:04:38.578 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@618f627b
+2026-11-01 23:04:38.579 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-11-01 23:04:38.979 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint beneath base path '/actuator'
+2026-11-01 23:04:39.007 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8082"]
+2026-11-01 23:04:39.014 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8082 (http) with context path '/'
+2026-11-01 23:04:39.031 [main] INFO  p.matchalatte.MulticastApplication - Started MulticastApplication in 2.125 seconds (process running for 2.395)
+2026-11-01 23:04:39.097 [main] INFO  p.m.api.config.EsAliasHealthChecker - ES alias 'products' 확인 완료.
+2026-11-01 23:04:39.727 [http-nio-8082-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-11-01 23:04:39.727 [http-nio-8082-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-11-01 23:04:39.729 [http-nio-8082-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2026-11-01 23:04:39.939 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncLockHelper - Full Sync Lock 획득 성공.
+2026-11-01 23:04:40.070 [http-nio-8082-exec-2] INFO  o.s.b.c.l.support.SimpleJobLauncher - Job: [SimpleJob: [name=mysqlToEsJob]] launched with the following parameters: [{'full_sync_mode':'{value=MANUAL, type=class java.lang.String, identifying=true}','run.date':'{value=Sun Nov 01 23:04:39 KST 2026, type=class java.util.Date, identifying=true}','newIndexName':'{value=products_2026_11_01, type=class java.lang.String, identifying=true}'}]
+2026-11-01 23:04:40.105 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncJobListener - Job 시작. 대상 인덱스: products_2026_11_01
+2026-11-01 23:04:40.105 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncAliasManager - 새로운 인덱스 [products_2026_11_01] 생성을 시도합니다.
+2026-11-01 23:04:40.603 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncAliasManager - 인덱스 [products_2026_11_01] 생성 성공.
+2026-11-01 23:04:40.708 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncAliasManager - 인덱스 [products_2026_11_01] batch 설정 적용: number_of_replicas=0, refresh_interval=-1
+2026-11-01 23:04:40.733 [http-nio-8082-exec-2] INFO  o.s.batch.core.job.SimpleStepHandler - Executing step: [migrationStep]
+2026-11-01 23:04:41.657 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 141ms
+2026-11-01 23:04:42.456 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 245ms
+2026-11-01 23:04:42.925 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 140ms
+2026-11-01 23:04:43.292 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 95ms
+2026-11-01 23:04:43.695 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 151ms
+2026-11-01 23:04:44.035 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 90ms
+2026-11-01 23:04:44.383 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 101ms
+2026-11-01 23:04:44.728 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 88ms
+2026-11-01 23:04:45.121 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 89ms
+2026-11-01 23:04:45.459 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 98ms
+2026-11-01 23:04:45.794 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 91ms
+2026-11-01 23:04:46.156 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 108ms
+2026-11-01 23:04:46.502 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 93ms
+2026-11-01 23:04:46.850 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 113ms
+2026-11-01 23:04:47.242 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 92ms
+2026-11-01 23:04:47.579 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 94ms
+2026-11-01 23:04:47.923 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 94ms
+2026-11-01 23:04:48.267 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 105ms
+2026-11-01 23:04:48.609 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 99ms
+2026-11-01 23:04:49.010 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 143ms
+2026-11-01 23:04:49.035 [scheduling-1] WARN  p.m.domain.service.SyncLockHelper - Full Sync 배치 작업 진행 중. Bulk 스케줄링을 건너뜁니다.
+2026-11-01 23:04:49.363 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 94ms
+2026-11-01 23:04:49.700 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 96ms
+2026-11-01 23:04:50.040 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 95ms
+2026-11-01 23:04:50.391 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 97ms
+2026-11-01 23:04:50.746 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 99ms
+2026-11-01 23:04:51.106 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 97ms
+2026-11-01 23:04:52.236 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 886ms
+2026-11-01 23:04:52.588 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 100ms
+2026-11-01 23:04:52.926 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 88ms
+2026-11-01 23:04:53.263 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 105ms
+2026-11-01 23:04:53.595 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 92ms
+2026-11-01 23:04:53.939 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 91ms
+2026-11-01 23:04:54.281 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 99ms
+2026-11-01 23:04:54.634 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 95ms
+2026-11-01 23:04:55.190 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 212ms
+2026-11-01 23:04:55.544 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 95ms
+2026-11-01 23:04:55.885 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 101ms
+2026-11-01 23:04:56.295 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 160ms
+2026-11-01 23:04:56.679 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 129ms
+2026-11-01 23:04:57.062 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 134ms
+2026-11-01 23:04:57.473 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 161ms
+2026-11-01 23:04:57.823 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 92ms
+2026-11-01 23:04:58.181 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 99ms
+2026-11-01 23:04:58.531 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 95ms
+2026-11-01 23:04:58.873 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 94ms
+2026-11-01 23:04:59.035 [scheduling-1] WARN  p.m.domain.service.SyncLockHelper - Full Sync 배치 작업 진행 중. Bulk 스케줄링을 건너뜁니다.
+2026-11-01 23:04:59.215 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 106ms
+2026-11-01 23:05:00.007 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 529ms
+2026-11-01 23:05:00.366 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 107ms
+2026-11-01 23:05:00.709 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 99ms
+2026-11-01 23:05:01.035 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 92ms
+2026-11-01 23:05:01.390 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 99ms
+2026-11-01 23:05:01.764 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 109ms
+2026-11-01 23:05:02.200 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 172ms
+2026-11-01 23:05:02.547 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 96ms
+2026-11-01 23:05:02.878 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 93ms
+2026-11-01 23:05:03.245 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 104ms
+2026-11-01 23:05:03.583 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 97ms
+2026-11-01 23:05:03.921 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 93ms
+2026-11-01 23:05:04.261 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 107ms
+2026-11-01 23:05:04.966 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 450ms
+2026-11-01 23:05:05.305 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 86ms
+2026-11-01 23:05:05.637 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 99ms
+2026-11-01 23:05:05.962 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 87ms
+2026-11-01 23:05:06.306 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 94ms
+2026-11-01 23:05:06.644 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 106ms
+2026-11-01 23:05:06.990 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 93ms
+2026-11-01 23:05:07.337 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 100ms
+2026-11-01 23:05:07.669 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 93ms
+2026-11-01 23:05:08.020 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 94ms
+2026-11-01 23:05:08.365 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 96ms
+2026-11-01 23:05:08.706 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 96ms
+2026-11-01 23:05:09.033 [scheduling-1] WARN  p.m.domain.service.SyncLockHelper - Full Sync 배치 작업 진행 중. Bulk 스케줄링을 건너뜁니다.
+2026-11-01 23:05:09.042 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 96ms
+2026-11-01 23:05:09.400 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 116ms
+2026-11-01 23:05:09.744 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 94ms
+2026-11-01 23:05:10.091 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 103ms
+2026-11-01 23:05:10.425 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 94ms
+2026-11-01 23:05:10.763 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 99ms
+2026-11-01 23:05:11.125 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 110ms
+2026-11-01 23:05:11.456 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 97ms
+2026-11-01 23:05:11.793 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 96ms
+2026-11-01 23:05:12.147 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 100ms
+2026-11-01 23:05:12.506 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 99ms
+2026-11-01 23:05:12.845 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 100ms
+2026-11-01 23:05:13.196 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 101ms
+2026-11-01 23:05:13.540 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 100ms
+2026-11-01 23:05:13.897 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 100ms
+2026-11-01 23:05:14.952 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 794ms
+2026-11-01 23:05:15.303 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 98ms
+2026-11-01 23:05:15.631 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 91ms
+2026-11-01 23:05:15.956 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 93ms
+2026-11-01 23:05:16.301 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 99ms
+2026-11-01 23:05:16.637 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 95ms
+2026-11-01 23:05:16.981 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 93ms
+2026-11-01 23:05:17.315 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 100ms
+2026-11-01 23:05:17.734 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 164ms
+2026-11-01 23:05:18.084 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 93ms
+2026-11-01 23:05:18.428 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 95ms
+2026-11-01 23:05:18.776 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 96ms
+2026-11-01 23:05:19.036 [scheduling-1] WARN  p.m.domain.service.SyncLockHelper - Full Sync 배치 작업 진행 중. Bulk 스케줄링을 건너뜁니다.
+2026-11-01 23:05:19.116 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 95ms
+2026-11-01 23:05:19.474 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 115ms
+2026-11-01 23:05:19.484 [http-nio-8082-exec-2] INFO  o.s.batch.core.step.AbstractStep - Step: [migrationStep] executed in 38s749ms
+2026-11-01 23:05:19.502 [http-nio-8082-exec-2] ERROR p.m.domain.service.SyncJobListener - refresh_interval 복구 실패 — 인덱스 [products_2026_11_01] 수동 확인 필요
+co.elastic.clients.transport.TransportException: node: http://localhost:9220/, status: 200, [es/indices.forcemerge] Failed to decode response
+	at co.elastic.clients.transport.ElasticsearchTransportBase.decodeTransportResponse(ElasticsearchTransportBase.java:404)
+	at co.elastic.clients.transport.ElasticsearchTransportBase.getApiResponse(ElasticsearchTransportBase.java:363)
+	at co.elastic.clients.transport.ElasticsearchTransportBase.performRequest(ElasticsearchTransportBase.java:147)
+	at co.elastic.clients.elasticsearch.indices.ElasticsearchIndicesClient.forcemerge(ElasticsearchIndicesClient.java:919)
+	at co.elastic.clients.elasticsearch.indices.ElasticsearchIndicesClient.forcemerge(ElasticsearchIndicesClient.java:935)
+	at project.matchalatte.domain.service.SyncAliasManager.restoreBatchSettings(SyncAliasManager.java:91)
+	at project.matchalatte.domain.service.SyncJobListener.afterJob(SyncJobListener.java:53)
+	at org.springframework.batch.core.listener.CompositeJobExecutionListener.afterJob(CompositeJobExecutionListener.java:60)
+	at org.springframework.batch.core.job.AbstractJob.execute(AbstractJob.java:370)
+	at org.springframework.batch.core.launch.support.SimpleJobLauncher$1.run(SimpleJobLauncher.java:157)
+	at org.springframework.core.task.SyncTaskExecutor.execute(SyncTaskExecutor.java:50)
+	at org.springframework.batch.core.launch.support.SimpleJobLauncher.run(SimpleJobLauncher.java:148)
+	at org.springframework.batch.core.launch.support.TaskExecutorJobLauncher.run(TaskExecutorJobLauncher.java:59)
+	at project.matchalatte.domain.service.SyncBatchHelper.batchProduct(SyncBatchHelper.java:45)
+	at project.matchalatte.domain.service.SyncService.triggerBatchJob(SyncService.java:34)
+	at project.matchalatte.api.controller.SyncController.runSyncJob(SyncController.java:42)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:255)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:188)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:926)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:831)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:113)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:384)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:905)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: co.elastic.clients.util.MissingRequiredPropertyException: Missing required property 'ForcemergeResponse.shards'
+	at co.elastic.clients.util.ApiTypeHelper.requireNonNull(ApiTypeHelper.java:76)
+	at co.elastic.clients.elasticsearch._types.ShardsOperationResponseBase.<init>(ShardsOperationResponseBase.java:68)
+	at co.elastic.clients.elasticsearch.indices.forcemerge.ForceMergeResponseBody.<init>(ForceMergeResponseBody.java:66)
+	at co.elastic.clients.elasticsearch.indices.ForcemergeResponse.<init>(ForcemergeResponse.java:59)
+	at co.elastic.clients.elasticsearch.indices.ForcemergeResponse.<init>(ForcemergeResponse.java:55)
+	at co.elastic.clients.elasticsearch.indices.ForcemergeResponse$Builder.build(ForcemergeResponse.java:90)
+	at co.elastic.clients.elasticsearch.indices.ForcemergeResponse$Builder.build(ForcemergeResponse.java:73)
+	at co.elastic.clients.json.ObjectBuilderDeserializer.deserialize(ObjectBuilderDeserializer.java:80)
+	at co.elastic.clients.json.DelegatingDeserializer$SameType.deserialize(DelegatingDeserializer.java:43)
+	at co.elastic.clients.transport.ElasticsearchTransportBase.decodeTransportResponse(ElasticsearchTransportBase.java:399)
+	... 69 common frames omitted
+2026-11-01 23:05:19.503 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncJobListener - Job 완료. Alias [products]를 인덱스 [products_2026_11_01]로 교체 시도.
+2026-11-01 23:05:19.513 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncAliasManager - 이전 인덱스 [products_base]에서 별칭 [products] 제거.
+2026-11-01 23:05:19.585 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncAliasManager - Alias Swap 완료: [products_base] -> [products_2026_11_01]
+2026-11-01 23:05:19.585 [http-nio-8082-exec-2] INFO  p.m.domain.service.SyncLockHelper - Full Sync Lock 해제 완료.
+2026-11-01 23:05:19.590 [http-nio-8082-exec-2] INFO  o.s.b.c.l.support.SimpleJobLauncher - Job: [SimpleJob: [name=mysqlToEsJob]] completed with the following parameters: [{'full_sync_mode':'{value=MANUAL, type=class java.lang.String, identifying=true}','run.date':'{value=Sun Nov 01 23:04:39 KST 2026, type=class java.util.Date, identifying=true}','newIndexName':'{value=products_2026_11_01, type=class java.lang.String, identifying=true}'}] and the following status: [COMPLETED] in 39s407ms
+2026-11-01 23:05:20.611 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncLockHelper - Full Sync Lock 획득 성공.
+2026-11-01 23:05:20.624 [http-nio-8082-exec-3] INFO  o.s.b.c.l.support.SimpleJobLauncher - Job: [SimpleJob: [name=mysqlToEsJob]] launched with the following parameters: [{'full_sync_mode':'{value=MANUAL, type=class java.lang.String, identifying=true}','run.date':'{value=Sun Nov 01 23:05:20 KST 2026, type=class java.util.Date, identifying=true}','newIndexName':'{value=products_2026_11_01, type=class java.lang.String, identifying=true}'}]
+2026-11-01 23:05:20.627 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncJobListener - Job 시작. 대상 인덱스: products_2026_11_01
+2026-11-01 23:05:20.627 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncAliasManager - 새로운 인덱스 [products_2026_11_01] 생성을 시도합니다.
+2026-11-01 23:05:20.967 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncAliasManager - 인덱스 [products_2026_11_01] 생성 성공.
+2026-11-01 23:05:21.103 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncAliasManager - 인덱스 [products_2026_11_01] batch 설정 적용: number_of_replicas=0, refresh_interval=-1
+2026-11-01 23:05:21.114 [http-nio-8082-exec-3] INFO  o.s.batch.core.job.SimpleStepHandler - Executing step: [migrationStep]
+2026-11-01 23:05:22.289 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 829ms
+2026-11-01 23:05:22.837 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 286ms
+2026-11-01 23:05:23.255 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 156ms
+2026-11-01 23:05:23.674 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 161ms
+2026-11-01 23:05:24.188 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 193ms
+2026-11-01 23:05:24.688 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 219ms
+2026-11-01 23:05:25.211 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 207ms
+2026-11-01 23:05:25.594 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 129ms
+2026-11-01 23:05:25.992 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 146ms
+2026-11-01 23:05:26.356 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 107ms
+2026-11-01 23:05:26.736 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 108ms
+2026-11-01 23:05:27.117 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 105ms
+2026-11-01 23:05:27.462 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 101ms
+2026-11-01 23:05:27.986 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 265ms
+2026-11-01 23:05:28.342 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 101ms
+2026-11-01 23:05:28.688 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 104ms
+2026-11-01 23:05:29.035 [scheduling-1] WARN  p.m.domain.service.SyncLockHelper - Full Sync 배치 작업 진행 중. Bulk 스케줄링을 건너뜁니다.
+2026-11-01 23:05:29.045 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 103ms
+2026-11-01 23:05:29.401 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 103ms
+2026-11-01 23:05:29.809 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 148ms
+2026-11-01 23:05:30.301 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 232ms
+2026-11-01 23:05:30.720 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 152ms
+2026-11-01 23:05:31.088 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 123ms
+2026-11-01 23:05:31.443 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 110ms
+2026-11-01 23:05:31.804 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 106ms
+2026-11-01 23:05:32.162 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 108ms
+2026-11-01 23:05:32.621 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 139ms
+2026-11-01 23:05:34.008 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 1103ms
+2026-11-01 23:05:34.362 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 97ms
+2026-11-01 23:05:34.710 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 96ms
+2026-11-01 23:05:35.056 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 106ms
+2026-11-01 23:05:35.399 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 96ms
+2026-11-01 23:05:35.757 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 102ms
+2026-11-01 23:05:36.164 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 153ms
+2026-11-01 23:05:36.531 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 114ms
+2026-11-01 23:05:36.886 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 100ms
+2026-11-01 23:05:37.236 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 110ms
+2026-11-01 23:05:37.581 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 105ms
+2026-11-01 23:05:37.946 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 100ms
+2026-11-01 23:05:38.297 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 103ms
+2026-11-01 23:05:38.763 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 209ms
+2026-11-01 23:05:39.036 [scheduling-1] WARN  p.m.domain.service.SyncLockHelper - Full Sync 배치 작업 진행 중. Bulk 스케줄링을 건너뜁니다.
+2026-11-01 23:05:39.117 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 99ms
+2026-11-01 23:05:39.456 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 100ms
+2026-11-01 23:05:39.799 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 101ms
+2026-11-01 23:05:40.181 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 122ms
+2026-11-01 23:05:40.545 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 105ms
+2026-11-01 23:05:40.929 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 136ms
+2026-11-01 23:05:41.704 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 507ms
+2026-11-01 23:05:42.116 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 102ms
+2026-11-01 23:05:42.477 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 115ms
+2026-11-01 23:05:42.859 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 110ms
+2026-11-01 23:05:43.225 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 101ms
+2026-11-01 23:05:43.607 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 136ms
+2026-11-01 23:05:43.974 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 114ms
+2026-11-01 23:05:44.362 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 140ms
+2026-11-01 23:05:44.750 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 130ms
+2026-11-01 23:05:45.103 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 106ms
+2026-11-01 23:05:45.453 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 102ms
+2026-11-01 23:05:45.802 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 105ms
+2026-11-01 23:05:46.156 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 105ms
+2026-11-01 23:05:46.842 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 425ms
+2026-11-01 23:05:47.207 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 108ms
+2026-11-01 23:05:47.559 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 99ms
+2026-11-01 23:05:47.926 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 108ms
+2026-11-01 23:05:48.274 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 101ms
+2026-11-01 23:05:48.685 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 162ms
+2026-11-01 23:05:49.031 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 104ms
+2026-11-01 23:05:49.035 [scheduling-1] WARN  p.m.domain.service.SyncLockHelper - Full Sync 배치 작업 진행 중. Bulk 스케줄링을 건너뜁니다.
+2026-11-01 23:05:49.392 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 108ms
+2026-11-01 23:05:49.748 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 99ms
+2026-11-01 23:05:50.106 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 101ms
+2026-11-01 23:05:50.471 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 103ms
+2026-11-01 23:05:50.850 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 134ms
+2026-11-01 23:05:51.212 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 107ms
+2026-11-01 23:05:51.594 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 122ms
+2026-11-01 23:05:51.970 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 119ms
+2026-11-01 23:05:52.362 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 136ms
+2026-11-01 23:05:52.722 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 110ms
+2026-11-01 23:05:53.153 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 168ms
+2026-11-01 23:05:53.528 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 112ms
+2026-11-01 23:05:53.891 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 109ms
+2026-11-01 23:05:54.248 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 108ms
+2026-11-01 23:05:54.606 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 110ms
+2026-11-01 23:05:54.979 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 120ms
+2026-11-01 23:05:55.339 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 110ms
+2026-11-01 23:05:55.715 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 131ms
+2026-11-01 23:05:56.076 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 109ms
+2026-11-01 23:05:56.442 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 111ms
+2026-11-01 23:05:57.535 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 836ms
+2026-11-01 23:05:57.899 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 102ms
+2026-11-01 23:05:58.247 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 98ms
+2026-11-01 23:05:58.606 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 101ms
+2026-11-01 23:05:58.952 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 99ms
+2026-11-01 23:05:59.036 [scheduling-1] WARN  p.m.domain.service.SyncLockHelper - Full Sync 배치 작업 진행 중. Bulk 스케줄링을 건너뜁니다.
+2026-11-01 23:05:59.295 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 100ms
+2026-11-01 23:05:59.645 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 104ms
+2026-11-01 23:06:00.027 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 125ms
+2026-11-01 23:06:00.384 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 100ms
+2026-11-01 23:06:00.756 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 115ms
+2026-11-01 23:06:01.108 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 107ms
+2026-11-01 23:06:01.460 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 104ms
+2026-11-01 23:06:01.841 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 112ms
+2026-11-01 23:06:02.278 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 176ms
+2026-11-01 23:06:02.288 [http-nio-8082-exec-3] INFO  o.s.batch.core.step.AbstractStep - Step: [migrationStep] executed in 41s173ms
+2026-11-01 23:06:02.294 [http-nio-8082-exec-3] ERROR p.m.domain.service.SyncJobListener - refresh_interval 복구 실패 — 인덱스 [products_2026_11_01] 수동 확인 필요
+co.elastic.clients.transport.TransportException: node: http://localhost:9220/, status: 200, [es/indices.forcemerge] Failed to decode response
+	at co.elastic.clients.transport.ElasticsearchTransportBase.decodeTransportResponse(ElasticsearchTransportBase.java:404)
+	at co.elastic.clients.transport.ElasticsearchTransportBase.getApiResponse(ElasticsearchTransportBase.java:363)
+	at co.elastic.clients.transport.ElasticsearchTransportBase.performRequest(ElasticsearchTransportBase.java:147)
+	at co.elastic.clients.elasticsearch.indices.ElasticsearchIndicesClient.forcemerge(ElasticsearchIndicesClient.java:919)
+	at co.elastic.clients.elasticsearch.indices.ElasticsearchIndicesClient.forcemerge(ElasticsearchIndicesClient.java:935)
+	at project.matchalatte.domain.service.SyncAliasManager.restoreBatchSettings(SyncAliasManager.java:91)
+	at project.matchalatte.domain.service.SyncJobListener.afterJob(SyncJobListener.java:53)
+	at org.springframework.batch.core.listener.CompositeJobExecutionListener.afterJob(CompositeJobExecutionListener.java:60)
+	at org.springframework.batch.core.job.AbstractJob.execute(AbstractJob.java:370)
+	at org.springframework.batch.core.launch.support.SimpleJobLauncher$1.run(SimpleJobLauncher.java:157)
+	at org.springframework.core.task.SyncTaskExecutor.execute(SyncTaskExecutor.java:50)
+	at org.springframework.batch.core.launch.support.SimpleJobLauncher.run(SimpleJobLauncher.java:148)
+	at org.springframework.batch.core.launch.support.TaskExecutorJobLauncher.run(TaskExecutorJobLauncher.java:59)
+	at project.matchalatte.domain.service.SyncBatchHelper.batchProduct(SyncBatchHelper.java:45)
+	at project.matchalatte.domain.service.SyncService.triggerBatchJob(SyncService.java:34)
+	at project.matchalatte.api.controller.SyncController.runSyncJob(SyncController.java:42)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:255)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:188)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:926)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:831)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:113)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:384)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:905)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: co.elastic.clients.util.MissingRequiredPropertyException: Missing required property 'ForcemergeResponse.shards'
+	at co.elastic.clients.util.ApiTypeHelper.requireNonNull(ApiTypeHelper.java:76)
+	at co.elastic.clients.elasticsearch._types.ShardsOperationResponseBase.<init>(ShardsOperationResponseBase.java:68)
+	at co.elastic.clients.elasticsearch.indices.forcemerge.ForceMergeResponseBody.<init>(ForceMergeResponseBody.java:66)
+	at co.elastic.clients.elasticsearch.indices.ForcemergeResponse.<init>(ForcemergeResponse.java:59)
+	at co.elastic.clients.elasticsearch.indices.ForcemergeResponse.<init>(ForcemergeResponse.java:55)
+	at co.elastic.clients.elasticsearch.indices.ForcemergeResponse$Builder.build(ForcemergeResponse.java:90)
+	at co.elastic.clients.elasticsearch.indices.ForcemergeResponse$Builder.build(ForcemergeResponse.java:73)
+	at co.elastic.clients.json.ObjectBuilderDeserializer.deserialize(ObjectBuilderDeserializer.java:80)
+	at co.elastic.clients.json.DelegatingDeserializer$SameType.deserialize(DelegatingDeserializer.java:43)
+	at co.elastic.clients.transport.ElasticsearchTransportBase.decodeTransportResponse(ElasticsearchTransportBase.java:399)
+	... 69 common frames omitted
+2026-11-01 23:06:02.298 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncJobListener - Job 완료. Alias [products]를 인덱스 [products_2026_11_01]로 교체 시도.
+2026-11-01 23:06:02.305 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncAliasManager - 이전 인덱스 [products_base]에서 별칭 [products] 제거.
+2026-11-01 23:06:02.371 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncAliasManager - Alias Swap 완료: [products_base] -> [products_2026_11_01]
+2026-11-01 23:06:02.371 [http-nio-8082-exec-3] INFO  p.m.domain.service.SyncLockHelper - Full Sync Lock 해제 완료.
+2026-11-01 23:06:02.376 [http-nio-8082-exec-3] INFO  o.s.b.c.l.support.SimpleJobLauncher - Job: [SimpleJob: [name=mysqlToEsJob]] completed with the following parameters: [{'full_sync_mode':'{value=MANUAL, type=class java.lang.String, identifying=true}','run.date':'{value=Sun Nov 01 23:05:20 KST 2026, type=class java.util.Date, identifying=true}','newIndexName':'{value=products_2026_11_01, type=class java.lang.String, identifying=true}'}] and the following status: [COMPLETED] in 41s667ms
+2026-11-01 23:06:03.339 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncLockHelper - Full Sync Lock 획득 성공.
+2026-11-01 23:06:03.365 [http-nio-8082-exec-4] INFO  o.s.b.c.l.support.SimpleJobLauncher - Job: [SimpleJob: [name=mysqlToEsJob]] launched with the following parameters: [{'full_sync_mode':'{value=MANUAL, type=class java.lang.String, identifying=true}','run.date':'{value=Sun Nov 01 23:06:03 KST 2026, type=class java.util.Date, identifying=true}','newIndexName':'{value=products_2026_11_01, type=class java.lang.String, identifying=true}'}]
+2026-11-01 23:06:03.368 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncJobListener - Job 시작. 대상 인덱스: products_2026_11_01
+2026-11-01 23:06:03.368 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncAliasManager - 새로운 인덱스 [products_2026_11_01] 생성을 시도합니다.
+2026-11-01 23:06:03.483 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncAliasManager - 인덱스 [products_2026_11_01] 생성 성공.
+2026-11-01 23:06:03.606 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncAliasManager - 인덱스 [products_2026_11_01] batch 설정 적용: number_of_replicas=0, refresh_interval=-1
+2026-11-01 23:06:03.626 [http-nio-8082-exec-4] INFO  o.s.batch.core.job.SimpleStepHandler - Executing step: [migrationStep]
+2026-11-01 23:06:04.434 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 515ms
+2026-11-01 23:06:04.929 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 247ms
+2026-11-01 23:06:05.374 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 190ms
+2026-11-01 23:06:05.838 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 201ms
+2026-11-01 23:06:06.279 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 180ms
+2026-11-01 23:06:06.863 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 324ms
+2026-11-01 23:06:07.240 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 120ms
+2026-11-01 23:06:07.591 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 103ms
+2026-11-01 23:06:07.945 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 103ms
+2026-11-01 23:06:08.312 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 112ms
+2026-11-01 23:06:08.673 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 105ms
+2026-11-01 23:06:09.035 [scheduling-1] WARN  p.m.domain.service.SyncLockHelper - Full Sync 배치 작업 진행 중. Bulk 스케줄링을 건너뜁니다.
+2026-11-01 23:06:09.042 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 115ms
+2026-11-01 23:06:09.392 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 104ms
+2026-11-01 23:06:09.779 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 133ms
+2026-11-01 23:06:10.184 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 139ms
+2026-11-01 23:06:10.546 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 106ms
+2026-11-01 23:06:10.898 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 104ms
+2026-11-01 23:06:11.262 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 103ms
+2026-11-01 23:06:11.625 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 123ms
+2026-11-01 23:06:12.214 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 317ms
+2026-11-01 23:06:12.623 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 119ms
+2026-11-01 23:06:12.989 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 105ms
+2026-11-01 23:06:13.356 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 119ms
+2026-11-01 23:06:13.722 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 118ms
+2026-11-01 23:06:14.085 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 118ms
+2026-11-01 23:06:14.464 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 116ms
+2026-11-01 23:06:15.714 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 990ms
+2026-11-01 23:06:16.074 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 105ms
+2026-11-01 23:06:16.491 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 160ms
+2026-11-01 23:06:16.848 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 103ms
+2026-11-01 23:06:17.207 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 100ms
+2026-11-01 23:06:17.553 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 100ms
+2026-11-01 23:06:17.910 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 109ms
+2026-11-01 23:06:18.274 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 118ms
+2026-11-01 23:06:18.626 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 101ms
+2026-11-01 23:06:19.020 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 148ms
+2026-11-01 23:06:19.035 [scheduling-1] WARN  p.m.domain.service.SyncLockHelper - Full Sync 배치 작업 진행 중. Bulk 스케줄링을 건너뜁니다.
+2026-11-01 23:06:19.373 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 101ms
+2026-11-01 23:06:19.715 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 103ms
+2026-11-01 23:06:20.109 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 142ms
+2026-11-01 23:06:20.515 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 146ms
+2026-11-01 23:06:20.906 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 133ms
+2026-11-01 23:06:21.306 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 138ms
+2026-11-01 23:06:21.668 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 102ms
+2026-11-01 23:06:22.126 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 199ms
+2026-11-01 23:06:22.524 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 135ms
+2026-11-01 23:06:22.893 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 112ms
+2026-11-01 23:06:23.908 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 739ms
+2026-11-01 23:06:24.270 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 105ms
+2026-11-01 23:06:24.616 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 101ms
+2026-11-01 23:06:25.001 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 107ms
+2026-11-01 23:06:25.367 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 102ms
+2026-11-01 23:06:25.907 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 288ms
+2026-11-01 23:06:26.305 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 117ms
+2026-11-01 23:06:26.671 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 103ms
+2026-11-01 23:06:27.026 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 108ms
+2026-11-01 23:06:27.374 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 101ms
+2026-11-01 23:06:27.724 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 105ms
+2026-11-01 23:06:28.143 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 144ms
+2026-11-01 23:06:28.555 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 159ms
+2026-11-01 23:06:29.037 [scheduling-1] WARN  p.m.domain.service.SyncLockHelper - Full Sync 배치 작업 진행 중. Bulk 스케줄링을 건너뜁니다.
+2026-11-01 23:06:29.259 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 445ms
+2026-11-01 23:06:29.645 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 114ms
+2026-11-01 23:06:30.021 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 116ms
+2026-11-01 23:06:30.371 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 106ms
+2026-11-01 23:06:30.730 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 111ms
+2026-11-01 23:06:31.099 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 128ms
+2026-11-01 23:06:31.528 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 162ms
+2026-11-01 23:06:31.946 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 164ms
+2026-11-01 23:06:32.338 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 133ms
+2026-11-01 23:06:32.688 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 109ms
+2026-11-01 23:06:33.047 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 108ms
+2026-11-01 23:06:33.463 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 155ms
+2026-11-01 23:06:33.825 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 111ms
+2026-11-01 23:06:34.206 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 139ms
+2026-11-01 23:06:34.573 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 108ms
+2026-11-01 23:06:34.949 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 127ms
+2026-11-01 23:06:35.314 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 120ms
+2026-11-01 23:06:35.674 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 114ms
+2026-11-01 23:06:36.044 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 114ms
+2026-11-01 23:06:36.427 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 116ms
+2026-11-01 23:06:36.785 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 113ms
+2026-11-01 23:06:37.206 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 166ms
+2026-11-01 23:06:37.613 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 138ms
+2026-11-01 23:06:37.986 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 117ms
+2026-11-01 23:06:38.361 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 118ms
+2026-11-01 23:06:38.738 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 115ms
+2026-11-01 23:06:39.037 [scheduling-1] WARN  p.m.domain.service.SyncLockHelper - Full Sync 배치 작업 진행 중. Bulk 스케줄링을 건너뜁니다.
+2026-11-01 23:06:39.107 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 114ms
+2026-11-01 23:06:40.257 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 892ms
+2026-11-01 23:06:40.612 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 102ms
+2026-11-01 23:06:41.017 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 134ms
+2026-11-01 23:06:41.395 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 117ms
+2026-11-01 23:06:41.754 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 110ms
+2026-11-01 23:06:42.108 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 107ms
+2026-11-01 23:06:42.465 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 108ms
+2026-11-01 23:06:42.836 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 114ms
+2026-11-01 23:06:43.235 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 127ms
+2026-11-01 23:06:43.585 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 107ms
+2026-11-01 23:06:43.932 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 110ms
+2026-11-01 23:06:44.321 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 109ms
+2026-11-01 23:06:44.691 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 109ms
+2026-11-01 23:06:45.190 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncItemWriter - Elasticsearch Bulk Write 성공. 처리된 아이템 수: 10000, 소요 시간: 230ms
+2026-11-01 23:06:45.200 [http-nio-8082-exec-4] INFO  o.s.batch.core.step.AbstractStep - Step: [migrationStep] executed in 41s573ms
+2026-11-01 23:06:45.206 [http-nio-8082-exec-4] ERROR p.m.domain.service.SyncJobListener - refresh_interval 복구 실패 — 인덱스 [products_2026_11_01] 수동 확인 필요
+co.elastic.clients.transport.TransportException: node: http://localhost:9220/, status: 200, [es/indices.forcemerge] Failed to decode response
+	at co.elastic.clients.transport.ElasticsearchTransportBase.decodeTransportResponse(ElasticsearchTransportBase.java:404)
+	at co.elastic.clients.transport.ElasticsearchTransportBase.getApiResponse(ElasticsearchTransportBase.java:363)
+	at co.elastic.clients.transport.ElasticsearchTransportBase.performRequest(ElasticsearchTransportBase.java:147)
+	at co.elastic.clients.elasticsearch.indices.ElasticsearchIndicesClient.forcemerge(ElasticsearchIndicesClient.java:919)
+	at co.elastic.clients.elasticsearch.indices.ElasticsearchIndicesClient.forcemerge(ElasticsearchIndicesClient.java:935)
+	at project.matchalatte.domain.service.SyncAliasManager.restoreBatchSettings(SyncAliasManager.java:91)
+	at project.matchalatte.domain.service.SyncJobListener.afterJob(SyncJobListener.java:53)
+	at org.springframework.batch.core.listener.CompositeJobExecutionListener.afterJob(CompositeJobExecutionListener.java:60)
+	at org.springframework.batch.core.job.AbstractJob.execute(AbstractJob.java:370)
+	at org.springframework.batch.core.launch.support.SimpleJobLauncher$1.run(SimpleJobLauncher.java:157)
+	at org.springframework.core.task.SyncTaskExecutor.execute(SyncTaskExecutor.java:50)
+	at org.springframework.batch.core.launch.support.SimpleJobLauncher.run(SimpleJobLauncher.java:148)
+	at org.springframework.batch.core.launch.support.TaskExecutorJobLauncher.run(TaskExecutorJobLauncher.java:59)
+	at project.matchalatte.domain.service.SyncBatchHelper.batchProduct(SyncBatchHelper.java:45)
+	at project.matchalatte.domain.service.SyncService.triggerBatchJob(SyncService.java:34)
+	at project.matchalatte.api.controller.SyncController.runSyncJob(SyncController.java:42)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:255)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:188)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:926)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:831)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:113)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:384)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:905)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: co.elastic.clients.util.MissingRequiredPropertyException: Missing required property 'ForcemergeResponse.shards'
+	at co.elastic.clients.util.ApiTypeHelper.requireNonNull(ApiTypeHelper.java:76)
+	at co.elastic.clients.elasticsearch._types.ShardsOperationResponseBase.<init>(ShardsOperationResponseBase.java:68)
+	at co.elastic.clients.elasticsearch.indices.forcemerge.ForceMergeResponseBody.<init>(ForceMergeResponseBody.java:66)
+	at co.elastic.clients.elasticsearch.indices.ForcemergeResponse.<init>(ForcemergeResponse.java:59)
+	at co.elastic.clients.elasticsearch.indices.ForcemergeResponse.<init>(ForcemergeResponse.java:55)
+	at co.elastic.clients.elasticsearch.indices.ForcemergeResponse$Builder.build(ForcemergeResponse.java:90)
+	at co.elastic.clients.elasticsearch.indices.ForcemergeResponse$Builder.build(ForcemergeResponse.java:73)
+	at co.elastic.clients.json.ObjectBuilderDeserializer.deserialize(ObjectBuilderDeserializer.java:80)
+	at co.elastic.clients.json.DelegatingDeserializer$SameType.deserialize(DelegatingDeserializer.java:43)
+	at co.elastic.clients.transport.ElasticsearchTransportBase.decodeTransportResponse(ElasticsearchTransportBase.java:399)
+	... 69 common frames omitted
+2026-11-01 23:06:45.207 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncJobListener - Job 완료. Alias [products]를 인덱스 [products_2026_11_01]로 교체 시도.
+2026-11-01 23:06:45.210 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncAliasManager - 이전 인덱스 [products_base]에서 별칭 [products] 제거.
+2026-11-01 23:06:45.272 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncAliasManager - Alias Swap 완료: [products_base] -> [products_2026_11_01]
+2026-11-01 23:06:45.273 [http-nio-8082-exec-4] INFO  p.m.domain.service.SyncLockHelper - Full Sync Lock 해제 완료.
+2026-11-01 23:06:45.277 [http-nio-8082-exec-4] INFO  o.s.b.c.l.support.SimpleJobLauncher - Job: [SimpleJob: [name=mysqlToEsJob]] completed with the following parameters: [{'full_sync_mode':'{value=MANUAL, type=class java.lang.String, identifying=true}','run.date':'{value=Sun Nov 01 23:06:03 KST 2026, type=class java.util.Date, identifying=true}','newIndexName':'{value=products_2026_11_01, type=class java.lang.String, identifying=true}'}] and the following status: [COMPLETED] in 41s838ms
+2026-11-01 23:06:45.629 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-11-01 23:06:45.645 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
