@@ -13,8 +13,6 @@ public class ProductDocument {
 
     private String name;
 
-    private String description;
-
     private Long price;
 
     private Long userId;
@@ -23,7 +21,6 @@ public class ProductDocument {
         return ProductDocument.builder()
             .id(product.id())
             .name(product.name())
-            .description(product.description())
             .price(product.price())
             .userId(product.userId())
             .build();
@@ -33,7 +30,6 @@ public class ProductDocument {
         return ProductDocument.builder()
             .id(product.id())
             .name(product.name())
-            .description(product.description())
             .price(product.price())
             .userId(product.userId())
             .build();
