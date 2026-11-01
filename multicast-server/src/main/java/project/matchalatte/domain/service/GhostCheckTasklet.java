@@ -77,7 +77,7 @@ public class GhostCheckTasklet implements Tasklet {
                     .toList();
 
                 List<Long> existingInRdb = namedJdbc.queryForList(
-                    "SELECT id FROM product WHERE id IN (:ids)",
+                    "SELECT id FROM products WHERE id IN (:ids)",
                     new MapSqlParameterSource("ids", esIds),
                     Long.class
                 );

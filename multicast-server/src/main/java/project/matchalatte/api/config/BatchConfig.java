@@ -120,7 +120,7 @@ public class BatchConfig {
         SqlPagingQueryProviderFactoryBean factoryBean = new SqlPagingQueryProviderFactoryBean();
         factoryBean.setDataSource(dataSource);
         factoryBean.setSelectClause("SELECT id, name, description, price, user_id");
-        factoryBean.setFromClause("FROM product");
+        factoryBean.setFromClause("FROM products");
         factoryBean.setSortKey("id");
         return factoryBean;
     }
@@ -153,7 +153,7 @@ public class BatchConfig {
         SqlPagingQueryProviderFactoryBean factory = new SqlPagingQueryProviderFactoryBean();
         factory.setDataSource(dataSource);
         factory.setSelectClause("SELECT id");
-        factory.setFromClause("FROM product");
+        factory.setFromClause("FROM products");
         factory.setSortKey("id");
         reader.setQueryProvider(Objects.requireNonNull(factory.getObject()));
         reader.afterPropertiesSet();

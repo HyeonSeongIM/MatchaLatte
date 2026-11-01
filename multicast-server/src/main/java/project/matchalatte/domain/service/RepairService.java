@@ -41,7 +41,7 @@ public class RepairService {
         }
 
         String placeholders = String.join(",", Collections.nCopies(missingIds.size(), "?"));
-        String sql = "SELECT id, name, description, price, user_id FROM product WHERE id IN (" + placeholders + ")";
+        String sql = "SELECT id, name, description, price, user_id FROM products WHERE id IN (" + placeholders + ")";
         List<SyncProductInfo> products = jdbcTemplate.query(
             sql,
             missingIds.toArray(),
