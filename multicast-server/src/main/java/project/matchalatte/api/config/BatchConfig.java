@@ -44,12 +44,17 @@ public class BatchConfig {
 
     private final NamedParameterJdbcTemplate namedJdbc;
 
+    // 100만 건 재색인 실험 결과 5000이 중앙값 최단(37.6s). 5000~20000은 오차 범위 내 동일 — docs/experiments/reindex-chunk-size.md
+    private final int chunkSize;
+
     public BatchConfig(DataSource dataSource,
                        ElasticsearchClient elasticsearchClient,
-                       NamedParameterJdbcTemplate namedJdbc) {
+                       NamedParameterJdbcTemplate namedJdbc,
+                       @Value("${sync.batch.chunk-size:5000}") int chunkSize) {
         this.dataSource = dataSource;
         this.elasticsearchClient = elasticsearchClient;
         this.namedJdbc = namedJdbc;
+        this.chunkSize = chunkSize;
     }
 
     // 0. 공유 자원 데이터 생성
@@ -92,7 +97,7 @@ public class BatchConfig {
     public Step migrationStep(JobRepository jobRepository, PlatformTransactionManager transactionManager,
             SyncItemWriter elasticsearchItemWriter) throws Exception {
         return new StepBuilder("migrationStep", jobRepository)
-            .<SyncProductInfo, ProductDocument>chunk(1000, transactionManager)
+            .<SyncProductInfo, ProductDocument>chunk(chunkSize, transactionManager)
             .reader(mysqlProductReader())
             .processor(itemProcessor())
             .writer(elasticsearchItemWriter)
@@ -111,7 +116,7 @@ public class BatchConfig {
     private JdbcPagingItemReader<SyncProductInfo> jdbcPagingItemReader() {
         JdbcPagingItemReader<SyncProductInfo> reader = new JdbcPagingItemReader<>();
         reader.setDataSource(dataSource);
-        reader.setPageSize(1000);
+        reader.setPageSize(chunkSize);
         reader.setRowMapper(new DataClassRowMapper<>(SyncProductInfo.class));
         return reader;
     }
