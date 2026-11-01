@@ -15,13 +15,9 @@ public class ProductService {
     private final Logger log = LoggerFactory.getLogger(ProductService.class);
 
     private final ProductCreater productCreater;
-
     private final ProductReader productReader;
-
     private final ProductUpdater productUpdater;
-
     private final ProductDeleter productDeleter;
-
     private final ProductEventer productEventer;
 
     public ProductService(ProductCreater productCreater, ProductReader productReader, ProductUpdater productUpdater,
@@ -35,9 +31,13 @@ public class ProductService {
 
     public Product createProduct(String name, String description, Long price, Long userId) {
         log.debug(LogData.of("상품 생성 로직", "요청 받음 name={} userId={}"), name, userId);
+
         Product product = productCreater.createProduct(name, description, price, userId);
+
         productEventer.createPublish(product);
+
         log.info(LogData.of("상품 생성 로직", "생성 완료 [ID:{}]"), product.id());
+
         return product;
     }
 

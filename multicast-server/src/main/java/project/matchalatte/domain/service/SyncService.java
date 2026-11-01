@@ -29,10 +29,12 @@ public class SyncService {
         syncProductService.enqueue(productEvent);
     }
 
+    // 데이터 정합성 복구를 위한 색인 로직
     public String triggerBatchJob() {
         return syncBatchService.batchProduct();
     }
 
+    // 10초마다 주기적으로 발생하는 색인 로직
     @Scheduled(fixedRate = 10000)
     public void triggerScheduleJob() {
         if (syncLockService.isAvailableForSchedule() && !syncProductService.isEmptyQueue()) {

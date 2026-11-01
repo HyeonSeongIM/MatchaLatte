@@ -20,8 +20,11 @@ public class ProductCreater {
     @Transactional
     public Product createProduct(String name, String description, Long price, Long userId) {
         Product product = Product.from(name, description, price, userId);
+
         Product savedProduct = productRepository.save(product);
+
         log.debug(LogData.of("상품 생성 컴포넌트", "DB 저장 완료 ID={}"), savedProduct.id());
+
         return savedProduct;
     }
 

@@ -17,6 +17,7 @@ public class ValidateJobListener implements JobExecutionListener {
         this.syncLockHelper = syncLockHelper;
     }
 
+    // 색인이 끝나고 데이터의 정합성 일치 여부를 확인하는 로직
     @Override
     public void afterJob(JobExecution jobExecution) {
         try {
