@@ -47,7 +47,7 @@ class SyncAliasManagerTest {
                 new ClassPathResource("product-index-settings.json").getInputStream());
 
         assertThat(root.at("/settings/number_of_shards").asInt()).isEqualTo(1);
-        assertThat(root.at("/settings/number_of_replicas").asInt()).isEqualTo(0);
+        assertThat(root.at("/settings/number_of_replicas").asInt()).isEqualTo(2);
     }
 
     @Test

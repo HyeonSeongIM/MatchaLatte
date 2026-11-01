@@ -1,6 +1,12 @@
 package project.matchalatte.domain.service;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.HealthStatus;
+import co.elastic.clients.transport.rest_client.RestClientTransport;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.elasticsearch.client.Request;
+import org.elasticsearch.client.Response;
+import org.elasticsearch.client.RestClient;
 import co.elastic.clients.elasticsearch.indices.CreateIndexResponse;
 import co.elastic.clients.elasticsearch.indices.UpdateAliasesRequest;
 import co.elastic.clients.elasticsearch.indices.UpdateAliasesResponse;
@@ -70,21 +76,55 @@ public class SyncAliasManager {
         }
     }
 
+    // product-index-settings.json 의 number_of_replicas 와 같은 값 (재색인 후 복구 목표)
+    private static final String SERVING_REPLICAS = "2";
+
+    // replica 0: primary 에만 색인해 replica 별 재색인 비용 제거. refresh -1: 색인 중 세그먼트 생성 억제
     public void applyBatchSettings(String indexName) throws IOException {
         elasticsearchClient.indices().putSettings(s ->
             s.index(indexName)
-             .settings(is -> is.refreshInterval(t -> t.time("-1")))
+             .settings(is -> is.numberOfReplicas("0").refreshInterval(t -> t.time("-1")))
         );
-        log.info("인덱스 [{}] batch 설정 적용: refresh_interval=-1", indexName);
+        log.info("인덱스 [{}] batch 설정 적용: number_of_replicas=0, refresh_interval=-1", indexName);
     }
 
+    // forcemerge(1 segment) → replica 복구(세그먼트 파일 복사) → green 대기 → refresh 복구
+    // socket-timeout(3s) 보다 오래 걸리는 작업이라 비동기 task + 폴링으로 기다린다
     public void restoreBatchSettings(String indexName) throws IOException {
+        long t0 = System.currentTimeMillis();
+        // 고수준 client(8.13)는 wait_for_completion=false 응답({"task":..})을 ForcemergeResponse 로 디코딩하다 실패해 low-level 로 호출
+        RestClient restClient = ((RestClientTransport) elasticsearchClient._transport()).restClient();
+        Response res = restClient.performRequest(
+                new Request("POST", "/" + indexName + "/_forcemerge?max_num_segments=1&wait_for_completion=false"));
+        String taskId = new ObjectMapper().readTree(res.getEntity().getContent()).get("task").asText();
+        while (!elasticsearchClient.tasks().get(t -> t.taskId(taskId)).completed()) {
+            sleep();
+        }
+        long t1 = System.currentTimeMillis();
+
         elasticsearchClient.indices().putSettings(s ->
-            s.index(indexName)
-             .settings(is -> is.refreshInterval(t -> t.time("1s")))
-        );
+            s.index(indexName).settings(is -> is.numberOfReplicas(SERVING_REPLICAS)));
+        // wait_for_status 는 타임아웃 시 408 → 예외라서, 상태를 폴링한다
+        while (elasticsearchClient.cluster().health(h -> h.index(indexName)).status() != HealthStatus.Green) {
+            sleep();
+        }
+        long t2 = System.currentTimeMillis();
+
+        elasticsearchClient.indices().putSettings(s ->
+            s.index(indexName).settings(is -> is.refreshInterval(t -> t.time("1s"))));
         elasticsearchClient.indices().refresh(r -> r.index(indexName));
-        log.info("인덱스 [{}] 설정 복구 완료: refresh_interval=1s, force refresh", indexName);
+        log.info("인덱스 [{}] 설정 복구 완료: forcemerge={}ms, replica={}ms, refresh={}ms", indexName,
+                t1 - t0, t2 - t1, System.currentTimeMillis() - t2);
+    }
+
+    private static void sleep() throws IOException {
+        try {
+            Thread.sleep(1000);
+        }
+        catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new IOException("인덱스 복구 대기 중 인터럽트", e);
+        }
     }
 
     public void createNewIndex(String newIndexName) throws IOException {
